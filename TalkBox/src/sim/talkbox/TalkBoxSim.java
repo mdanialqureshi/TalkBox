@@ -1,4 +1,4 @@
-package TalkBoxGUI;
+package sim.talkbox;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -6,6 +6,9 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import config.talkbox.TalkBoxConfig;
+
 import java.awt.FlowLayout;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
@@ -31,7 +34,6 @@ public class TalkBoxSim extends JFrame {
 		});
 		TalkBoxConfig g = new TalkBoxConfig();
 		g.run();
-		
 	}
 
 	/**
