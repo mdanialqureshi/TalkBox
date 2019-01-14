@@ -29,7 +29,7 @@ public class TalkBoxSim extends JFrame {
 				}
 			}
 		});
-		TalkBoxMain g = new TalkBoxMain();
+		TalkBoxConfig g = new TalkBoxConfig();
 		g.run();
 		
 	}

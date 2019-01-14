@@ -9,7 +9,7 @@ import javax.swing.border.EmptyBorder;
 import java.awt.FlowLayout;
 import javax.swing.JButton;
 
-public class TalkBoxMain extends JFrame {
+public class TalkBoxConfig extends JFrame {
 
 	private JPanel contentPane;
 
@@ -19,7 +19,7 @@ public class TalkBoxMain extends JFrame {
 	
 	public void run() {
 		try {
-			TalkBoxMain frame = new TalkBoxMain();
+			TalkBoxConfig frame = new TalkBoxConfig();
 			frame.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -29,7 +29,7 @@ public class TalkBoxMain extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public TalkBoxMain() {
+	public TalkBoxConfig() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 800, 600);
 		contentPane = new JPanel();
