@@ -16,18 +16,15 @@ public class TalkBoxMain extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					TalkBoxMain frame = new TalkBoxMain();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	
+	public void run() {
+		try {
+			TalkBoxMain frame = new TalkBoxMain();
+			frame.setVisible(true);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	};
 
 	/**
 	 * Create the frame.
