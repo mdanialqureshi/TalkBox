@@ -6,6 +6,7 @@ public class sampleMain {
 		System.out.println("Hello from collaborator");
 		System.out.println("Hello from 2nd collaborator");
 		System.out.println("Lab task commit test");
+		System.out.println("hey man");
 	}
 
 }
