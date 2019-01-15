@@ -100,6 +100,7 @@ public class TalkBoxSim extends JFrame {
 		Image mic = new ImageIcon(this.getClass().getResource("/mic-icon.png")).getImage();
 		btnConfigureB.setIcon(new ImageIcon(mic));
 		btnConfigureB.setForeground(Color.DARK_GRAY);
+		
 		contentPane.add(btnConfigureB);
 		
 
