@@ -38,7 +38,8 @@ public class TalkBoxConfig extends JFrame {
 	private JButton record;
 	private JButton play;
 	private JButton[] simButtons;
-	
+	private int width = 1280;
+	private int height = 720;
 
 	/**
 	 * Launch the application.
@@ -57,17 +58,14 @@ public class TalkBoxConfig extends JFrame {
 	 * Create the frame.
 	 */
 	public TalkBoxConfig() {
-		controlsProfileSplit = new JSplitPane();
+		controlsProfileSplit = new ControlsProfileSplit(width, height);
+
 		setupFrame();
-		
-		profile = new JPanel();
-		ProfilesPanel.setupProfiles(profile);
-		controlsProfileSplit.setRightComponent(profile);
 	}
-	
+
 	private void setupFrame() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
+		setBounds(100, 100, 1280, 720);
 		this.setContentPane(controlsProfileSplit);
 	}
 
