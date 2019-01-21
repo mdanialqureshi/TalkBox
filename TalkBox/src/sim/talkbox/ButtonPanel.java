@@ -58,7 +58,7 @@ public class ButtonPanel extends JPanel {
 			// button 2 has an actionListener which calls PlaySound Method and plays sound
 			// of the file. (When button is clicked)
 			public void actionPerformed(ActionEvent e) {
-				playSound("button2test.wav"); // file name must be passed in as a String parameter.
+				playSound("bye.wav"); // file name must be passed in as a String parameter.
 			}
 		});
 
@@ -98,7 +98,6 @@ public class ButtonPanel extends JPanel {
 		try {
 			File file = new File(this.getClass().getResource("/" + soundName).getFile()); // gets the file from its
 																							// package using file name
-
 			Clip clip = AudioSystem.getClip();
 			clip.open(AudioSystem.getAudioInputStream(file));
 			clip.start(); // allows audio clip to be played
