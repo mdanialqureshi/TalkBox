@@ -1,4 +1,5 @@
 package sim.talkbox;
+import config.talkbox.*; //package import
 
 import java.awt.Color;
 import java.awt.Font;
@@ -15,28 +16,57 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+import java.util.ArrayList;
 
 public class ButtonPanel extends JPanel {
 	
-	
-	
+	ArrayList<JButton> buttons = new ArrayList<JButton>();
+	TalkBoxSerializer getInfo = new TalkBoxSerializer();
+
 	
 	public ButtonPanel() {
 		setBackground(Color.DARK_GRAY);
 		setBorder(new EmptyBorder(5, 5, 5, 5));
 		setLayout(null);
 
-		JLabel lblNewLabel = new JLabel("TalkBox");
-		lblNewLabel.setBounds(506, 21, 177, 64);
-		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setFont(new Font("Chalkboard", Font.PLAIN, 50));
-		lblNewLabel.setForeground(Color.WHITE);
+		JLabel TalkBoxLabel = new JLabel("TalkBox");
+		TalkBoxLabel.setBounds(370, 21, 177, 64);
+		TalkBoxLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		TalkBoxLabel.setFont(new Font("Chalkboard", Font.PLAIN, 50));
+		TalkBoxLabel.setForeground(Color.WHITE);
 
-		lblNewLabel.setVerticalAlignment(SwingConstants.TOP);
-		add(lblNewLabel);
-
-		JButton btnNewButton = new JButton("Button 1");
-		btnNewButton.addActionListener(new ActionListener() {
+		TalkBoxLabel.setVerticalAlignment(SwingConstants.TOP);
+		add(TalkBoxLabel);
+		
+		//creating new TalkBoxSerilaizer object to access User requested attributes. 
+		
+		int numOfButtons = getInfo.getNumberOfAudioButtons();		
+		
+		//loop to create buttons
+		
+		for(int i = 0; i < numOfButtons; i++) {	
+			//check if buttons will fit in frame going left to right if not go to next row in frame
+			if(20 + ((i+1)*150) < TalkBoxSim.frameWidth) { //+1 to account for checking LAST Jbutton that fits in Frame
+				buttons.add(new JButton("Button " + (i+1)));
+				buttons.get(i).setBounds(20 + (i*150), 100, 140, 70);
+				buttons.get(i).setFont(new Font("Chalkboard", Font.PLAIN, 25));
+				add(buttons.get(i));
+			} else if(20 + ((i-5)*150) < TalkBoxSim.frameWidth) { //-5 because (i-6)+1
+				buttons.add(new JButton("Button " + (i+1)));
+				buttons.get(i).setBounds(20 + ((i-6)*150), 180, 140, 70); //(i-6) because starting a new row
+				buttons.get(i).setFont(new Font("Chalkboard", Font.PLAIN, 25));
+				add(buttons.get(i));
+			} else if(20 + ((i-11)*150) < TalkBoxSim.frameWidth) {
+				buttons.add(new JButton("Button " + (i+1)));
+				buttons.get(i).setBounds(20 + ((i-12)*150), 260, 140, 70); //(i-12) because starting a new row
+				buttons.get(i).setFont(new Font("Chalkboard", Font.PLAIN, 25));
+				add(buttons.get(i));
+			}
+		}
+		
+		//adding audio functionality to some of the buttons 
+		
+		buttons.get(0).addActionListener(new ActionListener() {
 			// button 1 has an actionListener which calls PlaySound Method and plays sound
 			// of the file. (When button is clicked)
 			public void actionPerformed(ActionEvent e) {
@@ -44,46 +74,14 @@ public class ButtonPanel extends JPanel {
 				playSound(helloFile);
 			}
 
-		});
-		btnNewButton.setBounds(45, 112, 137, 41);
-		btnNewButton.setFont(new Font("Chalkboard", Font.PLAIN, 25));
-
-		add(btnNewButton);
-
-		JButton btnNewButton_1 = new JButton("Button 2");
-		btnNewButton_1.setBounds(194, 112, 142, 41);
-		btnNewButton_1.setFont(new Font("Chalkboard", Font.PLAIN, 25));
-
-		btnNewButton_1.addActionListener(new ActionListener() {
+		});	
+		buttons.get(1).addActionListener(new ActionListener() {
 			// button 2 has an actionListener which calls PlaySound Method and plays sound
 			// of the file. (When button is clicked)
 			public void actionPerformed(ActionEvent e) {
 				playSound("bye.wav"); // file name must be passed in as a String parameter.
 			}
 		});
-
-		add(btnNewButton_1);
-
-		JButton btnNewButton_2 = new JButton("Button 3");
-		btnNewButton_2.setBounds(352, 112, 142, 41);
-		btnNewButton_2.setFont(new Font("Chalkboard", Font.PLAIN, 25));
-		add(btnNewButton_2);
-
-		JButton btnNewButton_3 = new JButton("Button 4");
-		btnNewButton_3.setBounds(695, 112, 142, 41);
-		btnNewButton_3.setFont(new Font("Chalkboard", Font.PLAIN, 25));
-		add(btnNewButton_3);
-
-		JButton btnNewButton_4 = new JButton("Button 5");
-		btnNewButton_4.setBounds(849, 112, 142, 41);
-		btnNewButton_4.setFont(new Font("Chalkboard", Font.PLAIN, 25));
-		add(btnNewButton_4);
-
-		JButton btnNewButton_5 = new JButton("Button 6");
-		btnNewButton_5.setBounds(1003, 112, 142, 41);
-		btnNewButton_5.setFont(new Font("Chalkboard", Font.PLAIN, 25));
-		add(btnNewButton_5);
-		
 	}
 
 	/**
@@ -94,8 +92,8 @@ public class ButtonPanel extends JPanel {
 	 * @param soundName name of audio file associated with the respective button
 	 */
 
+	
 	public void playSound(String soundName) {
-
 		try {
 			File file = new File(this.getClass().getResource("/" + soundName).getFile()); // gets the file from its
 																							// package using file name
