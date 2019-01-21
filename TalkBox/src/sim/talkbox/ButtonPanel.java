@@ -83,22 +83,7 @@ public class ButtonPanel extends JPanel {
 		btnNewButton_5.setBounds(1003, 112, 142, 41);
 		btnNewButton_5.setFont(new Font("Chalkboard", Font.PLAIN, 25));
 		add(btnNewButton_5);
-
-		JButton btnConfigureB = new JButton();
-		btnConfigureB.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnConfigureB.setBounds(1016, 276, 129, 96);
-
-		Image mic = new ImageIcon(this.getClass().getResource("/mic-icon.png")).getImage(); // getting image from its
-																							// package and making a new
-																							// ImageIcon
-
-		btnConfigureB.setIcon(new ImageIcon(mic)); // setting button Icon to the image
-		btnConfigureB.setForeground(Color.DARK_GRAY);
-		add(btnConfigureB);
-
+		
 	}
 
 	/**
