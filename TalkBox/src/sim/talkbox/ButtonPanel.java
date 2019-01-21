@@ -45,13 +45,13 @@ public class ButtonPanel extends JPanel {
 			}
 
 		});
-		btnNewButton.setBounds(45, 112, 137, 41);
+		btnNewButton.setBounds(32, 112, 150, 71);
 		btnNewButton.setFont(new Font("Chalkboard", Font.PLAIN, 25));
 
 		add(btnNewButton);
 
 		JButton btnNewButton_1 = new JButton("Button 2");
-		btnNewButton_1.setBounds(194, 112, 142, 41);
+		btnNewButton_1.setBounds(194, 112, 142, 71);
 		btnNewButton_1.setFont(new Font("Chalkboard", Font.PLAIN, 25));
 
 		btnNewButton_1.addActionListener(new ActionListener() {
@@ -65,22 +65,22 @@ public class ButtonPanel extends JPanel {
 		add(btnNewButton_1);
 
 		JButton btnNewButton_2 = new JButton("Button 3");
-		btnNewButton_2.setBounds(352, 112, 142, 41);
+		btnNewButton_2.setBounds(348, 112, 146, 71);
 		btnNewButton_2.setFont(new Font("Chalkboard", Font.PLAIN, 25));
 		add(btnNewButton_2);
 
 		JButton btnNewButton_3 = new JButton("Button 4");
-		btnNewButton_3.setBounds(695, 112, 142, 41);
+		btnNewButton_3.setBounds(695, 112, 142, 71);
 		btnNewButton_3.setFont(new Font("Chalkboard", Font.PLAIN, 25));
 		add(btnNewButton_3);
 
 		JButton btnNewButton_4 = new JButton("Button 5");
-		btnNewButton_4.setBounds(849, 112, 142, 41);
+		btnNewButton_4.setBounds(849, 112, 142, 71);
 		btnNewButton_4.setFont(new Font("Chalkboard", Font.PLAIN, 25));
 		add(btnNewButton_4);
 
 		JButton btnNewButton_5 = new JButton("Button 6");
-		btnNewButton_5.setBounds(1003, 112, 142, 41);
+		btnNewButton_5.setBounds(1003, 112, 142, 71);
 		btnNewButton_5.setFont(new Font("Chalkboard", Font.PLAIN, 25));
 		add(btnNewButton_5);
 		
@@ -95,10 +95,10 @@ public class ButtonPanel extends JPanel {
 	 */
 
 	public void playSound(String soundName) {
-
 		try {
-			File file = new File(this.getClass().getResource("/TalkBoxData/audio/" + soundName).getFile()); // gets the file from its
+			File file = new File(this.getClass().getResource("/" + soundName).getFile()); // gets the file from its
 																							// package using file name
+
 			Clip clip = AudioSystem.getClip();
 			clip.open(AudioSystem.getAudioInputStream(file));
 			clip.start(); // allows audio clip to be played
