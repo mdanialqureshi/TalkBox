@@ -9,7 +9,6 @@ public class ControlsProfileSplit extends JSplitPane {
 	
 	public ControlsProfileSplit(int width, int height) { //receives width and height from talkBoxConfig dimensions.
 		setDividerLocation((int) (0.74 * width));
-
 		JSplitPane simRecorderSplit = new SimRecorderSplit(height); //simRecorderSplit object is made which adds the recorder and simulator to this jSplitPane
 		JPanel profile = new JPanel();
 		ProfilesPanel.setupProfiles(profile); //makes the profiles panel using static method call
