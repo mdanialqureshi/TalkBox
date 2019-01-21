@@ -6,6 +6,9 @@ import javax.swing.JProgressBar;
 import java.awt.Button;
 
 public class SimPreview extends JPanel {
+	
+	
+	
 	public SimPreview() {
 		
 	}

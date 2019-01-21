@@ -7,6 +7,8 @@ import javax.swing.JProgressBar;
 import javax.swing.SpringLayout;
 
 public class Recorder extends JPanel {
+	
+	//Creating the Recorder sector of the TalkBox Configuration Application. 
 	public Recorder() {
 		SpringLayout springLayout = new SpringLayout();
 		setLayout(springLayout);

@@ -17,6 +17,10 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 public class ButtonPanel extends JPanel {
+	
+	
+	
+	
 	public ButtonPanel() {
 		setBackground(Color.DARK_GRAY);
 		setBorder(new EmptyBorder(5, 5, 5, 5));
