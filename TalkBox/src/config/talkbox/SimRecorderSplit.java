@@ -10,7 +10,7 @@ public class SimRecorderSplit extends JSplitPane {
 	
 	
 	public SimRecorderSplit(int height) {
-		setOrientation(JSplitPane.VERTICAL_SPLIT);
+		setOrientation(JSplitPane.VERTICAL_SPLIT); //verticle split has to be set because default is horizontal
 		setDividerLocation((int) (0.5 * height));
 		JPanel simPreview = new ButtonPanel(); //creates talkBox simulator object
 		JPanel recorder = new Recorder(); //creates a recorder object
@@ -19,3 +19,4 @@ public class SimRecorderSplit extends JSplitPane {
 		setBottomComponent(recorder); //adds recording sector to the bottom of this JSplitPane.
 	}
 }
+
