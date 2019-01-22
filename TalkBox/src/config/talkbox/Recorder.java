@@ -13,8 +13,11 @@ import javax.swing.JProgressBar;
 import javax.swing.SpringLayout;
 
 public class Recorder extends JPanel {
-	
-	//Creating the Recorder sector of the TalkBox Configuration Application. 
+
+	final private SoundRecorder recorder = new SoundRecorder();
+	private boolean isRecording = false;
+
+	// Creating the Recorder sector of the TalkBox Configuration Application.
 	public Recorder() {
 		SpringLayout springLayout = new SpringLayout();
 		setLayout(springLayout);
@@ -34,12 +37,13 @@ public class Recorder extends JPanel {
 		springLayout.putConstraint(SpringLayout.WEST, button_1, 6, SpringLayout.EAST, button);
 		springLayout.putConstraint(SpringLayout.SOUTH, button_1, 0, SpringLayout.SOUTH, button);
 		add(button_1);
-		
-		JButton btnConfigureB = new JButton();
-		springLayout.putConstraint(SpringLayout.SOUTH, btnConfigureB, -21, SpringLayout.NORTH, progressBar);
-		springLayout.putConstraint(SpringLayout.EAST, btnConfigureB, -44, SpringLayout.EAST, this);
-		btnConfigureB.addActionListener(new ActionListener() {
+
+		JButton record = new JButton();
+		springLayout.putConstraint(SpringLayout.SOUTH, record, -21, SpringLayout.NORTH, progressBar);
+		springLayout.putConstraint(SpringLayout.EAST, record, -44, SpringLayout.EAST, this);
+		record.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				recordAudio();
 			}
 		});
 
@@ -47,9 +51,25 @@ public class Recorder extends JPanel {
 																							// package and making a new
 																							// ImageIcon
 
-		btnConfigureB.setIcon(new ImageIcon(mic)); // setting button Icon to the image
-		btnConfigureB.setForeground(Color.DARK_GRAY);
-		add(btnConfigureB);
+		record.setIcon(new ImageIcon(mic)); // setting button Icon to the image
+		record.setForeground(Color.DARK_GRAY);
+		add(record);
+	}
+
+	private void recordAudio() {
+		if (isRecording) {
+			recorder.finish();
+			isRecording = false;
+		} else {
+			isRecording = true;
+			Thread stopper = new Thread(new Runnable() {
+				public void run() {
+					recorder.start();
+				}
+			});
+			stopper.start();
+		}
 
 	}
+
 }
