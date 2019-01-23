@@ -24,6 +24,8 @@ import javax.swing.border.LineBorder;
 
 import java.awt.List;
 import java.awt.event.ActionListener;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.awt.event.ActionEvent;
 
 public class TalkBoxConfig extends JFrame {
@@ -40,6 +42,14 @@ public class TalkBoxConfig extends JFrame {
 	private JButton[] simButtons;
 	private int width = 1280;
 	private int height = 720;
+	
+	public static int numAudButtons = 6; 
+	public static int numAudSets = 1;
+	public static int numSwapButtons = 2;
+	public static Path path = null;
+	public static String[][] audFileNames = null;
+	
+	
 
 	/**
 	 * Launch the application.
@@ -53,11 +63,13 @@ public class TalkBoxConfig extends JFrame {
 			e.printStackTrace();
 		}
 	};
+	
 
 	/**
 	 * Create the frame.
 	 */
 	public TalkBoxConfig() {
+				
 		controlsProfileSplit = new ControlsProfileSplit(width, height); //constructs the entire configuration app in ControlsProfileSplit class.
 
 		setupFrame();

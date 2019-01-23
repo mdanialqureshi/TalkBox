@@ -1,34 +1,63 @@
 package config.talkbox;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public class TalkBoxSerializer implements TalkBoxConfiguration {
+public class TalkBoxSerializer implements TalkBoxConfiguration, Serializable {
+	
+	
+	private static final long serialVersionUID = 1L;
+	
+	public int numAudButtons;
+	public int numAudSets;
+	public int numSwapButtons;
+	public Path path;
+	public String[][] audFileNames;
+	
+	public static void main(String[] args) {
+		TalkBoxSerializer e = new TalkBoxSerializer();
+		
+		e.numAudButtons = TalkBoxConfig.numAudButtons;
+		e.numAudSets = TalkBoxConfig.numAudSets;
+		e.numSwapButtons = TalkBoxConfig.numSwapButtons;
+		e.path = TalkBoxConfig.path;
+		e.audFileNames = TalkBoxConfig.audFileNames;
 
-	@Override
+		try {
+			FileOutputStream fileOut = new FileOutputStream("TalkBoxData.tbc");
+			ObjectOutputStream out = new ObjectOutputStream(fileOut);
+			out.writeObject(e);
+	 	out.close();
+	 	fileOut.close();
+		}
+		catch (IOException i) {
+			i.printStackTrace();
+		}
+		
+		System.out.println("TalkBox was serialized. Number of audio buttons is: " + e.numAudButtons);
+	}
+	
 	public int getNumberOfAudioButtons() {
-		return 12;
+		return TalkBoxConfig.numAudButtons;
 	}
-
-	@Override
+	
 	public int getNumberOfAudioSets() {
-		return 1;
+		return TalkBoxConfig.numAudSets;
 	}
-
-	@Override
+	
 	public int getTotalNumberOfButtons() {
-		// 6 audio playback buttons + 1 audio set cycle button + 1 profile load button
-		return 8;
+		return TalkBoxConfig.numAudButtons + TalkBoxConfig.numSwapButtons;
 	}
-
-	@Override
+	
 	public Path getRelativePathToAudioFiles() {
-		return Paths.get("TalkBoxData/audio");
+		return TalkBoxConfig.path;
 	}
-
-	@Override
+	
 	public String[][] getAudioFileNames() {
-		return null;
-	}
-
+		return TalkBoxConfig.audFileNames;
+	}	
 }

@@ -21,8 +21,9 @@ import java.util.ArrayList;
 public class ButtonPanel extends JPanel {
 	
 	ArrayList<JButton> buttons = new ArrayList<JButton>();
-	TalkBoxSerializer getInfo = new TalkBoxSerializer();
-
+	TalkBoxDeserializer getInfo = new TalkBoxDeserializer();
+	public int numAudButtons = getInfo.numAudButtons;
+	
 	
 	public ButtonPanel() {
 		setBackground(Color.DARK_GRAY);
@@ -38,9 +39,8 @@ public class ButtonPanel extends JPanel {
 		TalkBoxLabel.setVerticalAlignment(SwingConstants.TOP);
 		add(TalkBoxLabel);
 		
-		//creating new TalkBoxSerilaizer object to access User requested attributes. 
-		
-		int numOfButtons = getInfo.getNumberOfAudioButtons();		
+		//Get number of audio buttons from TalkBoxDeserializer 
+		int numOfButtons = getInfo.numAudButtons;
 		
 		//loop to create buttons
 		
