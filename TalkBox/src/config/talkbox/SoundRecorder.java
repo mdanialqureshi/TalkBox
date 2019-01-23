@@ -63,6 +63,7 @@ public class SoundRecorder {
 
 	private void createFile() {
 		try {
+			wavFile.getParentFile().mkdirs();
 			wavFile.createNewFile();
 		} catch (IOException e) {
 			e.printStackTrace();
