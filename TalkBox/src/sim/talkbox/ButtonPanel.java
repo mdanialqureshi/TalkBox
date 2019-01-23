@@ -20,9 +20,14 @@ import java.util.ArrayList;
 
 public class ButtonPanel extends JPanel {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	ArrayList<JButton> buttons = new ArrayList<JButton>();
 	TalkBoxDeserializer getInfo = new TalkBoxDeserializer();
-	public int numAudButtons = getInfo.numAudButtons;
+	
 	
 	
 	public ButtonPanel() {
@@ -40,7 +45,7 @@ public class ButtonPanel extends JPanel {
 		add(TalkBoxLabel);
 		
 		//Get number of audio buttons from TalkBoxDeserializer 
-		int numOfButtons = getInfo.numAudButtons;
+		int numOfButtons = TalkBoxDeserializer.setNumAudButtons();
 		
 		//loop to create buttons
 		
