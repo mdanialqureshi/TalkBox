@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 
 import javax.swing.AbstractListModel;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -30,15 +31,11 @@ public class ProfilesPanel extends TalkBoxConfig {
 		j.add(lblProfiles);
 		
 		//Profiles Selector
-		JList<String> list = new JList<String>(new AbstractListModel() {
-		String[] values = new String[] {"Default", "Weather", "Colours"};
-		public int getSize() {
-			return values.length;
-		}
-		public Object getElementAt(int index) {
-			return values[index];
-		}
-		});
+		DefaultListModel<String> modelList = new DefaultListModel<String>();
+		modelList.addElement("Default");
+		modelList.addElement("Weather");
+		JList<String> list = new JList<String>(modelList);
+		
 		list.setBounds(175, 51, 242, 368);
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		j.add(list);
