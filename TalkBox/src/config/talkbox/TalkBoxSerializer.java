@@ -7,7 +7,7 @@ public class TalkBoxSerializer implements TalkBoxConfiguration {
 
 	@Override
 	public int getNumberOfAudioButtons() {
-		return 12;
+		return 15;
 	}
 
 	@Override
