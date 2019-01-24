@@ -45,7 +45,7 @@ public class ButtonPanel extends JPanel {
 		add(TalkBoxLabel);
 		
 		//Get number of audio buttons from TalkBoxDeserializer 
-		int numOfButtons = TalkBoxDeserializer.setNumAudButtons();
+		int numOfButtons = getInfo.getNumAudioButtons();
 		
 		//loop to create buttons
 		

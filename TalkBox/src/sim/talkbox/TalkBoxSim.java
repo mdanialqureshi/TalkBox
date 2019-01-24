@@ -40,6 +40,12 @@ public class TalkBoxSim extends JFrame {
 		});
 		TalkBoxConfig g = new TalkBoxConfig();
 		g.run();
+		TalkBoxDeserializer deserializer = new TalkBoxDeserializer();
+		deserializer.setUpDeserializer();
+		TalkBoxSerializer serializer = new TalkBoxSerializer();
+		serializer.setUpSerialization();
+
+		
 		
 	}
 	

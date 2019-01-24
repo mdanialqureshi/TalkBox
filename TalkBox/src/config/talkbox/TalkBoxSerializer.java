@@ -18,7 +18,7 @@ public class TalkBoxSerializer implements TalkBoxConfiguration, Serializable {
 	public Path path;
 	public String[][] audFileNames;
 	
-	public static void main(String[] args) {
+	public void setUpSerialization() {
 		TalkBoxSerializer e = new TalkBoxSerializer();
 		
 		e.numAudButtons = TalkBoxConfig.numAudButtons;

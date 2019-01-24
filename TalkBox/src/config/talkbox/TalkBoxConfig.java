@@ -43,7 +43,7 @@ public class TalkBoxConfig extends JFrame {
 	private int width = 1280;
 	private int height = 720;
 	
-	public static int numAudButtons = 14; 
+	public static int numAudButtons = 16; 
 	public static int numAudSets = 1;
 	public static int numSwapButtons = 2;
 	public static Path path = null;
