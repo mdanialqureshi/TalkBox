@@ -9,14 +9,14 @@ import config.talkbox.TalkBoxSerializer;
 
 public class TalkBoxDeserializer {
 	
-	public int numAudButtons;
-	public int numAudSets, numSwapButtons;
+	public int numAudioButtons;
+	public int numAudioSets, numSwapButtons;
 	public Path path;
-	public String[][] audFileNames;
+	public String[][] audioFileNames;
 	TalkBoxSerializer e = new TalkBoxSerializer();
 
 	
-	public void setUpDeserializer() {	
+	public TalkBoxDeserializer() {	
 	
 		try {
 			FileInputStream fileIn = new FileInputStream("TalkBoxData.tbc");
@@ -37,18 +37,35 @@ public class TalkBoxDeserializer {
 			return;
 		}
 		
-		numAudButtons = e.getNumberOfAudioButtons();
-		numAudSets = e.getNumberOfAudioSets();
+		numAudioButtons = e.getNumberOfAudioButtons();
+		numAudioSets = e.getNumberOfAudioSets();
 		numSwapButtons = e.getTotalNumberOfButtons();
 		path = e.getRelativePathToAudioFiles();
-		audFileNames = e.getAudioFileNames();
+		audioFileNames = e.getAudioFileNames();
 		
-		System.out.println("TalkBox was deserialized. Number of audio buttons is: " + e.numAudButtons);
+		System.out.println("TalkBox was deserialized. Number of audio buttons is: " + numAudioButtons);
 		
 	}
 	
-	public int getNumAudioButtons() {
-		return e.getNumberOfAudioButtons();
+	public int getNumberOfAudioButtons() {
+		return numAudioButtons;
 	}
+	
+	public int getNumberOfAudioSets() {
+		return numAudioSets;
+	}
+	
+	public int getTotalNumberOfButtons() {
+		return numAudioButtons + numSwapButtons;
+	}
+	
+	public Path getRelativePathToAudioFiles() {
+		return path;
+	}
+	
+	public String[][] getAudioFileNames() {
+		return audioFileNames;
+	}	
+	
 }
 	

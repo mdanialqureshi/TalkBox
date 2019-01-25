@@ -5,32 +5,30 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 
 public class TalkBoxSerializer implements TalkBoxConfiguration, Serializable {
 	
 	
 	private static final long serialVersionUID = 1L;
 	
-	public int numAudButtons;
-	public int numAudSets;
+	public int numAudioButtons;
+	public int numAudioSets;
 	public int numSwapButtons;
 	public Path path;
-	public String[][] audFileNames;
+	public String[][] audioFileNames;
 	
-	public void setUpSerialization() {
-		TalkBoxSerializer e = new TalkBoxSerializer();
+	public TalkBoxSerializer() {
 		
-		e.numAudButtons = TalkBoxConfig.numAudButtons;
-		e.numAudSets = TalkBoxConfig.numAudSets;
-		e.numSwapButtons = TalkBoxConfig.numSwapButtons;
-		e.path = TalkBoxConfig.path;
-		e.audFileNames = TalkBoxConfig.audFileNames;
+		numAudioButtons = TalkBoxConfig.numAudButtons;
+		numAudioSets = TalkBoxConfig.numAudSets;
+		numSwapButtons = TalkBoxConfig.numSwapButtons;
+		path = TalkBoxConfig.path;
+		audioFileNames = TalkBoxConfig.audFileNames;
 
 		try {
 			FileOutputStream fileOut = new FileOutputStream("TalkBoxData.tbc");
 			ObjectOutputStream out = new ObjectOutputStream(fileOut);
-			out.writeObject(e);
+			out.writeObject(this);
 	 	out.close();
 	 	fileOut.close();
 		}
@@ -38,26 +36,26 @@ public class TalkBoxSerializer implements TalkBoxConfiguration, Serializable {
 			i.printStackTrace();
 		}
 		
-		System.out.println("TalkBox was serialized. Number of audio buttons is: " + e.numAudButtons);
+		System.out.println("TalkBox was serialized. Number of audio buttons is: " + this.numAudioButtons);
 	}
 	
 	public int getNumberOfAudioButtons() {
-		return TalkBoxConfig.numAudButtons;
+		return numAudioButtons;
 	}
 	
 	public int getNumberOfAudioSets() {
-		return TalkBoxConfig.numAudSets;
+		return numAudioSets;
 	}
 	
 	public int getTotalNumberOfButtons() {
-		return TalkBoxConfig.numAudButtons + TalkBoxConfig.numSwapButtons;
+		return numAudioButtons + numSwapButtons;
 	}
 	
 	public Path getRelativePathToAudioFiles() {
-		return TalkBoxConfig.path;
+		return path;
 	}
 	
 	public String[][] getAudioFileNames() {
-		return TalkBoxConfig.audFileNames;
+		return audioFileNames;
 	}	
 }

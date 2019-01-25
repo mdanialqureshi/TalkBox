@@ -3,14 +3,12 @@ import config.talkbox.*; //package import
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -45,7 +43,8 @@ public class ButtonPanel extends JPanel {
 		add(TalkBoxLabel);
 		
 		//Get number of audio buttons from TalkBoxDeserializer 
-		int numOfButtons = getInfo.getNumAudioButtons();
+		
+		int numOfButtons = getInfo.getNumberOfAudioButtons();
 		
 		//loop to create buttons
 		

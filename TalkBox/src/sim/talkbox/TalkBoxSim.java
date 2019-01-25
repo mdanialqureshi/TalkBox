@@ -1,16 +1,8 @@
 package sim.talkbox;
 
 import java.awt.EventQueue;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.nio.file.Path;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-
-import config.talkbox.TalkBoxConfig;
-import config.talkbox.TalkBoxSerializer;
 
 
 
@@ -20,7 +12,6 @@ public class TalkBoxSim extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private JPanel contentPane;
 	public static final int frameWidth = 950;
 
 
@@ -38,14 +29,6 @@ public class TalkBoxSim extends JFrame {
 				}
 			}
 		});
-		TalkBoxConfig g = new TalkBoxConfig();
-		g.run();
-		TalkBoxDeserializer deserializer = new TalkBoxDeserializer();
-		deserializer.setUpDeserializer();
-		TalkBoxSerializer serializer = new TalkBoxSerializer();
-		serializer.setUpSerialization();
-
-		
 		
 	}
 	

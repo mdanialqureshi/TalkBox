@@ -14,6 +14,12 @@ import javax.swing.SpringLayout;
 
 public class Recorder extends JPanel {
 	
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	//Creating the Recorder sector of the TalkBox Configuration Application. 
 	public Recorder() {
 		SpringLayout springLayout = new SpringLayout();
