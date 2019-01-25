@@ -22,10 +22,11 @@ public class ButtonPanel extends JPanel {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
 	ArrayList<JButton> buttons = new ArrayList<JButton>();
-	TalkBoxSerializer getInfo = new TalkBoxSerializer();
-	boolean outputSound = false;
-	Clip clip;
+	TalkBoxDeserializer getInfo = new TalkBoxDeserializer();
+	
+	
 	
 	public ButtonPanel() {
 		setBackground(Color.DARK_GRAY);
@@ -41,9 +42,9 @@ public class ButtonPanel extends JPanel {
 		TalkBoxLabel.setVerticalAlignment(SwingConstants.TOP);
 		add(TalkBoxLabel);
 		
-		//creating new TalkBoxSerilaizer object to access User requested attributes. 
+		//Get number of audio buttons from TalkBoxDeserializer 
 		
-		int numOfButtons = getInfo.getNumberOfAudioButtons();		
+		int numOfButtons = getInfo.getNumberOfAudioButtons();
 		
 		//loop to create buttons
 		
@@ -64,8 +65,6 @@ public class ButtonPanel extends JPanel {
 				buttons.get(i).setBounds(20 + ((i-12)*150), 260, 140, 70); //(i-12) because starting a new row
 				buttons.get(i).setFont(new Font("Chalkboard", Font.PLAIN, 25));
 				add(buttons.get(i));
-			} else {
-				break;
 			}
 		}
 		
@@ -99,14 +98,10 @@ public class ButtonPanel extends JPanel {
 
 	
 	public void playSound(String soundName) {
-		if(outputSound)
-			clip.stop();
-		
 		try {
-			outputSound = true;
 			File file = new File(this.getClass().getResource("/" + soundName).getFile()); // gets the file from its
 																							// package using file name
-			clip = AudioSystem.getClip();
+			Clip clip = AudioSystem.getClip();
 			clip.open(AudioSystem.getAudioInputStream(file));
 			clip.start(); // allows audio clip to be played
 		} catch (Exception e) {

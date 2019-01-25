@@ -1,11 +1,10 @@
 package sim.talkbox;
 
 import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import config.talkbox.TalkBoxConfig;
+
 
 public class TalkBoxSim extends JFrame {
 
@@ -13,8 +12,9 @@ public class TalkBoxSim extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private JPanel contentPane;
 	public static final int frameWidth = 950;
+
+
 	/**
 	 * Launch the application.
 	 */
@@ -29,9 +29,9 @@ public class TalkBoxSim extends JFrame {
 				}
 			}
 		});
-		TalkBoxConfig g = new TalkBoxConfig();
-		g.run();
+		
 	}
+	
 
 	/**
 	 * Constructor calls buildGUI method which builds the frame and GUI components
