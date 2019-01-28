@@ -79,6 +79,7 @@ public class Recorder extends JPanel {
 						recorder.start();
 					} catch (LineUnavailableException lue) {
 						System.out.println("Line not supported. Recording not started.");
+						recordBtn.setIcon(micOff);
 						recordInfo.setText("Mic not detected");
 						isRecording = false;
 						recorder.finish();
