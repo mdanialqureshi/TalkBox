@@ -1,10 +1,12 @@
 package config.talkbox;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class TalkBoxSerializer implements TalkBoxConfiguration, Serializable {
 	
@@ -16,9 +18,12 @@ public class TalkBoxSerializer implements TalkBoxConfiguration, Serializable {
 	public int numSwapButtons;
 	public Path path;
 	public String[][] audioFileNames;
+	String talkBoxDataPath = "bin/TalkBoxData/";
+	File talkBoxData = new File(talkBoxDataPath + "TalkBoxData.tbc");
+	
 	
 	public TalkBoxSerializer() {
-		
+				
 		numAudioButtons = TalkBoxConfig.numAudButtons;
 		numAudioSets = TalkBoxConfig.numAudSets;
 		numSwapButtons = TalkBoxConfig.numSwapButtons;
@@ -26,7 +31,9 @@ public class TalkBoxSerializer implements TalkBoxConfiguration, Serializable {
 		audioFileNames = TalkBoxConfig.audFileNames;
 
 		try {
-			FileOutputStream fileOut = new FileOutputStream("TalkBoxData.tbc");
+			talkBoxData.getParentFile().mkdirs();
+			talkBoxData.createNewFile();
+			FileOutputStream fileOut = new FileOutputStream(talkBoxData);
 			ObjectOutputStream out = new ObjectOutputStream(fileOut);
 			out.writeObject(this);
 	 	out.close();

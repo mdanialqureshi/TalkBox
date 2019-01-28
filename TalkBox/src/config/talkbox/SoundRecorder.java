@@ -15,7 +15,7 @@ public class SoundRecorder {
 	// in milliseconds
 	static final long RECORD_TIME = 60_000;
 
-	File wavFile = new File("temp/audio/test1.wav");
+	File wavFile = new File("bin/TalkBoxData/test1.wav");
 
 	AudioFileFormat.Type fileType = AudioFileFormat.Type.WAVE;
 
