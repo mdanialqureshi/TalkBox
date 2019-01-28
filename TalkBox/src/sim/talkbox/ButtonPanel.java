@@ -3,14 +3,12 @@ import config.talkbox.*; //package import
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -20,9 +18,15 @@ import java.util.ArrayList;
 
 public class ButtonPanel extends JPanel {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	ArrayList<JButton> buttons = new ArrayList<JButton>();
-	TalkBoxSerializer getInfo = new TalkBoxSerializer();
-
+	TalkBoxDeserializer getInfo = new TalkBoxDeserializer();
+	
+	
 	
 	public ButtonPanel() {
 		setBackground(Color.DARK_GRAY);
@@ -38,9 +42,9 @@ public class ButtonPanel extends JPanel {
 		TalkBoxLabel.setVerticalAlignment(SwingConstants.TOP);
 		add(TalkBoxLabel);
 		
-		//creating new TalkBoxSerilaizer object to access User requested attributes. 
+		//Get number of audio buttons from TalkBoxDeserializer 
 		
-		int numOfButtons = getInfo.getNumberOfAudioButtons();		
+		int numOfButtons = getInfo.getNumberOfAudioButtons();
 		
 		//loop to create buttons
 		

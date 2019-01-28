@@ -16,8 +16,8 @@ public class Recorder extends JPanel {
 
 	final private SoundRecorder recorder = new SoundRecorder();
 	private boolean isRecording = false;
-
-	// Creating the Recorder sector of the TalkBox Configuration Application.
+	private static final long serialVersionUID = 1L;
+// Creating the Recorder sector of the TalkBox Configuration Application.
 	public Recorder() {
 		SpringLayout springLayout = new SpringLayout();
 		setLayout(springLayout);
@@ -27,29 +27,20 @@ public class Recorder extends JPanel {
 		springLayout.putConstraint(SpringLayout.SOUTH, progressBar, -34, SpringLayout.SOUTH, this);
 		springLayout.putConstraint(SpringLayout.EAST, progressBar, -69, SpringLayout.EAST, this);
 		add(progressBar);
-
-		Button button = new Button("Record");
-		springLayout.putConstraint(SpringLayout.WEST, button, 200, SpringLayout.WEST, this);
-		springLayout.putConstraint(SpringLayout.SOUTH, button, -33, SpringLayout.NORTH, progressBar);
-		add(button);
-
-		Button button_1 = new Button("Pause");
-		springLayout.putConstraint(SpringLayout.WEST, button_1, 6, SpringLayout.EAST, button);
-		springLayout.putConstraint(SpringLayout.SOUTH, button_1, 0, SpringLayout.SOUTH, button);
-		add(button_1);
-
+		
 		JButton record = new JButton();
-		springLayout.putConstraint(SpringLayout.SOUTH, record, -21, SpringLayout.NORTH, progressBar);
-		springLayout.putConstraint(SpringLayout.EAST, record, -44, SpringLayout.EAST, this);
+		springLayout.putConstraint(SpringLayout.NORTH, record, -207, SpringLayout.NORTH, progressBar);
+		springLayout.putConstraint(SpringLayout.WEST, record, 365, SpringLayout.WEST, this);
+		springLayout.putConstraint(SpringLayout.SOUTH, record, -57, SpringLayout.NORTH, progressBar);
+		springLayout.putConstraint(SpringLayout.EAST, record, 515, SpringLayout.WEST, this);
 		record.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				recordAudio();
 			}
 		});
 
-		Image mic = new ImageIcon(this.getClass().getResource("/mic-icon.png")).getImage(); // getting image from its
-																							// package and making a new
-																							// ImageIcon
+		// getting image from its package and making a new ImageIcon
+		Image mic = new ImageIcon(this.getClass().getResource("/mic-icon.png")).getImage(); 
 
 		record.setIcon(new ImageIcon(mic)); // setting button Icon to the image
 		record.setForeground(Color.DARK_GRAY);
