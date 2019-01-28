@@ -1,26 +1,30 @@
 package config.talkbox;
 
-import java.awt.Button;
 import java.awt.Color;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.sound.sampled.LineUnavailableException;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.SpringLayout;
+import javax.swing.SwingConstants;
 
 public class Recorder extends JPanel {
-	
-	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 
-	//Creating the Recorder sector of the TalkBox Configuration Application. 
+	private static final long serialVersionUID = 1L;
+	final private SoundRecorder recorder = new SoundRecorder();
+	private boolean isRecording = false;
+	private JButton recordBtn;
+	private ImageIcon micOff;
+	private ImageIcon micOn;
+	private ImageIcon infoIcon;
+	private JLabel recordInfo;
+
+// Creating the Recorder sector of the TalkBox Configuration Application.
 	public Recorder() {
 		SpringLayout springLayout = new SpringLayout();
 		setLayout(springLayout);
@@ -30,23 +34,65 @@ public class Recorder extends JPanel {
 		springLayout.putConstraint(SpringLayout.SOUTH, progressBar, -34, SpringLayout.SOUTH, this);
 		springLayout.putConstraint(SpringLayout.EAST, progressBar, -69, SpringLayout.EAST, this);
 		add(progressBar);
-		
-		JButton btnConfigureB = new JButton();
-		springLayout.putConstraint(SpringLayout.NORTH, btnConfigureB, 105, SpringLayout.NORTH, this);
-		springLayout.putConstraint(SpringLayout.WEST, btnConfigureB, 365, SpringLayout.WEST, this);
-		springLayout.putConstraint(SpringLayout.SOUTH, btnConfigureB, -58, SpringLayout.NORTH, progressBar);
-		springLayout.putConstraint(SpringLayout.EAST, btnConfigureB, 515, SpringLayout.WEST, this);
-		btnConfigureB.addActionListener(new ActionListener() {
+
+		recordBtn = new JButton();
+		springLayout.putConstraint(SpringLayout.NORTH, recordBtn, -207, SpringLayout.NORTH, progressBar);
+		springLayout.putConstraint(SpringLayout.WEST, recordBtn, 365, SpringLayout.WEST, this);
+		springLayout.putConstraint(SpringLayout.SOUTH, recordBtn, -57, SpringLayout.NORTH, progressBar);
+		springLayout.putConstraint(SpringLayout.EAST, recordBtn, 515, SpringLayout.WEST, this);
+		recordBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				recordAudio();
 			}
 		});
 
 		// getting image from its package and making a new ImageIcon
-		Image mic = new ImageIcon(this.getClass().getResource("/mic-icon.png")).getImage(); 
+		micOff = new ImageIcon("images/mic-off-icon.png");
+		micOn = new ImageIcon("images/mic-on-icon.png");
 
-		btnConfigureB.setIcon(new ImageIcon(mic)); // setting button Icon to the image
-		btnConfigureB.setForeground(Color.DARK_GRAY);
-		add(btnConfigureB);
+		recordBtn.setIcon(micOff); // setting button Icon to the image
+		recordBtn.setForeground(Color.DARK_GRAY);
+		add(recordBtn);
 
+		infoIcon = new ImageIcon("images/info-icon.png");
+		recordInfo = new JLabel("Begin recording?", SwingConstants.CENTER);
+		springLayout.putConstraint(SpringLayout.WEST, recordInfo, 345, SpringLayout.WEST, this);
+		springLayout.putConstraint(SpringLayout.EAST, recordInfo, 20, SpringLayout.EAST, recordBtn);
+		recordInfo.setIcon(infoIcon);
+		springLayout.putConstraint(SpringLayout.NORTH, recordInfo, 6, SpringLayout.SOUTH, recordBtn);
+		springLayout.putConstraint(SpringLayout.SOUTH, recordInfo, 26, SpringLayout.SOUTH, recordBtn);
+		add(recordInfo);
+	}
+
+	private void recordAudio() {
+		if (isRecording) {
+			recorder.finish();
+			resetRecordBtn();
+			isRecording = false;
+		} else {
+			Thread stopper = new Thread(new Runnable() {
+				public void run() {
+					try {
+						isRecording = true;
+						recordInfo.setText("Recording in progress.");
+						recordBtn.setIcon(micOn);
+						recorder.start();
+					} catch (LineUnavailableException lue) {
+						System.out.println("Line not supported. Recording not started.");
+						recordBtn.setIcon(micOff);
+						recordInfo.setText("Mic not detected");
+						isRecording = false;
+						recorder.finish();
+					}
+				}
+			});
+			stopper.start();
+		}
+
+	}
+
+	private void resetRecordBtn() {
+		recordBtn.setIcon(micOff);
+		recordInfo.setText("Begin recording?");
 	}
 }
