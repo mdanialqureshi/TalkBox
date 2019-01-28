@@ -30,28 +30,19 @@ public class Recorder extends JPanel {
 		springLayout.putConstraint(SpringLayout.SOUTH, progressBar, -34, SpringLayout.SOUTH, this);
 		springLayout.putConstraint(SpringLayout.EAST, progressBar, -69, SpringLayout.EAST, this);
 		add(progressBar);
-
-		Button button = new Button("Record");
-		springLayout.putConstraint(SpringLayout.WEST, button, 200, SpringLayout.WEST, this);
-		springLayout.putConstraint(SpringLayout.SOUTH, button, -33, SpringLayout.NORTH, progressBar);
-		add(button);
-
-		Button button_1 = new Button("Pause");
-		springLayout.putConstraint(SpringLayout.WEST, button_1, 6, SpringLayout.EAST, button);
-		springLayout.putConstraint(SpringLayout.SOUTH, button_1, 0, SpringLayout.SOUTH, button);
-		add(button_1);
 		
 		JButton btnConfigureB = new JButton();
-		springLayout.putConstraint(SpringLayout.SOUTH, btnConfigureB, -21, SpringLayout.NORTH, progressBar);
-		springLayout.putConstraint(SpringLayout.EAST, btnConfigureB, -44, SpringLayout.EAST, this);
+		springLayout.putConstraint(SpringLayout.NORTH, btnConfigureB, 105, SpringLayout.NORTH, this);
+		springLayout.putConstraint(SpringLayout.WEST, btnConfigureB, 365, SpringLayout.WEST, this);
+		springLayout.putConstraint(SpringLayout.SOUTH, btnConfigureB, -58, SpringLayout.NORTH, progressBar);
+		springLayout.putConstraint(SpringLayout.EAST, btnConfigureB, 515, SpringLayout.WEST, this);
 		btnConfigureB.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
 
-		Image mic = new ImageIcon(this.getClass().getResource("/mic-icon.png")).getImage(); // getting image from its
-																							// package and making a new
-																							// ImageIcon
+		// getting image from its package and making a new ImageIcon
+		Image mic = new ImageIcon(this.getClass().getResource("/mic-icon.png")).getImage(); 
 
 		btnConfigureB.setIcon(new ImageIcon(mic)); // setting button Icon to the image
 		btnConfigureB.setForeground(Color.DARK_GRAY);

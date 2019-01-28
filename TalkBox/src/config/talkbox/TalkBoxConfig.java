@@ -63,6 +63,7 @@ public class TalkBoxConfig extends JFrame {
 	private void setupFrame() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1280, 720);
+		setLocationRelativeTo(null);
 		this.setContentPane(controlsProfileSplit); //after all components are constructed by other classes it adds the 'master' JSplitPane to the JFrame.
 		//ConstrolsPorfileSplit class extends JSplitPane
 	}
