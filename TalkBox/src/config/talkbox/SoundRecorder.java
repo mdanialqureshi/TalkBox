@@ -31,7 +31,7 @@ public class SoundRecorder {
 		return format;
 	}
 
-	void start() {
+	void start() throws LineUnavailableException {
 		createFile();
 
 		try {
@@ -40,8 +40,7 @@ public class SoundRecorder {
 
 			// checks if system supports the data line
 			if (!AudioSystem.isLineSupported(info)) {
-				System.out.println("Line not supported. Recording not started.");
-				return;
+				throw new LineUnavailableException();
 			}
 			line = (TargetDataLine) AudioSystem.getLine(info);
 			line.open(format);
@@ -53,9 +52,6 @@ public class SoundRecorder {
 
 			// start recording
 			AudioSystem.write(ais, fileType, wavFile);
-
-		} catch (LineUnavailableException ex) {
-			ex.printStackTrace();
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
 		}
@@ -74,8 +70,10 @@ public class SoundRecorder {
 	 * Closes the target data line to finish capturing and recording
 	 */
 	void finish() {
-		line.stop();
-		line.close();
-		System.out.println("Recording complete and saved.");
+		if (line != null) {
+			line.stop();
+			line.close();
+			System.out.println("Recording complete and saved.");
+		}
 	}
 }
