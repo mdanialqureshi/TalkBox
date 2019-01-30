@@ -62,6 +62,15 @@ public class Recorder extends JPanel {
 		springLayout.putConstraint(SpringLayout.NORTH, recordInfo, 6, SpringLayout.SOUTH, recordBtn);
 		springLayout.putConstraint(SpringLayout.SOUTH, recordInfo, 26, SpringLayout.SOUTH, recordBtn);
 		add(recordInfo);
+		
+		PlayEditToggle toggle = new PlayEditToggle();
+		springLayout.putConstraint(SpringLayout.NORTH, toggle, 34, SpringLayout.NORTH, this);
+		springLayout.putConstraint(SpringLayout.WEST, toggle, 28, SpringLayout.WEST, this);
+		springLayout.putConstraint(SpringLayout.SOUTH, toggle, 103, SpringLayout.NORTH, recordBtn);
+		springLayout.putConstraint(SpringLayout.EAST, toggle, 161, SpringLayout.WEST, this);
+		add(toggle);
+		
+		
 	}
 
 	private void recordAudio() {
