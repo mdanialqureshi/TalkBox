@@ -64,10 +64,10 @@ public class Recorder extends JPanel {
 		add(recordInfo);
 		
 		PlayEditToggle toggle = new PlayEditToggle();
-		springLayout.putConstraint(SpringLayout.NORTH, toggle, 34, SpringLayout.NORTH, this);
-		springLayout.putConstraint(SpringLayout.WEST, toggle, 28, SpringLayout.WEST, this);
-		springLayout.putConstraint(SpringLayout.SOUTH, toggle, 103, SpringLayout.NORTH, recordBtn);
-		springLayout.putConstraint(SpringLayout.EAST, toggle, 161, SpringLayout.WEST, this);
+		springLayout.putConstraint(SpringLayout.NORTH, toggle, 26, SpringLayout.NORTH, this);
+		springLayout.putConstraint(SpringLayout.WEST, toggle, 24, SpringLayout.WEST, this);
+		springLayout.putConstraint(SpringLayout.SOUTH, toggle, -101, SpringLayout.SOUTH, recordBtn);
+		springLayout.putConstraint(SpringLayout.EAST, toggle, 174, SpringLayout.WEST, this);
 		add(toggle);
 		
 		

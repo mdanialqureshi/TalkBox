@@ -28,7 +28,7 @@ public class SimPreview extends JPanel {
 	
 	private static final long serialVersionUID = 1L;
 	
-	ArrayList<JButton> buttons = new ArrayList<JButton>();
+	static ArrayList<JButton> buttons = new ArrayList<JButton>();
 	
 	public SimPreview() {
 		setBackground(Color.DARK_GRAY);
@@ -68,7 +68,7 @@ public class SimPreview extends JPanel {
 				buttons.get(i).setFont(new Font("Chalkboard", Font.PLAIN, 25));
 				add(buttons.get(i));
 			}	
-			editLabel(buttons.get(i));
+			// editLabel(buttons.get(i)); SET EDIT FUNCTION TO ALL BUTTONS 
 		}
 		//adding audio functionality to some of the buttons 
 		
@@ -89,6 +89,7 @@ public class SimPreview extends JPanel {
 			}
 		});
 	}
+	
 
 	/**
 	 * ActionListeners of the buttons call playSound() method which plays the sound
@@ -111,7 +112,7 @@ public class SimPreview extends JPanel {
 		}
 	}
 	
-	public void editLabel(JButton b) {
+	/*public static void editLabel(JButton b) {
 		b.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				    JFrame frame = new JFrame();
@@ -122,5 +123,5 @@ public class SimPreview extends JPanel {
 		
 		});
 		
-	}
+	}*/
 }
