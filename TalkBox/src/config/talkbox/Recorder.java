@@ -21,6 +21,7 @@ public class Recorder extends JPanel {
 	private JButton recordBtn;
 	private ImageIcon micOff;
 	private ImageIcon micOn;
+	private ImageIcon micNotFound;
 	private ImageIcon infoIcon;
 	private JLabel recordInfo;
 
@@ -49,6 +50,7 @@ public class Recorder extends JPanel {
 		// getting image from its package and making a new ImageIcon
 		micOff = new ImageIcon("images/mic-off-icon.png");
 		micOn = new ImageIcon("images/mic-on-icon.png");
+		micNotFound = new ImageIcon("images/mic-not-found-icon.png");
 
 		recordBtn.setIcon(micOff); // setting button Icon to the image
 		recordBtn.setForeground(Color.DARK_GRAY);
@@ -78,8 +80,8 @@ public class Recorder extends JPanel {
 						recordBtn.setIcon(micOn);
 						recorder.start();
 					} catch (LineUnavailableException lue) {
-						System.out.println("Line not supported. Recording not started.");
-						recordBtn.setIcon(micOff);
+						System.err.println("Line not supported. Recording not started.");
+						recordBtn.setIcon(micNotFound);
 						recordInfo.setText("Mic not detected");
 						isRecording = false;
 						recorder.finish();
