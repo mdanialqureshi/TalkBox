@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 
 public class TalkBoxSerializer implements TalkBoxConfiguration, Serializable {
 	

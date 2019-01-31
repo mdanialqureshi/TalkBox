@@ -48,7 +48,7 @@ public class TalkBoxSim extends JFrame {
 	 */
 	private void buildGUI() {
 		
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, frameWidth, frameHeight);
 		setResizable(false); 
 		JPanel buttonPanel = new ButtonPanel(); //ButtonPanel class constructs the TalkBox simulator GUI.

@@ -2,11 +2,10 @@ package config.talkbox;
 
 
 import java.awt.EventQueue;
-
+import java.nio.file.Path;
 
 import javax.swing.JFrame;
 import javax.swing.JSplitPane;
-import java.nio.file.Path;
 
 public class TalkBoxConfig extends JFrame {
 
@@ -20,11 +19,11 @@ public class TalkBoxConfig extends JFrame {
 	private int width = 1280;
 	private int height = 720;
 	
-	public static int numAudButtons = 2; 
+	public static int numAudButtons = 19;
 	public static int numAudSets = 1;
 	public static int numSwapButtons = 2;
 	public static Path path = null;
-	public static String[][] audFileNames = null;
+	public static String[][] audFileNames = new String[10][10];
 	
 	
 
@@ -56,10 +55,14 @@ public class TalkBoxConfig extends JFrame {
 	public TalkBoxConfig() {
 				
 		controlsProfileSplit = new ControlsProfileSplit(width, height); //constructs the entire configuration app in ControlsProfileSplit class.
-
+		
 		setupFrame();
 	}
 
+	
+	
+	
+	
 	private void setupFrame() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1280, 720);
@@ -67,5 +70,4 @@ public class TalkBoxConfig extends JFrame {
 		this.setContentPane(controlsProfileSplit); //after all components are constructed by other classes it adds the 'master' JSplitPane to the JFrame.
 		//ConstrolsPorfileSplit class extends JSplitPane
 	}
-
 }

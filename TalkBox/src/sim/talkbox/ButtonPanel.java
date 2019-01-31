@@ -89,15 +89,14 @@ public class ButtonPanel extends JPanel {
 		}
 		
 		
-		
 		//adding audio functionality to some of the buttons 
 		
 		buttons.get(0).addActionListener(new ActionListener() {
 			// button 1 has an actionListener which calls PlaySound Method and plays sound
 			// of the file. (When button is clicked)
 			public void actionPerformed(ActionEvent e) {
-				String helloFile = "hello.wav";
-				playSound(helloFile);
+				//String helloFile = "hello.wav";
+				playSound(getInfo.audioFileNames[0][0]);
 			}
 
 		});	
@@ -121,7 +120,7 @@ public class ButtonPanel extends JPanel {
 	
 	public void playSound(String soundName) {
 		try {
-			File file = new File(this.getClass().getResource("/" + soundName).getFile()); // gets the file from its
+			File file = new File("bin/TalkBoxData/audio/" + soundName); // gets the file from its
 																							// package using file name
 			Clip clip = AudioSystem.getClip();
 			clip.open(AudioSystem.getAudioInputStream(file));

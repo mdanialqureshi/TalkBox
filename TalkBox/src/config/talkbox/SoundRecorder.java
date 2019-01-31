@@ -15,7 +15,7 @@ public class SoundRecorder {
 	// in milliseconds
 	static final long RECORD_TIME = 60_000;
 
-	File wavFile = new File("bin/TalkBoxData/test1.wav");
+	File wavFile = new File("bin/TalkBoxData/audio/test1.wav");
 
 	AudioFileFormat.Type fileType = AudioFileFormat.Type.WAVE;
 
@@ -55,6 +55,8 @@ public class SoundRecorder {
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
 		}
+		//adding audio file to TalkBoxConfig field
+		TalkBoxConfig.audFileNames[0][0] = wavFile.getName();
 	}
 
 	private void createFile() {
@@ -74,6 +76,10 @@ public class SoundRecorder {
 			line.stop();
 			line.close();
 			System.out.println("Recording complete and saved.");
+
 		}
 	}
+
+	
+	
 }
