@@ -7,11 +7,14 @@ import java.awt.event.ActionListener;
 import javax.sound.sampled.LineUnavailableException;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
+
+import sim.talkbox.TalkBoxSim;
 
 public class Recorder extends JPanel {
 
@@ -24,6 +27,7 @@ public class Recorder extends JPanel {
 	private ImageIcon micNotFound;
 	private ImageIcon infoIcon;
 	private JLabel recordInfo;
+	public JButton launchSimulator;
 
 // Creating the Recorder sector of the TalkBox Configuration Application.
 	public Recorder() {
@@ -64,6 +68,42 @@ public class Recorder extends JPanel {
 		springLayout.putConstraint(SpringLayout.NORTH, recordInfo, 6, SpringLayout.SOUTH, recordBtn);
 		springLayout.putConstraint(SpringLayout.SOUTH, recordInfo, 26, SpringLayout.SOUTH, recordBtn);
 		add(recordInfo);
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		/*
+		 * launch simulator from configuration app
+		 */
+		
+		launchSimulator = new JButton("Launch Simulator");
+		
+		springLayout.putConstraint(SpringLayout.NORTH, launchSimulator, 178, SpringLayout.NORTH, this);
+		springLayout.putConstraint(SpringLayout.WEST, launchSimulator, 23, SpringLayout.WEST, this);
+		springLayout.putConstraint(SpringLayout.SOUTH, launchSimulator, -6, SpringLayout.NORTH, progressBar);
+		springLayout.putConstraint(SpringLayout.EAST, launchSimulator, 173, SpringLayout.WEST, this);
+		add(launchSimulator);
+		
+		launchSimulator.addActionListener(new ActionListener() {
+			
+			public void actionPerformed(ActionEvent e) {
+
+				TalkBoxSim.main(new String[] {});
+				
+			}
+			});
+		
 	}
 
 	private void recordAudio() {
