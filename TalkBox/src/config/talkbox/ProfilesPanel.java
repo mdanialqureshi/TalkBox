@@ -92,7 +92,10 @@ public class ProfilesPanel extends JPanel {
 
 	protected void openFileDialog() {
 		int returnVal = fc.showSaveDialog(this);
-
+		if (returnVal == JFileChooser.APPROVE_OPTION) {
+			File talkBoxDataPath = fc.getSelectedFile();
+			TalkBoxSerializer tbs = new TalkBoxSerializer(talkBoxDataPath);
+		}
 	}
 
 }

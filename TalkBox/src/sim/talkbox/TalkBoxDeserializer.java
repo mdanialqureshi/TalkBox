@@ -13,7 +13,7 @@ public class TalkBoxDeserializer {
 	public int numAudioSets, numSwapButtons;
 	public Path path;
 	public String[][] audioFileNames;
-	TalkBoxSerializer e = new TalkBoxSerializer();
+	TalkBoxSerializer e;
 
 	
 	public TalkBoxDeserializer() {
