@@ -15,11 +15,11 @@ public class TalkBoxConfig extends JFrame {
 	private static final long serialVersionUID = 1L;
 	
 	
-	private JSplitPane controlsProfileSplit;
+	public static JSplitPane controlsProfileSplit;
 	private int width = 1280;
 	private int height = 720;
 	
-	public static int numAudButtons = 19;
+	public static int numAudButtons = 20;
 	public static int numAudSets = 1;
 	public static int numSwapButtons = 2;
 	public static Path path = null;

@@ -14,8 +14,9 @@ import javax.sound.sampled.TargetDataLine;
 public class SoundRecorder {
 	// in milliseconds
 	static final long RECORD_TIME = 60_000;
-
-	File wavFile = new File("bin/TalkBoxData/audio/test1.wav");
+	static int counter = 0;
+	
+	File wavFile;
 
 	AudioFileFormat.Type fileType = AudioFileFormat.Type.WAVE;
 
@@ -32,6 +33,7 @@ public class SoundRecorder {
 	}
 
 	void start() throws LineUnavailableException {
+		wavFile = new File("bin/TalkBoxData/audio/" + counter + ".wav");
 		createFile();
 
 		try {
@@ -56,7 +58,7 @@ public class SoundRecorder {
 			ioe.printStackTrace();
 		}
 		//adding audio file to TalkBoxConfig field
-		TalkBoxConfig.audFileNames[0][0] = wavFile.getName();
+		TalkBoxConfig.audFileNames[0][counter] = wavFile.getName();
 	}
 
 	private void createFile() {

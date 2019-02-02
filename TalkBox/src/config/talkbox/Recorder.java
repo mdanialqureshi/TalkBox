@@ -16,27 +16,31 @@ import javax.swing.JTextField;
 import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
 
+import sim.talkbox.ButtonPanel;
 import sim.talkbox.TalkBoxSim;
 
 public class Recorder extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	final private SoundRecorder recorder = new SoundRecorder();
+	private SoundRecorder recorder = new SoundRecorder();
 	private boolean isRecording = false;
 	private JButton recordBtn;
 	private ImageIcon micOff;
 	private ImageIcon micOn;
 	private ImageIcon infoIcon;
-	private JLabel recordInfo;
+	public JLabel recordInfo;
 	public JButton launchSimulator;
-	private JTextField txtNumberOfButtons;
+	public JTextField txtNumberOfButtons;
+	public SpringLayout springLayout;
+	public JProgressBar progressBar;
+
 
 // Creating the Recorder sector of the TalkBox Configuration Application.
 	public Recorder() {
-		SpringLayout springLayout = new SpringLayout();
+		springLayout = new SpringLayout();
 		setLayout(springLayout);
 
-		JProgressBar progressBar = new JProgressBar();
+		progressBar = new JProgressBar();
 		springLayout.putConstraint(SpringLayout.WEST, progressBar, 70, SpringLayout.WEST, this);
 		springLayout.putConstraint(SpringLayout.SOUTH, progressBar, -34, SpringLayout.SOUTH, this);
 		springLayout.putConstraint(SpringLayout.EAST, progressBar, -69, SpringLayout.EAST, this);
@@ -111,12 +115,13 @@ public class Recorder extends JPanel {
 				//nothing
 			}
 		});	
+		
 	
 		txtNumberOfButtons.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent e) {
 				TalkBoxConfig.numAudButtons = Integer.parseInt(txtNumberOfButtons.getText());
-				
+
 			}
 		});
 		
@@ -155,5 +160,7 @@ public class Recorder extends JPanel {
 	private void resetRecordBtn() {
 		recordBtn.setIcon(micOff);
 		recordInfo.setText("Begin recording?");
+		//multiple recordings file name counter
+		SoundRecorder.counter++; 
 	}
 }
