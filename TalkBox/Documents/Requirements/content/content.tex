@@ -1,0 +1,119 @@
+\chapter{Introduction}
+\label{ch:intro}
+\section{Purpose}
+This document specifies the requirements of the TalkBox software system. TalkBox is a graphical user interface delivered in two subsystems. The first subsystem, the Simulator, provides users with an easy way to test the configuration and practice the usage of a TalkBox hardware device. The second subsystem, the Configurer, provides users with a simple interface for recording audio, organizing settings, and loading and saving settings for use with either the Simulator or a TalkBox hardware device.
+\section{Document Conventions}
+\section{Intended Audience and Reading Suggestions}
+This document targets developers, testers, managers, clients, and documentation writers. 
+
+Developers should read this document in full. Developers should approach from either a top-down or a bottom-up perspective. The top-down approach recommends reading linearly and following the document as it shifts from high-level to low-level. 
+The bottom-up approach recommends beginning with the \ref{System Features} and the \ref{Other Nonfunctional Requirements}  sections. Then the developer may choose to read the \ref{External Interface Requirements} before broadening out
+The low-level account details the expected features, both functional and non-functional. 
+
+\section{Product Scope}
+The TalkBox hardware device intends to provide a cost-effective way for speech-impaired individuals to communicate more effectively. The TalkBox device is configured using the Configurer of the TalkBox Software System. The Configurer must be easy to use for friends and family of a speech-impaired individual.
+\section{References}
+
+
+\chapter{Overall Description}
+\label{Overall Description}
+
+\section{Product Perspective}
+
+\section{Product Functions}
+
+
+\section{User Classes and Characteristics}
+The primary users of the TalkBox Software System are family and caretakers of speech-impaired individuals. These primary users are assumed minimally familiar with other software systems. They will use the system frequently and will use all product functions to ensure they provide their family or their charge with the best care.
+
+Secondary users may include friends or guests of the speech-impaired individual. These users will use the software occasionally and will need to quickly become familiar with its usage. Secondary users will use a core subset of the functions of the system.
+
+\section{Use Cases}
+ Use Case 1
+ 
+Use Case Name : Open TalkBox Configurer and load both permanent and and temporary configurations (eg those created when the Configurer crashes). \\ \\
+Subject Area :  TalkBox Configurer \\ \\
+Actors : Primary and secondary users that need to make small or extensive changes to the TalkBox configuration \\ \\
+Preconditions : This use case begins after an actor opens the TalkBox Configurer and after the Configurer loads any permanent and temporary configurations (eg those created when the Configurer crashes). \\  \\
+Success Criteria : This use case ends in success when the actor opens the Configurer and accurately loads TalkBox configuration (.tbc) files.\\
+Failure Criteria : This use case ends in failure if the TalkBox Configurer crashes or otherwise fails to open TalkBox configuration files. This use case also ends in failure if the opened TalkBox configuration is not loaded accurately in memory or corrupts the files on disk.  \\ \\
+
+\hline
+Use Case 2
+
+Use-Case Field : Description \\ \\
+Use Case Name : Organize and save multiple configurations for a TalkBox hardware device or TalkBox simulator \\ \\
+Subject Area : TalkBox Configurer \\ \\
+Actors : Primary users including family and caretakers of a speech-impaired individual \\ \\
+Preconditions : This use case begins after an actor opens the TalkBox Configurer and after the Configurer loads any permanent and temporary configurations (eg those created when the Configurer crashes). \\ \\
+Success Criteria : This use case ends in success when the actor edits the audio and name of multiple buttons in a TalkBox configuration and saves the configuration to disk. \\ \\
+Failure Criteria : This use case ends in failure when the TalkBox Configurer fails to allow a user to edit the audio or the name of a button. It also ends in failure if the Configurer crashes without saving a temporary file allowing the actor to recover unsaved changes. Lastly, this use case ends in failure if the configuration data is corrupted on disk when saving. \\ \\
+
+\hline
+Use Case 3
+
+Use-Case Field : Description \\ \\
+Use Case Name :  Load and test TalkBox configuration (.tbc) files in the simulator \\ \\
+Subject Area : TalkBox Simulator\\ \\
+Actors : Primary users including family and caretakers of a speech-impaired individual \\ \\
+Preconditions : This use case begins after an actor opens the TalkBox Simulator and loads either the default profile or a custom profile containing TalkBox configuration data. \\ \\
+Success Criteria : This use case ends in success when the actor loads a TalkBox configuration in the simulator accurately and is able to play back the correct audio with the correct button. The number of buttons and their names should also be as specified in the TalkBox configuration laoded. \\ \\
+Failure Criteria & This use case ends in failure when the user is unable to load the configuration data in the simulator or the data loaded is inaccurate. \\ \\
+
+\section{Acceptance Tests}
+Each use case will be tested separately. An acceptance test either passes or failures, there is no partial success. The use case success and failure criteria above will be tested manually by following a set of scripted actions that tests the common ways in which a use case may play out.
+
+
+\section{Operating Environment}
+The TalkBox Software System uses Java and the Java Virtual Machine. The TalkBox Software System will run on any operating system that can run version 1.8 or higher of the Java Virtual Machine. The TalkBox Software System required hardware with sufficient power. 
+
+Sufficient Power: TODO
+
+\section{Design and Implementation Constraints}
+The TalkBox hardware device will run Java software on the Java Virtual Machine. The hardware device will deserialize a Java object byte stream. The object byte stream will be stored in a file by the Configurer and transfered to the file system of the Raspberry Pi connected to the hardware device.
+
+\section{User Documentation}
+The system will package a User Manual in Portable Document Format (PDF).
+\section{Assumptions and Dependencies}
+
+\newpage
+
+
+
+
+\chapter{External Interface Requirements}
+\label{External Interface Requirements}
+
+\section{User Interfaces}
+\section{Hardware Interfaces}
+\section{Software Interfaces}
+\section{Communications Interfaces}
+
+
+\chapter{System Features}
+\label{System Features}
+
+\section{System Feature 1}
+
+
+\chapter{Other Nonfunctional Requirements}
+\label{Other Nonfunctional Requirements}
+
+\section{Performance Requirements}
+\section{Safety Requirements}
+\section{Security Requirements}
+\section{Software Quality Attributes}
+\section{Business Rules}
+
+\chapter{Other Requirements}
+\label{Other Requirements}
+
+\begin{appendices}
+\chapter{Glossary}
+\chapter{Analysis Models}
+\chapter{To Be Determined List}
+
+
+\end{appendices}
+
+
