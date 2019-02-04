@@ -2,6 +2,7 @@ package config.talkbox;
 
 
 import java.awt.EventQueue;
+import java.awt.Frame;
 import java.nio.file.Path;
 
 import javax.swing.JFrame;
@@ -57,11 +58,9 @@ public class TalkBoxConfig extends JFrame {
 		controlsProfileSplit = new ControlsProfileSplit(width, height); //constructs the entire configuration app in ControlsProfileSplit class.
 		
 		setupFrame();
+		
 	}
 
-	
-	
-	
 	
 	private void setupFrame() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

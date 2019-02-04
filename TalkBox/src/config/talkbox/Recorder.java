@@ -121,7 +121,8 @@ public class Recorder extends JPanel {
 			
 			public void actionPerformed(ActionEvent e) {
 				TalkBoxConfig.numAudButtons = Integer.parseInt(txtNumberOfButtons.getText());
-
+				TalkBoxConfig g = new TalkBoxConfig();
+				g.setVisible(true);
 			}
 		});
 		
