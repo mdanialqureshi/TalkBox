@@ -9,6 +9,8 @@ import java.awt.event.FocusListener;
 import javax.sound.sampled.LineUnavailableException;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileSystemView;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
@@ -33,6 +35,8 @@ public class Recorder extends JPanel {
 	public JTextField txtNumberOfButtons;
 	public SpringLayout springLayout;
 	public JProgressBar progressBar;
+	public static JFileChooser fileChooser;
+	public static String filePath;
 
 
 // Creating the Recorder sector of the TalkBox Configuration Application.
@@ -128,12 +132,30 @@ public class Recorder extends JPanel {
 		
 	}
 	
+	public static void JFileChooserSave() {
+		 fileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+			fileChooser.setDialogTitle("Choose a directory to save your file: ");
+			fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+			 fileChooser.setVisible(true);
+			// int returnValue = fileChooser.showOpenDialog(null);
+				int returnValue = fileChooser.showSaveDialog(null);
+
+				if (returnValue == JFileChooser.APPROVE_OPTION) {
+					filePath = fileChooser.getSelectedFile().toString();
+					System.out.println(filePath);
+				}
+	}
+
+	
+	
+	
 	
 	private void recordAudio() {
 		if (isRecording) {
 			recorder.finish();
 			resetRecordBtn();
 			isRecording = false;
+			Recorder.JFileChooserSave();
 		} else {
 			Thread stopper = new Thread(new Runnable() {
 				public void run() {

@@ -33,9 +33,15 @@ public class SoundRecorder {
 	}
 
 	void start() throws LineUnavailableException {
+		
+	//	if(counter == 0) {
 		wavFile = new File("bin/TalkBoxData/audio/" + counter + ".wav");
 		createFile();
-
+//		}else {
+//			wavFile = new File(Recorder.filePath + counter + ".wav");
+//			createFile();
+//		}
+//		
 		try {
 			AudioFormat format = getAudioFormat();
 			DataLine.Info info = new DataLine.Info(TargetDataLine.class, format);
@@ -63,7 +69,6 @@ public class SoundRecorder {
 
 	private void createFile() {
 		try {
-			wavFile.getParentFile().mkdirs();
 			wavFile.createNewFile();
 		} catch (IOException e) {
 			e.printStackTrace();
