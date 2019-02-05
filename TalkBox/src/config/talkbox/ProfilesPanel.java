@@ -19,6 +19,8 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
+import sim.talkbox.TalkBoxDeserializer;
+
 public class ProfilesPanel extends JPanel {
 	final JFileChooser fc;
 
@@ -53,7 +55,7 @@ public class ProfilesPanel extends JPanel {
 		JScrollPane profiles = new JScrollPane(list);
 		profiles.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		profiles.setViewportBorder(new LineBorder(Color.GRAY));
-		profiles.setBounds(24, 93, 261, 375);
+		profiles.setBounds(25, 93, 260, 375);
 		add(profiles);
 
 		// Profiles search
@@ -67,30 +69,45 @@ public class ProfilesPanel extends JPanel {
 
 		// Buttons
 		JButton saveProf = new JButton("Save Profile");
-		saveProf.setBounds(24, 470, 114, 33);
+		saveProf.setBounds(164, 505, 110, 30);
 		saveProf.setHorizontalAlignment(SwingConstants.CENTER);
 		saveProf.setVerticalAlignment(SwingConstants.CENTER);
 		add(saveProf);
 		saveProf.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				openFileDialog();
+				openSaveFileDialog();
 			}
 		});
 
-		JButton createProf = new JButton("Create New Profile");
-		createProf.setBounds(68, 503, 141, 33);
-		createProf.setHorizontalAlignment(SwingConstants.CENTER);
-		createProf.setVerticalAlignment(SwingConstants.CENTER);
-		add(createProf);
+		JButton loadProf = new JButton("Load Profile");
+		loadProf.setBounds(30, 470, 110, 30);
+		loadProf.setHorizontalAlignment(SwingConstants.CENTER);
+		loadProf.setVerticalAlignment(SwingConstants.CENTER);
+		add(loadProf);
+		loadProf.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				openLoadFileDialog();
+			}
+		});
+
+		JButton newProf = new JButton("New Profile");
+		newProf.setBounds(164, 470, 110, 30);
+		newProf.setHorizontalAlignment(SwingConstants.CENTER);
+		newProf.setVerticalAlignment(SwingConstants.CENTER);
+		add(newProf);
 
 		JButton delProf = new JButton("Delete Profile");
-		delProf.setBounds(139, 470, 132, 33);
+		delProf.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		delProf.setBounds(30, 505, 110, 30);
 		delProf.setHorizontalAlignment(SwingConstants.CENTER);
 		delProf.setVerticalAlignment(SwingConstants.CENTER);
 		add(delProf);
 	}
 
-	protected void openFileDialog() {
+	protected void openSaveFileDialog() {
 		int returnVal = fc.showSaveDialog(this);
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			File talkBoxDataPath = fc.getSelectedFile();
@@ -98,4 +115,11 @@ public class ProfilesPanel extends JPanel {
 		}
 	}
 
+	protected void openLoadFileDialog() {
+		int returnVal = fc.showOpenDialog(this);
+		if (returnVal == JFileChooser.APPROVE_OPTION) {
+			File talkBoxDataPath = fc.getSelectedFile();
+			TalkBoxDeserializer tbds = new TalkBoxDeserializer(talkBoxDataPath);
+		}
+	}
 }

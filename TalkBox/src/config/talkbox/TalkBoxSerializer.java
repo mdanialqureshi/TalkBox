@@ -19,15 +19,19 @@ public class TalkBoxSerializer implements TalkBoxConfiguration, Serializable {
 	File talkBoxDataPath;
 	File talkBoxData;
 
-	public TalkBoxSerializer(File talkBoxDataPath) {
-		this.talkBoxDataPath = talkBoxDataPath;
-		this.talkBoxData = new File(talkBoxDataPath + "/TalkBoxData.tbc");
-
+	public TalkBoxSerializer() {
 		numAudioButtons = TalkBoxConfig.numAudButtons;
 		numAudioSets = TalkBoxConfig.numAudSets;
 		numSwapButtons = TalkBoxConfig.numSwapButtons;
 		path = TalkBoxConfig.path;
 		audioFileNames = TalkBoxConfig.audFileNames;
+	}
+
+	public TalkBoxSerializer(File talkBoxDataPath) {
+		this();
+
+		this.talkBoxDataPath = talkBoxDataPath;
+		this.talkBoxData = new File(talkBoxDataPath + "/TalkBoxData.tbc");
 
 		try {
 			talkBoxData.getParentFile().mkdirs();
