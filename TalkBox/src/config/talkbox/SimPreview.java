@@ -46,70 +46,76 @@ public class SimPreview extends JPanel {
 		
 		//Get number of audio buttons from TalkBoxDeserializer 
 		
+
 		int numOfButtons = TalkBoxConfig.numAudButtons;
-				
-				//fields to help add correct amount of buttons with respect to size of JFrame of simulator. 
-				int trackColumns = 0;
-				int trackRows = 0;
-				
-				//loop to create buttons
-
-				if(numOfButtons < 19 && numOfButtons > 0 ) {
-					
-				for(int i = 0; i < numOfButtons; i++) {	
-
-					if(20 + ((i+1 - trackColumns)*150) > TalkBoxSim.frameWidth && (80 + trackRows) < TalkBoxSim.frameHeight) {
-						trackColumns += 6;
-						trackRows += 80;
-						}
-					
-					if(20 + ((i+1 - trackColumns)*150) < TalkBoxSim.frameWidth && (80 + trackRows) < TalkBoxSim.frameHeight) { //+1 to account for checking LAST Jbutton that fits in Frame
-						buttons.add(new JButton("" + (i+1)));
-						buttons.get(i).setBounds(20 + ((i-trackColumns)*150), 100 + trackRows, 140, 70);
-						buttons.get(i).setFont(new Font("Chalkboard", Font.PLAIN, 25));
-						add(buttons.get(i));
-					} 
-				}
-				
-				}else if(numOfButtons > 0) { //if user wants more then 18 buttons
-					for(int i = 0; i < numOfButtons; i++) {	
-						/*check if buttons will fit in frame going left to right if not go to next row in frame
-						 * i -11 each row b/c 11 buttons per row. 
-						 */
-						if(20 + ((i+1 - trackColumns)*80) > TalkBoxSim.frameWidth && (80 + trackRows) < TalkBoxSim.frameHeight) {
-							trackColumns += 11;
-							trackRows += 40;
-							}
-						
-						if(20 + ((i+1 - trackColumns)*80) < TalkBoxSim.frameWidth && (80 + trackRows) < TalkBoxSim.frameHeight) { //+1 to account for checking LAST JButton that fits in Frame
-							buttons.add(new JButton("" + (i+1)));
-							buttons.get(i).setBounds(20 + ((i-trackColumns)*80), 80 + trackRows , 80, 40);
-							buttons.get(i).setFont(new Font("Chalkboard", Font.PLAIN, 25));
-							add(buttons.get(i));
-						}	
-				}
-				}
-				
-		//adding audio functionality to some of the buttons 
 		
+		//fields to help add correct amount of buttons with respect to size of JFrame of simulator. 
+		int trackColumns = 0;
+		int trackRows = 0;
+		
+		//loop to create buttons
+
+		if(numOfButtons < 19 && numOfButtons > 0 ) {
+			
+		for(int i = 0; i < numOfButtons; i++) {	
+
+			if(20 + ((i+1 - trackColumns)*150) > TalkBoxSim.frameWidth && (80 + trackRows) < TalkBoxSim.frameHeight) {
+				trackColumns += 6;
+				trackRows += 80;
+				}
+			
+			if(20 + ((i+1 - trackColumns)*150) < TalkBoxSim.frameWidth && (80 + trackRows) < TalkBoxSim.frameHeight) { //+1 to account for checking LAST Jbutton that fits in Frame
+				buttons.add(new JButton("" + (i+1)));
+				buttons.get(i).setBounds(20 + ((i-trackColumns)*150), 100 + trackRows, 140, 70);
+				buttons.get(i).setFont(new Font("Chalkboard", Font.PLAIN, 25));
+				add(buttons.get(i));
+			} 
+		}
+
+		
+		}else if(numOfButtons > 0) { //if user wants more then 18 buttons
+			for(int i = 0; i < numOfButtons; i++) {	
+				/*check if buttons will fit in frame going left to right if not go to next row in frame
+				 * i -11 each row b/c 11 buttons per row. 
+				 */
+				if(20 + ((i+1 - trackColumns)*80) > TalkBoxSim.frameWidth && (80 + trackRows) < TalkBoxSim.frameHeight) {
+					trackColumns += 11;
+					trackRows += 40;
+					}
+				
+				if(20 + ((i+1 - trackColumns)*80) < TalkBoxSim.frameWidth && (80 + trackRows) < TalkBoxSim.frameHeight) { //+1 to account for checking LAST JButton that fits in Frame
+					buttons.add(new JButton("" + (i+1)));
+					buttons.get(i).setBounds(20 + ((i-trackColumns)*80), 80 + trackRows , 80, 40);
+					buttons.get(i).setFont(new Font("Chalkboard", Font.PLAIN, 25));
+					add(buttons.get(i));
+				}	
+		}
+		}
+		
+		
+		//adding audio functionality to some of the buttons 
 		buttons.get(0).addActionListener(new ActionListener() {
 			// button 1 has an actionListener which calls PlaySound Method and plays sound
 			// of the file. (When button is clicked)
 			public void actionPerformed(ActionEvent e) {
-				String helloFile = "hello.wav";
-				playSound(helloFile);
+				//String helloFile = "hello.wav";
+				playSound(TalkBoxConfig.audFileNames[0][0]);
 			}
-
 		});	
+		
+		
+		
 		buttons.get(1).addActionListener(new ActionListener() {
 			// button 2 has an actionListener which calls PlaySound Method and plays sound
 			// of the file. (When button is clicked)
 			public void actionPerformed(ActionEvent e) {
-				playSound("bye.wav"); // file name must be passed in as a String parameter.
+				playSound(TalkBoxConfig.audFileNames[0][1]); // file name must be passed in as a String parameter.
 			}
 		});
+		
+		
+		
 	}
-	
 
 	/**
 	 * ActionListeners of the buttons call playSound() method which plays the sound
@@ -122,7 +128,7 @@ public class SimPreview extends JPanel {
 	
 	public void playSound(String soundName) {
 		try {
-			File file = new File(this.getClass().getResource("/" + soundName).getFile()); // gets the file from its
+			File file = new File("bin/TalkBoxData/audio/" + soundName); // gets the file from its
 																							// package using file name
 			Clip clip = AudioSystem.getClip();
 			clip.open(AudioSystem.getAudioInputStream(file));
