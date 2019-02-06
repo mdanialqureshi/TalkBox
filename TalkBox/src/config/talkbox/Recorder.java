@@ -37,6 +37,7 @@ public class Recorder extends JPanel {
 	public JProgressBar progressBar;
 	public static JFileChooser fileChooser;
 	public static String filePath;
+	private JButton btnButton;
 
 
 // Creating the Recorder sector of the TalkBox Configuration Application.
@@ -78,6 +79,7 @@ public class Recorder extends JPanel {
 		springLayout.putConstraint(SpringLayout.SOUTH, recordInfo, 26, SpringLayout.SOUTH, recordBtn);
 		add(recordInfo);
 		
+
 		/*
 		 * launching the simulator from the configuration application
 		 */
@@ -109,6 +111,13 @@ public class Recorder extends JPanel {
 		springLayout.putConstraint(SpringLayout.EAST, txtNumberOfButtons, -34, SpringLayout.EAST, this);
 		add(txtNumberOfButtons);
 		txtNumberOfButtons.setColumns(10);
+		
+		PlayEditToggle toggle = new PlayEditToggle();
+		springLayout.putConstraint(SpringLayout.NORTH, toggle, 10, SpringLayout.NORTH, this);
+		springLayout.putConstraint(SpringLayout.WEST, toggle, 0, SpringLayout.WEST, launchSimulator);
+		springLayout.putConstraint(SpringLayout.SOUTH, toggle, 62, SpringLayout.NORTH, this);
+		springLayout.putConstraint(SpringLayout.EAST, toggle, 0, SpringLayout.EAST, launchSimulator);
+		add(toggle);
 		
 		txtNumberOfButtons.addFocusListener(new FocusListener() {
 
@@ -144,6 +153,7 @@ public class Recorder extends JPanel {
 					filePath = fileChooser.getSelectedFile().toString();
 					System.out.println(filePath);
 				}
+
 	}
 
 	

@@ -15,8 +15,6 @@ public class TalkBoxSim extends JFrame {
 	public static final int frameWidth = 950;
 	public static final int frameHeight = 500;
 
-
-
 	/**
 	 * Launch the application.
 	 */

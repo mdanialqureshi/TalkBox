@@ -44,6 +44,7 @@ public class ButtonPanel extends JPanel {
 		
 		//Get number of audio buttons from TalkBoxDeserializer 
 		
+
 		int numOfButtons = getInfo.getNumberOfAudioButtons();
 		
 		//fields to help add correct amount of buttons with respect to size of JFrame of simulator. 
@@ -68,6 +69,7 @@ public class ButtonPanel extends JPanel {
 				add(buttons.get(i));
 			} 
 		}
+
 		
 		}else if(numOfButtons > 0) { //if user wants more then 18 buttons
 			for(int i = 0; i < numOfButtons; i++) {	
