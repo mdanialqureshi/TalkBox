@@ -13,7 +13,7 @@ public class TalkBoxSim extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	public static final int frameWidth = 950;
-
+	public static final int frameHeight = 500;
 
 	/**
 	 * Launch the application.

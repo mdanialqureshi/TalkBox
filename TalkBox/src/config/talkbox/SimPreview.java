@@ -47,29 +47,49 @@ public class SimPreview extends JPanel {
 		//Get number of audio buttons from TalkBoxDeserializer 
 		
 		int numOfButtons = TalkBoxConfig.numAudButtons;
-		
-		//loop to create buttons
-		
-		for(int i = 0; i < numOfButtons; i++) {	
-			//check if buttons will fit in frame going left to right if not go to next row in frame
-			if(20 + ((i+1)*150) < TalkBoxSim.frameWidth) { //+1 to account for checking LAST Jbutton that fits in Frame
-				buttons.add(new JButton("Button " + (i+1)));
-				buttons.get(i).setBounds(20 + (i*150), 100, 140, 70);
-				buttons.get(i).setFont(new Font("Chalkboard", Font.PLAIN, 25));
-				add(buttons.get(i));
-			} else if(20 + ((i-5)*150) < TalkBoxSim.frameWidth) { //-5 because (i-6)+1
-				buttons.add(new JButton("Button " + (i+1)));
-				buttons.get(i).setBounds(20 + ((i-6)*150), 180, 140, 70); //(i-6) because starting a new row
-				buttons.get(i).setFont(new Font("Chalkboard", Font.PLAIN, 25));
-				add(buttons.get(i));
-			} else if(20 + ((i-11)*150) < TalkBoxSim.frameWidth) {
-				buttons.add(new JButton("Button " + (i+1)));
-				buttons.get(i).setBounds(20 + ((i-12)*150), 260, 140, 70); //(i-12) because starting a new row
-				buttons.get(i).setFont(new Font("Chalkboard", Font.PLAIN, 25));
-				add(buttons.get(i));
-			}	
-			// editLabel(buttons.get(i)); SET EDIT FUNCTION TO ALL BUTTONS 
-		}
+				
+				//fields to help add correct amount of buttons with respect to size of JFrame of simulator. 
+				int trackColumns = 0;
+				int trackRows = 0;
+				
+				//loop to create buttons
+
+				if(numOfButtons < 19 && numOfButtons > 0 ) {
+					
+				for(int i = 0; i < numOfButtons; i++) {	
+
+					if(20 + ((i+1 - trackColumns)*150) > TalkBoxSim.frameWidth && (80 + trackRows) < TalkBoxSim.frameHeight) {
+						trackColumns += 6;
+						trackRows += 80;
+						}
+					
+					if(20 + ((i+1 - trackColumns)*150) < TalkBoxSim.frameWidth && (80 + trackRows) < TalkBoxSim.frameHeight) { //+1 to account for checking LAST Jbutton that fits in Frame
+						buttons.add(new JButton("" + (i+1)));
+						buttons.get(i).setBounds(20 + ((i-trackColumns)*150), 100 + trackRows, 140, 70);
+						buttons.get(i).setFont(new Font("Chalkboard", Font.PLAIN, 25));
+						add(buttons.get(i));
+					} 
+				}
+				
+				}else if(numOfButtons > 0) { //if user wants more then 18 buttons
+					for(int i = 0; i < numOfButtons; i++) {	
+						/*check if buttons will fit in frame going left to right if not go to next row in frame
+						 * i -11 each row b/c 11 buttons per row. 
+						 */
+						if(20 + ((i+1 - trackColumns)*80) > TalkBoxSim.frameWidth && (80 + trackRows) < TalkBoxSim.frameHeight) {
+							trackColumns += 11;
+							trackRows += 40;
+							}
+						
+						if(20 + ((i+1 - trackColumns)*80) < TalkBoxSim.frameWidth && (80 + trackRows) < TalkBoxSim.frameHeight) { //+1 to account for checking LAST JButton that fits in Frame
+							buttons.add(new JButton("" + (i+1)));
+							buttons.get(i).setBounds(20 + ((i-trackColumns)*80), 80 + trackRows , 80, 40);
+							buttons.get(i).setFont(new Font("Chalkboard", Font.PLAIN, 25));
+							add(buttons.get(i));
+						}	
+				}
+				}
+				
 		//adding audio functionality to some of the buttons 
 		
 		buttons.get(0).addActionListener(new ActionListener() {
