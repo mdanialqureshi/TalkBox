@@ -40,10 +40,9 @@ public class SimPreview extends JPanel {
 		add(simTitle, BorderLayout.PAGE_START);
 
 		buttonsPanel = new JPanel();
-		buttonsPanel.setPreferredSize(new Dimension(900, 100));
 		buttonsPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		buttonsPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 8, 8));
-		add(buttonsPanel, BorderLayout.CENTER);
+		add(buttonsPanel);
 		// Get number of audio buttons from TalkBoxDeserializer
 		nButtons = TalkBoxConfig.numAudButtons;
 		setupButtons();
