@@ -100,15 +100,20 @@ public class SimPreview extends JPanel {
 	 */
 
 	private void setupButtons() {
-		for (int i = nButtonsPrev; i < nButtons; i++) {
-			buttons.add(new JButton("" + (i + 1)));
-			JButton btn = buttons.get(i);
-			btn.setVerticalAlignment(SwingConstants.BOTTOM);
-			btn.setFont(new Font("Chalkboard", Font.PLAIN, 25));
-			btn.setPreferredSize(new Dimension(70,40));
-			add(btn);
+		if (nButtons < nButtonsPrev) {
+			for (int i = nButtonsPrev - 1; i >= nButtons; i--) {
+				remove(buttons.get(i));
+			}
+		} else {
+			for (int i = nButtonsPrev; i < nButtons; i++) {
+				buttons.add(new JButton("" + (i + 1)));
+				JButton btn = buttons.get(i);
+				btn.setVerticalAlignment(SwingConstants.BOTTOM);
+				btn.setFont(new Font("Chalkboard", Font.PLAIN, 25));
+				btn.setPreferredSize(new Dimension(70, 40));
+				add(btn);
+			}
 		}
-
 		nButtonsPrev = nButtons;
 	}
 
