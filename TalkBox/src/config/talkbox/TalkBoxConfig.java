@@ -9,7 +9,7 @@ import javax.swing.JSplitPane;
 
 public class TalkBoxConfig extends JFrame {
 
-	private static final Dimension MINIMUM_SIZE = new Dimension(640, 580);
+	private static final Dimension MINIMUM_SIZE = new Dimension(860, 580);
 
 	/**
 	 * 

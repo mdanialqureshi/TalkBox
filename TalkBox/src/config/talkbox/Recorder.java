@@ -44,7 +44,7 @@ public class Recorder extends JPanel {
 		springLayout = new SpringLayout();
 		setLayout(springLayout);
 		setMinimumSize(new Dimension(300, 200));
-		
+
 		progressBar = new JProgressBar();
 		springLayout.putConstraint(SpringLayout.WEST, progressBar, 70, SpringLayout.WEST, this);
 		springLayout.putConstraint(SpringLayout.SOUTH, progressBar, -40, SpringLayout.SOUTH, this);
@@ -53,9 +53,9 @@ public class Recorder extends JPanel {
 
 		recordBtn = new JButton();
 		springLayout.putConstraint(SpringLayout.NORTH, recordBtn, -207, SpringLayout.NORTH, progressBar);
-		springLayout.putConstraint(SpringLayout.WEST, recordBtn, 365, SpringLayout.WEST, this);
+		springLayout.putConstraint(SpringLayout.HORIZONTAL_CENTER, recordBtn, 0, SpringLayout.HORIZONTAL_CENTER,
+				progressBar);
 		springLayout.putConstraint(SpringLayout.SOUTH, recordBtn, -57, SpringLayout.NORTH, progressBar);
-		springLayout.putConstraint(SpringLayout.EAST, recordBtn, 515, SpringLayout.WEST, this);
 		recordBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				recordAudio();
@@ -73,8 +73,8 @@ public class Recorder extends JPanel {
 		infoIcon = new ImageIcon("images/info-icon.png");
 		recordInfo = new JLabel("Begin recording?", SwingConstants.CENTER);
 		recordInfo.setIcon(infoIcon);
-		springLayout.putConstraint(SpringLayout.WEST, recordInfo, 345, SpringLayout.WEST, this);
-		springLayout.putConstraint(SpringLayout.EAST, recordInfo, 20, SpringLayout.EAST, recordBtn);
+		springLayout.putConstraint(SpringLayout.HORIZONTAL_CENTER, recordInfo, 0, SpringLayout.HORIZONTAL_CENTER,
+				recordBtn);
 		springLayout.putConstraint(SpringLayout.NORTH, recordInfo, 6, SpringLayout.SOUTH, recordBtn);
 		springLayout.putConstraint(SpringLayout.SOUTH, recordInfo, 26, SpringLayout.SOUTH, recordBtn);
 		add(recordInfo);
