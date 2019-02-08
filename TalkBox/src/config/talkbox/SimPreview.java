@@ -1,120 +1,69 @@
 package config.talkbox;
 
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.SpringLayout;
-import javax.swing.SwingConstants;
-import javax.swing.border.EmptyBorder;
-
-import sim.talkbox.TalkBoxDeserializer;
-import sim.talkbox.TalkBoxSim;
-
-import javax.swing.JProgressBar;
-import java.awt.Button;
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Scanner;
+
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
 
 public class SimPreview extends JPanel {
-	
+
 	private static final long serialVersionUID = 1L;
-	
+
 	static ArrayList<JButton> buttons = new ArrayList<JButton>();
-	
+	int nButtons;
+	int nButtonsPrev = 0;
+
 	public SimPreview() {
 		setBackground(Color.DARK_GRAY);
 		setBorder(new EmptyBorder(5, 5, 5, 5));
-		setLayout(null);
+		setLayout(new FlowLayout(FlowLayout.LEFT, 20, 20));
 
 		JLabel TalkBoxLabel = new JLabel("TalkBox");
-		TalkBoxLabel.setBounds(370, 21, 177, 64);
+		TalkBoxLabel.setPreferredSize(new Dimension(900, 100));
 		TalkBoxLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		TalkBoxLabel.setVerticalAlignment(SwingConstants.TOP);
 		TalkBoxLabel.setFont(new Font("Chalkboard", Font.PLAIN, 50));
 		TalkBoxLabel.setForeground(Color.WHITE);
-
-		TalkBoxLabel.setVerticalAlignment(SwingConstants.TOP);
 		add(TalkBoxLabel);
-		
-		//Get number of audio buttons from TalkBoxDeserializer 
-		
 
-		int numOfButtons = TalkBoxConfig.numAudButtons;
-		
-		//fields to help add correct amount of buttons with respect to size of JFrame of simulator. 
-		int trackColumns = 0;
-		int trackRows = 0;
-		
-		//loop to create buttons
+		// Get number of audio buttons from TalkBoxDeserializer
+		nButtons = TalkBoxConfig.numAudButtons;
+		setupButtons();
+		addButtonAudio();
+	}
 
-		if(numOfButtons < 19 && numOfButtons > 0 ) {
-			
-		for(int i = 0; i < numOfButtons; i++) {	
-
-			if(20 + ((i+1 - trackColumns)*150) > TalkBoxSim.frameWidth && (80 + trackRows) < TalkBoxSim.frameHeight) {
-				trackColumns += 6;
-				trackRows += 80;
+	public void addButtonAudio() {
+		if (buttons.size() >= 2) {
+			// adding audio functionality to some of the buttons
+			buttons.get(0).addActionListener(new ActionListener() {
+				// button 1 has an actionListener which calls PlaySound Method and plays sound
+				// of the file. (When button is clicked)
+				public void actionPerformed(ActionEvent e) {
+					// String helloFile = "hello.wav";
+					playSound(TalkBoxConfig.audFileNames[0][0]);
 				}
-			
-			if(20 + ((i+1 - trackColumns)*150) < TalkBoxSim.frameWidth && (80 + trackRows) < TalkBoxSim.frameHeight) { //+1 to account for checking LAST Jbutton that fits in Frame
-				buttons.add(new JButton("" + (i+1)));
-				buttons.get(i).setBounds(20 + ((i-trackColumns)*150), 100 + trackRows, 140, 70);
-				buttons.get(i).setFont(new Font("Chalkboard", Font.PLAIN, 25));
-				add(buttons.get(i));
-			} 
-		}
+			});
 
-		
-		}else if(numOfButtons > 0) { //if user wants more then 18 buttons
-			for(int i = 0; i < numOfButtons; i++) {	
-				/*check if buttons will fit in frame going left to right if not go to next row in frame
-				 * i -11 each row b/c 11 buttons per row. 
-				 */
-				if(20 + ((i+1 - trackColumns)*80) > TalkBoxSim.frameWidth && (80 + trackRows) < TalkBoxSim.frameHeight) {
-					trackColumns += 11;
-					trackRows += 40;
-					}
-				
-				if(20 + ((i+1 - trackColumns)*80) < TalkBoxSim.frameWidth && (80 + trackRows) < TalkBoxSim.frameHeight) { //+1 to account for checking LAST JButton that fits in Frame
-					buttons.add(new JButton("" + (i+1)));
-					buttons.get(i).setBounds(20 + ((i-trackColumns)*80), 80 + trackRows , 80, 40);
-					buttons.get(i).setFont(new Font("Chalkboard", Font.PLAIN, 25));
-					add(buttons.get(i));
-				}	
+			buttons.get(1).addActionListener(new ActionListener() {
+				// button 2 has an actionListener which calls PlaySound Method and plays sound
+				// of the file. (When button is clicked)
+				public void actionPerformed(ActionEvent e) {
+					playSound(TalkBoxConfig.audFileNames[0][1]); // file name must be passed in as a String parameter.
+				}
+			});
 		}
-		}
-		
-		
-		//adding audio functionality to some of the buttons 
-		buttons.get(0).addActionListener(new ActionListener() {
-			// button 1 has an actionListener which calls PlaySound Method and plays sound
-			// of the file. (When button is clicked)
-			public void actionPerformed(ActionEvent e) {
-				//String helloFile = "hello.wav";
-				playSound(TalkBoxConfig.audFileNames[0][0]);
-			}
-		});	
-		
-		
-		
-		buttons.get(1).addActionListener(new ActionListener() {
-			// button 2 has an actionListener which calls PlaySound Method and plays sound
-			// of the file. (When button is clicked)
-			public void actionPerformed(ActionEvent e) {
-				playSound(TalkBoxConfig.audFileNames[0][1]); // file name must be passed in as a String parameter.
-			}
-		});
-		
-		
-		
 	}
 
 	/**
@@ -125,11 +74,10 @@ public class SimPreview extends JPanel {
 	 * @param soundName name of audio file associated with the respective button
 	 */
 
-	
 	public void playSound(String soundName) {
 		try {
 			File file = new File("bin/TalkBoxData/audio/" + soundName); // gets the file from its
-																							// package using file name
+																		// package using file name
 			Clip clip = AudioSystem.getClip();
 			clip.open(AudioSystem.getAudioInputStream(file));
 			clip.start(); // allows audio clip to be played
@@ -137,17 +85,37 @@ public class SimPreview extends JPanel {
 			System.err.println(e.getMessage()); // Respective error message is output onto the console
 		}
 	}
-	
-	/*public static void editLabel(JButton b) {
-		b.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				    JFrame frame = new JFrame();
-				    String input = JOptionPane.showInputDialog(frame, "Enter button label: ");
-				    b.setText(input);
-				    
-			}
-		
-		});
-		
-	}*/
+
+	/*
+	 * public static void editLabel(JButton b) { b.addActionListener(new
+	 * ActionListener() { public void actionPerformed(ActionEvent e) { JFrame frame
+	 * = new JFrame(); String input = JOptionPane.showInputDialog(frame,
+	 * "Enter button label: "); b.setText(input);
+	 * 
+	 * }
+	 * 
+	 * });
+	 * 
+	 * }
+	 */
+
+	private void setupButtons() {
+		for (int i = nButtonsPrev; i < nButtons; i++) {
+			buttons.add(new JButton("" + (i + 1)));
+			JButton btn = buttons.get(i);
+			btn.setVerticalAlignment(SwingConstants.BOTTOM);
+			btn.setFont(new Font("Chalkboard", Font.PLAIN, 25));
+			btn.setPreferredSize(new Dimension(70,40));
+			add(btn);
+		}
+
+		nButtonsPrev = nButtons;
+	}
+
+	public void updateButtons(int nButtons) {
+		this.nButtons = nButtons;
+		setupButtons();
+		revalidate();
+		repaint();
+	}
 }

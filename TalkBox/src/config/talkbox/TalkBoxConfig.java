@@ -69,4 +69,8 @@ public class TalkBoxConfig extends JFrame {
 		this.setContentPane(controlsProfileSplit); //after all components are constructed by other classes it adds the 'master' JSplitPane to the JFrame.
 		//ConstrolsPorfileSplit class extends JSplitPane
 	}
+	public void setNumAudButtons(int numAudButtons) {
+		TalkBoxConfig.numAudButtons = numAudButtons;
+		
+	}
 }

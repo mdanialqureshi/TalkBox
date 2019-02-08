@@ -39,7 +39,6 @@ public class Recorder extends JPanel {
 	public static String filePath;
 	private JButton btnButton;
 
-
 // Creating the Recorder sector of the TalkBox Configuration Application.
 	public Recorder() {
 		springLayout = new SpringLayout();
@@ -78,29 +77,27 @@ public class Recorder extends JPanel {
 		springLayout.putConstraint(SpringLayout.NORTH, recordInfo, 6, SpringLayout.SOUTH, recordBtn);
 		springLayout.putConstraint(SpringLayout.SOUTH, recordInfo, 26, SpringLayout.SOUTH, recordBtn);
 		add(recordInfo);
-		
 
 		/*
 		 * launching the simulator from the configuration application
 		 */
 		launchSimulator = new JButton("Launch Simulator");
-		
+
 		springLayout.putConstraint(SpringLayout.NORTH, launchSimulator, 178, SpringLayout.NORTH, this);
 		springLayout.putConstraint(SpringLayout.WEST, launchSimulator, 23, SpringLayout.WEST, this);
 		springLayout.putConstraint(SpringLayout.SOUTH, launchSimulator, -6, SpringLayout.NORTH, progressBar);
 		springLayout.putConstraint(SpringLayout.EAST, launchSimulator, 173, SpringLayout.WEST, this);
 		add(launchSimulator);
-		
+
 		launchSimulator.addActionListener(new ActionListener() {
-			
+
 			public void actionPerformed(ActionEvent e) {
 
 				TalkBoxSim.main(new String[] {});
-				
+
 			}
-			});
-		
-		
+		});
+
 		/*
 		 * adding textfeild to allow user to change the number of buttons
 		 */
@@ -111,55 +108,50 @@ public class Recorder extends JPanel {
 		springLayout.putConstraint(SpringLayout.EAST, txtNumberOfButtons, -34, SpringLayout.EAST, this);
 		add(txtNumberOfButtons);
 		txtNumberOfButtons.setColumns(10);
-		
+
 		PlayEditToggle toggle = new PlayEditToggle();
 		springLayout.putConstraint(SpringLayout.NORTH, toggle, 10, SpringLayout.NORTH, this);
 		springLayout.putConstraint(SpringLayout.WEST, toggle, 0, SpringLayout.WEST, launchSimulator);
 		springLayout.putConstraint(SpringLayout.SOUTH, toggle, 62, SpringLayout.NORTH, this);
 		springLayout.putConstraint(SpringLayout.EAST, toggle, 0, SpringLayout.EAST, launchSimulator);
 		add(toggle);
-		
+
 		txtNumberOfButtons.addFocusListener(new FocusListener() {
 
 			public void focusGained(FocusEvent e) {
-		        txtNumberOfButtons.setText("");
+				txtNumberOfButtons.setText("");
 			}
+
 			public void focusLost(FocusEvent e) {
-				//nothing
-			}
-		});	
-		
-	
-		txtNumberOfButtons.addActionListener(new ActionListener() {
-			
-			public void actionPerformed(ActionEvent e) {
-				TalkBoxConfig.numAudButtons = Integer.parseInt(txtNumberOfButtons.getText());
+				// nothing
 			}
 		});
-		
-		
-		
+
+		txtNumberOfButtons.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				TalkBoxConfig.numAudButtons = Integer.parseInt(txtNumberOfButtons.getText());
+				SimRecorderSplit.updateSimPreview(TalkBoxConfig.numAudButtons);
+			}
+		});
+
 	}
-	
+
 	public static void JFileChooserSave() {
-		 fileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
-			fileChooser.setDialogTitle("Choose a directory to save your file: ");
-			fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-			 fileChooser.setVisible(true);
-			// int returnValue = fileChooser.showOpenDialog(null);
-				int returnValue = fileChooser.showSaveDialog(null);
+		fileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+		fileChooser.setDialogTitle("Choose a directory to save your file: ");
+		fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+		fileChooser.setVisible(true);
+		// int returnValue = fileChooser.showOpenDialog(null);
+		int returnValue = fileChooser.showSaveDialog(null);
 
-				if (returnValue == JFileChooser.APPROVE_OPTION) {
-					filePath = fileChooser.getSelectedFile().toString();
-					System.out.println(filePath);
-				}
+		if (returnValue == JFileChooser.APPROVE_OPTION) {
+			filePath = fileChooser.getSelectedFile().toString();
+			System.out.println(filePath);
+		}
 
 	}
 
-	
-	
-	
-	
 	private void recordAudio() {
 		if (isRecording) {
 			recorder.finish();
@@ -191,7 +183,7 @@ public class Recorder extends JPanel {
 	private void resetRecordBtn() {
 		recordBtn.setIcon(micOff);
 		recordInfo.setText("Begin recording?");
-		//multiple recordings file name counter
-		SoundRecorder.counter++; 
+		// multiple recordings file name counter
+		SoundRecorder.counter++;
 	}
 }
