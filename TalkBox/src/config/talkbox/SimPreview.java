@@ -1,5 +1,6 @@
 package config.talkbox;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -22,22 +23,27 @@ public class SimPreview extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	static ArrayList<JButton> buttons = new ArrayList<JButton>();
-	int nButtons;
+	JPanel buttonsPanel;
+	int nButtons = 0;
 	int nButtonsPrev = 0;
 
 	public SimPreview() {
 		setBackground(Color.DARK_GRAY);
 		setBorder(new EmptyBorder(5, 5, 5, 5));
-		setLayout(new FlowLayout(FlowLayout.LEFT, 8, 8));
+		setLayout(new BorderLayout(10, 10));
 
-		JLabel TalkBoxLabel = new JLabel("TalkBox");
-		TalkBoxLabel.setPreferredSize(new Dimension(900, 100));
-		TalkBoxLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		TalkBoxLabel.setVerticalAlignment(SwingConstants.TOP);
-		TalkBoxLabel.setFont(new Font("Chalkboard", Font.PLAIN, 50));
-		TalkBoxLabel.setForeground(Color.WHITE);
-		add(TalkBoxLabel);
+		JLabel simTitle = new JLabel("TalkBox");
+		simTitle.setHorizontalAlignment(SwingConstants.CENTER);
+		simTitle.setVerticalAlignment(SwingConstants.TOP);
+		simTitle.setFont(new Font("Chalkboard", Font.PLAIN, 50));
+		simTitle.setForeground(Color.WHITE);
+		add(simTitle, BorderLayout.PAGE_START);
 
+		buttonsPanel = new JPanel();
+		buttonsPanel.setPreferredSize(new Dimension(900, 100));
+		buttonsPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+		buttonsPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 8, 8));
+		add(buttonsPanel, BorderLayout.CENTER);
 		// Get number of audio buttons from TalkBoxDeserializer
 		nButtons = TalkBoxConfig.numAudButtons;
 		setupButtons();
@@ -115,7 +121,7 @@ public class SimPreview extends JPanel {
 		} else {
 			for (int i = nButtonsPrev; i < nButtons; i++) {
 				buttons.add(new AudioButton("" + (i + 1)));
-				add(buttons.get(i));
+				buttonsPanel.add(buttons.get(i));
 			}
 		}
 		nButtonsPrev = nButtons;

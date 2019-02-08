@@ -1,6 +1,7 @@
 package config.talkbox;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -10,15 +11,14 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
-import javax.swing.filechooser.FileSystemView;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JTextField;
 import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
+import javax.swing.filechooser.FileSystemView;
 
-import sim.talkbox.ButtonPanel;
 import sim.talkbox.TalkBoxSim;
 
 public class Recorder extends JPanel {
@@ -43,10 +43,11 @@ public class Recorder extends JPanel {
 	public Recorder() {
 		springLayout = new SpringLayout();
 		setLayout(springLayout);
-
+		setMinimumSize(new Dimension(300, 200));
+		
 		progressBar = new JProgressBar();
 		springLayout.putConstraint(SpringLayout.WEST, progressBar, 70, SpringLayout.WEST, this);
-		springLayout.putConstraint(SpringLayout.SOUTH, progressBar, -34, SpringLayout.SOUTH, this);
+		springLayout.putConstraint(SpringLayout.SOUTH, progressBar, -40, SpringLayout.SOUTH, this);
 		springLayout.putConstraint(SpringLayout.EAST, progressBar, -69, SpringLayout.EAST, this);
 		add(progressBar);
 
@@ -71,9 +72,9 @@ public class Recorder extends JPanel {
 
 		infoIcon = new ImageIcon("images/info-icon.png");
 		recordInfo = new JLabel("Begin recording?", SwingConstants.CENTER);
+		recordInfo.setIcon(infoIcon);
 		springLayout.putConstraint(SpringLayout.WEST, recordInfo, 345, SpringLayout.WEST, this);
 		springLayout.putConstraint(SpringLayout.EAST, recordInfo, 20, SpringLayout.EAST, recordBtn);
-		recordInfo.setIcon(infoIcon);
 		springLayout.putConstraint(SpringLayout.NORTH, recordInfo, 6, SpringLayout.SOUTH, recordBtn);
 		springLayout.putConstraint(SpringLayout.SOUTH, recordInfo, 26, SpringLayout.SOUTH, recordBtn);
 		add(recordInfo);
@@ -82,10 +83,9 @@ public class Recorder extends JPanel {
 		 * launching the simulator from the configuration application
 		 */
 		launchSimulator = new JButton("Launch Simulator");
-
-		springLayout.putConstraint(SpringLayout.NORTH, launchSimulator, 178, SpringLayout.NORTH, this);
+		launchSimulator.setPreferredSize(new Dimension(100, 60));
 		springLayout.putConstraint(SpringLayout.WEST, launchSimulator, 23, SpringLayout.WEST, this);
-		springLayout.putConstraint(SpringLayout.SOUTH, launchSimulator, -6, SpringLayout.NORTH, progressBar);
+		springLayout.putConstraint(SpringLayout.SOUTH, launchSimulator, -10, SpringLayout.NORTH, progressBar);
 		springLayout.putConstraint(SpringLayout.EAST, launchSimulator, 173, SpringLayout.WEST, this);
 		add(launchSimulator);
 
