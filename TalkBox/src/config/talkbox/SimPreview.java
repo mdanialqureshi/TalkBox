@@ -98,6 +98,14 @@ public class SimPreview extends JPanel {
 	 * 
 	 * }
 	 */
+	private class AudioButton extends JButton {
+		private AudioButton(String text) {
+			super(text);
+			setVerticalAlignment(SwingConstants.BOTTOM);
+			setFont(new Font("Chalkboard", Font.PLAIN, 25));
+			setPreferredSize(new Dimension(70, 40));
+		}
+	}
 
 	private void setupButtons() {
 		if (nButtons < nButtonsPrev) {
@@ -106,12 +114,8 @@ public class SimPreview extends JPanel {
 			}
 		} else {
 			for (int i = nButtonsPrev; i < nButtons; i++) {
-				buttons.add(new JButton("" + (i + 1)));
-				JButton btn = buttons.get(i);
-				btn.setVerticalAlignment(SwingConstants.BOTTOM);
-				btn.setFont(new Font("Chalkboard", Font.PLAIN, 25));
-				btn.setPreferredSize(new Dimension(70, 40));
-				add(btn);
+				buttons.add(new AudioButton("" + (i + 1)));
+				add(buttons.get(i));
 			}
 		}
 		nButtonsPrev = nButtons;
