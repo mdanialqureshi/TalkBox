@@ -28,7 +28,7 @@ public class SimPreview extends JPanel {
 	public SimPreview() {
 		setBackground(Color.DARK_GRAY);
 		setBorder(new EmptyBorder(5, 5, 5, 5));
-		setLayout(new FlowLayout(FlowLayout.LEFT, 20, 20));
+		setLayout(new FlowLayout(FlowLayout.LEFT, 8, 8));
 
 		JLabel TalkBoxLabel = new JLabel("TalkBox");
 		TalkBoxLabel.setPreferredSize(new Dimension(900, 100));
