@@ -116,7 +116,7 @@ public class SimPreview extends JPanel {
 	private void setupButtons() {
 		if (nButtons < nButtonsPrev) {
 			for (int i = nButtonsPrev - 1; i >= nButtons; i--) {
-				remove(buttons.get(i));
+				buttonsPanel.remove(buttons.get(i));
 			}
 		} else {
 			for (int i = nButtonsPrev; i < nButtons; i++) {
