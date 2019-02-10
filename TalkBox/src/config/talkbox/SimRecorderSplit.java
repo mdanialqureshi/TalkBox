@@ -10,7 +10,7 @@ public class SimRecorderSplit extends JSplitPane {
 	static SimPreview simPreview;
 
 	public SimRecorderSplit(int height) {
-		setOrientation(JSplitPane.VERTICAL_SPLIT); // verticle split has to be set because default is horizontal
+		setOrientation(JSplitPane.VERTICAL_SPLIT); // Vertical split has to be set because default is horizontal
 		setDividerLocation((int) (0.5 * height));
 		setResizeWeight(1);
 		setOneTouchExpandable(true);

@@ -58,6 +58,7 @@ public class Recorder extends JPanel {
 		springLayout.putConstraint(SpringLayout.SOUTH, recordBtn, -57, SpringLayout.NORTH, progressBar);
 		recordBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
 				recordAudio();
 			}
 		});
@@ -163,11 +164,12 @@ public class Recorder extends JPanel {
 		fileChooser.setDialogTitle("Choose a directory to save your file: ");
 		fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 		fileChooser.setVisible(true);
-		// int returnValue = fileChooser.showOpenDialog(null);
+
 		int returnValue = fileChooser.showSaveDialog(null);
 
 		if (returnValue == JFileChooser.APPROVE_OPTION) {
 			filePath = fileChooser.getSelectedFile().toString();
+			SoundRecorder.fileLocation = filePath;
 			System.out.println(filePath);
 		}
 
@@ -178,8 +180,10 @@ public class Recorder extends JPanel {
 			recorder.finish();
 			resetRecordBtn();
 			isRecording = false;
-			Recorder.JFileChooserSave();
+			// multiple recordings file name counter
+			SoundRecorder.counter++;
 		} else {
+			Recorder.JFileChooserSave();
 			Thread stopper = new Thread(new Runnable() {
 				public void run() {
 					try {
@@ -204,7 +208,5 @@ public class Recorder extends JPanel {
 	private void resetRecordBtn() {
 		recordBtn.setIcon(micOff);
 		recordInfo.setText("Begin recording?");
-		// multiple recordings file name counter
-		SoundRecorder.counter++;
 	}
 }
