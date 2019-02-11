@@ -17,7 +17,8 @@ public class SoundRecorder {
 	static int counter = 0;
 	
 	File wavFile;
-
+	static String fileLocation;
+	
 	AudioFileFormat.Type fileType = AudioFileFormat.Type.WAVE;
 
 	TargetDataLine line;
@@ -35,7 +36,7 @@ public class SoundRecorder {
 	void start() throws LineUnavailableException {
 		
 	//	if(counter == 0) {
-		wavFile = new File("bin/TalkBoxData/audio/" + counter + ".wav");
+		wavFile = new File(fileLocation + ".wav");
 		createFile();
 //		}else {
 //			wavFile = new File(Recorder.filePath + counter + ".wav");
@@ -64,7 +65,8 @@ public class SoundRecorder {
 			ioe.printStackTrace();
 		}
 		//adding audio file to TalkBoxConfig field
-		TalkBoxConfig.audFileNames[0][counter] = wavFile.getName();
+		TalkBoxConfig.audFileNames[0][counter] = wavFile.getAbsolutePath();
+		System.out.println(TalkBoxConfig.audFileNames[0][counter]);
 	}
 
 	private void createFile() {

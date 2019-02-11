@@ -82,7 +82,7 @@ public class SimPreview extends JPanel {
 
 	public void playSound(String soundName) {
 		try {
-			File file = new File("bin/TalkBoxData/audio/" + soundName); // gets the file from its
+			File file = new File(soundName); // gets the file from its
 																		// package using file name
 			Clip clip = AudioSystem.getClip();
 			clip.open(AudioSystem.getAudioInputStream(file));
