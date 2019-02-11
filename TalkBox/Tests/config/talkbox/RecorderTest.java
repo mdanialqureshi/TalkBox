@@ -22,6 +22,7 @@ class RecorderTest {
 		assertEquals(false, recObj.isRecording);
 		assertEquals("Begin recording?",recObj.recordInfo.getText());		
 	}
+
 	
 	@Test
 	void testRecording() throws InterruptedException {
