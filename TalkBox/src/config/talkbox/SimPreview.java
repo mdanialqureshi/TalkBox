@@ -88,8 +88,8 @@ public class SimPreview extends JPanel {
 			clip.open(AudioSystem.getAudioInputStream(file));
 			clip.start(); // allows audio clip to be played
 		} catch (Exception e) {
-			System.err.println("Could not playback audio.");
-			System.err.println(e.getMessage()); // Respective error message is output onto the console
+			System.err.println("Could not play back audio.");
+			System.err.println(e.getMessage());
 		}
 	}
 

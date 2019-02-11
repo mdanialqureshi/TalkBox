@@ -1,6 +1,8 @@
 package config.talkbox;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -40,11 +42,19 @@ class SimPreviewTest {
 
 	@Test
 	void testPlayingSound() throws InterruptedException {
-		final ByteArrayOutputStream myErr = new ByteArrayOutputStream();
-		System.setErr(new PrintStream(myErr));
+		final ByteArrayOutputStream sperr = new ByteArrayOutputStream();
+		System.setErr(new PrintStream(sperr));
 		tbc.audFileNames[0][0] = "audio/hello.wav";
 		sp.buttons.get(0).doClick();
-		
-		assertEquals("", myErr.toString());
+
+		assertEquals("", sperr.toString());
+	}
+
+	@Test
+	void testPlayingMissingSoundFile() throws InterruptedException {
+		final ByteArrayOutputStream sperr = new ByteArrayOutputStream();
+		System.setErr(new PrintStream(sperr));
+		sp.buttons.get(0).doClick();
+		assertNotEquals("", sperr.toString());
 	}
 }
