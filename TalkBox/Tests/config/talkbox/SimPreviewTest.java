@@ -2,7 +2,6 @@ package config.talkbox;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -15,10 +14,10 @@ class SimPreviewTest {
 
 	private SimPreview sp;
 	private TalkBoxConfig tbc;
-
 	@BeforeEach
 	void setUp() throws Exception {
-		sp = new SimPreview();
+		tbc = new TalkBoxConfig();
+		sp = ((SimRecorderSplit) tbc.controlsProfileSplit.getLeftComponent()).simPreview;
 	}
 
 	@AfterEach
@@ -27,8 +26,8 @@ class SimPreviewTest {
 
 	@Test
 	void testUpdatingButtons() throws InterruptedException {
-		assertEquals(40, sp.buttons.size());
-		assertEquals(40, sp.buttonsPanel.getComponentCount());
+		assertEquals(20, sp.buttons.size());
+		assertEquals(20, sp.buttonsPanel.getComponentCount());
 
 		sp.updateButtons(5);
 		assertEquals(5, sp.buttons.size());
@@ -41,10 +40,9 @@ class SimPreviewTest {
 
 	@Test
 	void testPlayingSound() throws InterruptedException {
-		tbc = new TalkBoxConfig();
 		final ByteArrayOutputStream sperr = new ByteArrayOutputStream();
 		System.setErr(new PrintStream(sperr));
-		tbc.audFileNames[0][0] = "audio/hello.wav";
+		TalkBoxConfig.audFileNames[0][0] = "audio/hello.wav";
 		sp.buttons.get(0).doClick();
 
 		assertEquals("", sperr.toString());

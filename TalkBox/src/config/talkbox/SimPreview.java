@@ -22,10 +22,10 @@ public class SimPreview extends JPanel {
 	
 	private static final long serialVersionUID = 1L;
 
-	static ArrayList<JButton> buttons = new ArrayList<JButton>();
-	JPanel buttonsPanel;
-	int nButtons = 0;
-	int nButtonsPrev = 0;
+	ArrayList<JButton> buttons = new ArrayList<JButton>();
+	protected JPanel buttonsPanel;
+	private int nButtons = 0;
+	private int nButtonsPrev = 0;
 
 	public SimPreview() {
 		setBackground(Color.DARK_GRAY);
@@ -50,7 +50,7 @@ public class SimPreview extends JPanel {
 		addButtonAudio();
 	}
 
-	public void addButtonAudio() {
+	private void addButtonAudio() {
 		if (buttons.size() >= 2) {
 			// adding audio functionality to some of the buttons
 			buttons.get(0).addActionListener(new ActionListener() {
@@ -80,7 +80,7 @@ public class SimPreview extends JPanel {
 	 * @param soundName name of audio file associated with the respective button
 	 */
 
-	public void playSound(String soundName) {
+	private void playSound(String soundName) {
 		try {
 			File file = new File(soundName); // gets the file from its
 																		// package using file name

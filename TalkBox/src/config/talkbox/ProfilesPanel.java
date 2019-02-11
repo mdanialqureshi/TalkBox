@@ -24,7 +24,7 @@ import sim.talkbox.TalkBoxDeserializer;
 
 public class ProfilesPanel extends JPanel {
 	private static final Dimension MINIMUM_SIZE = new Dimension(400, 640);
-	final JFileChooser fc;
+	private final JFileChooser fc;
 
 	public ProfilesPanel() {
 		fc = new JFileChooser();
@@ -32,7 +32,7 @@ public class ProfilesPanel extends JPanel {
 		setupProfiles();
 	}
 
-	public void setupProfiles() {
+	private void setupProfiles() {
 		setLayout(null);
 		setMinimumSize(MINIMUM_SIZE);
 
@@ -110,7 +110,7 @@ public class ProfilesPanel extends JPanel {
 		add(delProf);
 	}
 
-	protected void openSaveFileDialog() {
+	private void openSaveFileDialog() {
 		int returnVal = fc.showSaveDialog(this);
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			File talkBoxDataPath = fc.getSelectedFile();
@@ -118,7 +118,7 @@ public class ProfilesPanel extends JPanel {
 		}
 	}
 
-	protected void openLoadFileDialog() {
+	private void openLoadFileDialog() {
 		int returnVal = fc.showOpenDialog(this);
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			File talkBoxDataPath = fc.getSelectedFile();
