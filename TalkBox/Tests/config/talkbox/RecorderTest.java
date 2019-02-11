@@ -18,8 +18,8 @@ class RecorderTest {
 	@Test
 	void testInitialFields() {
 		assertEquals(false, recObj.isRecording);
-		//assertEquals(null,Recorder.filePath);
-		//assertEquals("Begin recording?",recObj.recordInfo.getText());		
+		assertEquals(null,Recorder.filePath);
+		assertEquals("Begin recording?",recObj.recordInfo.getText());		
 	}
 	
 	@Test
