@@ -25,8 +25,8 @@ public class Recorder extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private SoundRecorder recorder = new SoundRecorder();
-	private boolean isRecording = false;
-	private JButton recordBtn;
+	boolean isRecording = false;
+	JButton recordBtn;
 	private ImageIcon micOff;
 	private ImageIcon micOn;
 	private ImageIcon infoIcon;
@@ -37,7 +37,7 @@ public class Recorder extends JPanel {
 	public JProgressBar progressBar;
 	public static JFileChooser fileChooser;
 	public static String filePath;
-	private JButton btnButton;
+	JButton updateNumberOfButtons;
 
 // Creating the Recorder sector of the TalkBox Configuration Application.
 	public Recorder() {
@@ -106,7 +106,7 @@ public class Recorder extends JPanel {
 		springLayout.putConstraint(SpringLayout.NORTH, txtNumberOfButtons, 10, SpringLayout.NORTH, this);
 		springLayout.putConstraint(SpringLayout.SOUTH, txtNumberOfButtons, -238, SpringLayout.SOUTH, this);
 		txtNumberOfButtons.setToolTipText("Input number of buttons and press Enter key to update");
-		JButton updateNumberOfButtons = new JButton("Update Buttons");
+		updateNumberOfButtons = new JButton("Update Buttons");
 		springLayout.putConstraint(SpringLayout.HORIZONTAL_CENTER, updateNumberOfButtons, 0,
 				SpringLayout.HORIZONTAL_CENTER, txtNumberOfButtons);
 		springLayout.putConstraint(SpringLayout.NORTH, updateNumberOfButtons, 60, SpringLayout.NORTH,

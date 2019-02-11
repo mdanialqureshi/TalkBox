@@ -94,6 +94,10 @@ public class PlayEditToggle extends JPanel {
 
 	public static void editLabel(JButton b) {
 		
+<<<<<<< HEAD
+=======
+	
+>>>>>>> branch 'Develop' of https://github.com/mdanialqureshi/TalkBox
 		b.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				

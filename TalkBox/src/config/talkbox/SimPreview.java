@@ -88,7 +88,8 @@ public class SimPreview extends JPanel {
 			clip.open(AudioSystem.getAudioInputStream(file));
 			clip.start(); // allows audio clip to be played
 		} catch (Exception e) {
-			System.err.println(e.getMessage()); // Respective error message is output onto the console
+			System.err.println("Could not play back audio.");
+			System.err.println(e.getMessage());
 		}
 	}
 
@@ -106,6 +107,7 @@ public class SimPreview extends JPanel {
 		if (nButtons < nButtonsPrev) {
 			for (int i = nButtonsPrev - 1; i >= nButtons; i--) {
 				buttonsPanel.remove(buttons.get(i));
+				buttons.remove(i);
 			}
 		} else {
 			for (int i = nButtonsPrev; i < nButtons; i++) {
