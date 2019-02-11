@@ -1,5 +1,4 @@
 package config.talkbox;
- //package import
 
 
 import static org.junit.Assert.assertEquals;
@@ -24,14 +23,16 @@ class SimPreviewTest {
 	}
 
 	@Test
-	void test() throws InterruptedException {
-		assertEquals(sp.buttons.size(), 20);
-		sp.updateButtons(5);
-		Thread.sleep(1000);
-		assertEquals(sp.buttons.size(), 5);
-		sp.updateButtons(25);
-		Thread.sleep(1000);
-		assertEquals(sp.buttons.size(), 25);
-	}
+	void testUpdatingButtons() throws InterruptedException {
+		assertEquals(20, sp.buttons.size());
+		assertEquals(20, sp.buttonsPanel.getComponentCount());
 
+		sp.updateButtons(5);
+		assertEquals(5, sp.buttons.size());
+		assertEquals(5, sp.buttonsPanel.getComponentCount());
+
+		sp.updateButtons(25);
+		assertEquals(25, sp.buttons.size());
+		assertEquals(25, sp.buttonsPanel.getComponentCount());
+	}
 }
