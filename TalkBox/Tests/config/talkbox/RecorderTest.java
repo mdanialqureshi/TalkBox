@@ -13,8 +13,8 @@ class RecorderTest {
 	
 	@BeforeEach
 	void setUp() throws Exception {
-		recObj = new Recorder();
 		configObj = new TalkBoxConfig();
+		recObj = new Recorder();
 	}
 
 	@Test
