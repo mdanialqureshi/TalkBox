@@ -19,7 +19,6 @@ class SimPreviewTest {
 	@BeforeEach
 	void setUp() throws Exception {
 		sp = new SimPreview();
-		tbc = new TalkBoxConfig();
 	}
 
 	@AfterEach
@@ -42,6 +41,7 @@ class SimPreviewTest {
 
 	@Test
 	void testPlayingSound() throws InterruptedException {
+		tbc = new TalkBoxConfig();
 		final ByteArrayOutputStream sperr = new ByteArrayOutputStream();
 		System.setErr(new PrintStream(sperr));
 		tbc.audFileNames[0][0] = "audio/hello.wav";
