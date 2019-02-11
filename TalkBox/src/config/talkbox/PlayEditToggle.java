@@ -86,12 +86,6 @@ public class PlayEditToggle extends JPanel {
 		});
 	}
 
-	private boolean isEditMode() {
-		if (toggleBtn.isSelected() == true)
-			return true;
-		return false;
-	}
-
 	private void EditMode() {
 		int numOfButtons = TalkBoxConfig.numAudButtons;
 

@@ -24,7 +24,7 @@ public class TalkBoxConfig extends JFrame {
 	static int numAudSets = 1;
 	static int numSwapButtons = 2;
 	static Path path = null;
-	static String[][] audFileNames = new String[10][10];
+	static String[][] audFileNames = new String[200][200];
 
 	/**
 	 * Launch the application.
