@@ -24,27 +24,30 @@ import sim.talkbox.TalkBoxSim;
 public class Recorder extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private SoundRecorder recorder = new SoundRecorder();
-	boolean isRecording = false;
-	JButton recordBtn;
-	private ImageIcon micOff;
-	private ImageIcon micOn;
-	private ImageIcon infoIcon;
-	public JLabel recordInfo;
-	public JButton launchSimulator;
-	public JTextField txtNumberOfButtons;
-	public SpringLayout springLayout;
-	public JProgressBar progressBar;
-	public static JFileChooser fileChooser;
-	public static String filePath;
-	JButton updateNumberOfButtons;
+	protected SoundRecorder recorder = new SoundRecorder();
+	protected boolean isRecording = false;
+	protected JButton recordBtn;
+	protected ImageIcon micOff;
+	protected ImageIcon micOn;
+	protected ImageIcon infoIcon;
+	protected JLabel recordInfo;
+	protected JButton launchSimulator;
+	protected JTextField txtNumberOfButtons;
+	protected SpringLayout springLayout;
+	protected JProgressBar progressBar;
+	protected JFileChooser fileChooser;
+	protected String filePath;
+	protected JButton updateNumberOfButtons;
+	protected SimPreview simPreview;
 
 // Creating the Recorder sector of the TalkBox Configuration Application.
-	public Recorder() {
+	public Recorder(SimPreview simPreview) {
+		this.simPreview = simPreview;
+		
 		springLayout = new SpringLayout();
 		setLayout(springLayout);
 		setMinimumSize(new Dimension(300, 200));
-
+		
 		progressBar = new JProgressBar();
 		springLayout.putConstraint(SpringLayout.WEST, progressBar, 70, SpringLayout.WEST, this);
 		springLayout.putConstraint(SpringLayout.SOUTH, progressBar, -40, SpringLayout.SOUTH, this);
@@ -141,7 +144,7 @@ public class Recorder extends JPanel {
 			}
 		});
 
-		PlayEditToggle toggle = new PlayEditToggle();
+		PlayEditToggle toggle = new PlayEditToggle(simPreview);
 		springLayout.putConstraint(SpringLayout.NORTH, toggle, 10, SpringLayout.NORTH, this);
 		springLayout.putConstraint(SpringLayout.WEST, toggle, 0, SpringLayout.WEST, launchSimulator);
 		springLayout.putConstraint(SpringLayout.SOUTH, toggle, 38, SpringLayout.SOUTH, txtNumberOfButtons);
@@ -153,13 +156,13 @@ public class Recorder extends JPanel {
 	protected void updateButtons() {
 		try {
 			TalkBoxConfig.numAudButtons = Integer.parseInt(txtNumberOfButtons.getText());
-			SimRecorderSplit.updateSimPreview(TalkBoxConfig.numAudButtons);
+			simPreview.updateButtons(TalkBoxConfig.numAudButtons);
 		} catch (NumberFormatException nfe) {
 			System.err.println("Invalid number format entered for button count update.");
 		}
 	}
 
-	public static void JFileChooserSave() {
+	protected void JFileChooserSave() {
 		fileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
 		fileChooser.setDialogTitle("Choose a directory to save your file: ");
 		fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
@@ -175,7 +178,7 @@ public class Recorder extends JPanel {
 
 	}
 
-	private void recordAudio() {
+	protected void recordAudio() {
 		if (isRecording) {
 			recorder.finish();
 			resetRecordBtn();
@@ -183,7 +186,7 @@ public class Recorder extends JPanel {
 			// multiple recordings file name counter
 			SoundRecorder.counter++;
 		} else {
-			Recorder.JFileChooserSave();
+			JFileChooserSave();
 			Thread stopper = new Thread(new Runnable() {
 				public void run() {
 					try {
@@ -205,7 +208,7 @@ public class Recorder extends JPanel {
 
 	}
 
-	private void resetRecordBtn() {
+	protected void resetRecordBtn() {
 		recordBtn.setIcon(micOff);
 		recordInfo.setText("Begin recording?");
 	}

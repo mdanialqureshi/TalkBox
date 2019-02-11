@@ -8,13 +8,13 @@ import org.junit.jupiter.api.Test;
 
 class RecorderTest {
 
-	Recorder recObj;
-	TalkBoxConfig configObj;
-	
+	private Recorder recObj;
+	private TalkBoxConfig configObj;
 	@BeforeEach
 	void setUp() throws Exception {
-		recObj = new Recorder();
 		configObj = new TalkBoxConfig();
+		recObj = ((SimRecorderSplit) configObj.controlsProfileSplit.getLeftComponent()).recorder;
+
 	}
 
 	@Test
@@ -29,7 +29,7 @@ class RecorderTest {
 		Thread.sleep(2000);
 		recObj.recordBtn.doClick();
 		String h = System.getProperty("user.home") + "/Desktop/test";
-		assertEquals(h,Recorder.filePath);
+		assertEquals(h,recObj.filePath);
 		
 	}
 	

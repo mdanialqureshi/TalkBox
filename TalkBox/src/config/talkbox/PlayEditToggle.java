@@ -24,18 +24,19 @@ public class PlayEditToggle extends JPanel {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private static JToggleButton toggleBtn;
-	private static JLabel modeLbl;
-	private static JTextField buttonLbl;
-	private static int buttonNumber;
-	static int numOfButtons = TalkBoxConfig.numAudButtons;
-	  
+	private SimPreview simPreview;
+	private JToggleButton toggleBtn;
+	private JLabel modeLbl;
+	private JTextField buttonLbl;
+	private int buttonNumber;
+	int numOfButtons = TalkBoxConfig.numAudButtons;
 
 	/**
 	 * 
 	 */
 	
-	public PlayEditToggle() {		
+	public PlayEditToggle(SimPreview simPreview) {		
+		this.simPreview = simPreview;
 		JLabel modeLbl = new JLabel("Playback Mode");
 		add(modeLbl);
 		toggleBtn = new JToggleButton("Switch Modes");
@@ -44,7 +45,7 @@ public class PlayEditToggle extends JPanel {
 		add(buttonLbl);
 		buttonLbl.setColumns(10);
 		for (int i=0; i<numOfButtons; i++) {
-			JButton b = SimPreview.buttons.get(i);
+			JButton b = simPreview.buttons.get(i);
 			b.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					
@@ -69,35 +70,30 @@ public class PlayEditToggle extends JPanel {
 		
 	}
 	
-	public static boolean isEditMode() {
+	private boolean isEditMode() {
 		if (toggleBtn.isSelected() == true) return true;
 		return false;
 	}
 
 
-	public static void EditMode() {
+	private void EditMode() {
 	
 		int numOfButtons = TalkBoxConfig.numAudButtons;
 	
 			for (int i=0; i<numOfButtons; i++) {
-			editLabel(SimPreview.buttons.get(i));
+			editLabel(simPreview.buttons.get(i));
 		}
 
 	}
 
-	public static void PlayMode() {
+	private void PlayMode() {
 	
 			for (int i=0; i<numOfButtons; i++) {
-			resetPlayMode(SimPreview.buttons.get(i));
+			resetPlayMode(simPreview.buttons.get(i));
 		}
 	}
 
-	public static void editLabel(JButton b) {
-		
-<<<<<<< HEAD
-=======
-	
->>>>>>> branch 'Develop' of https://github.com/mdanialqureshi/TalkBox
+	private void editLabel(JButton b) {
 		b.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -124,11 +120,11 @@ public class PlayEditToggle extends JPanel {
 		});
 	}
 	
-	public static void updateLabel(JButton b) {
+	private void updateLabel(JButton b) {
 		b.setText(buttonLbl.getText());
 	}
 
-	public static void resetPlayMode(JButton b) {
+	private void resetPlayMode(JButton b) {
 		ActionListener[] list = b.getActionListeners();
 		b.removeActionListener(list[0]);
 	}	

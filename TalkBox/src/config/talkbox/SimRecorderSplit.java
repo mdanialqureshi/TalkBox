@@ -7,8 +7,9 @@ import javax.swing.JTextField;
 public class SimRecorderSplit extends JSplitPane {
 
 	private JTextField txtNumberOfButtons;
-	static SimPreview simPreview;
-
+	SimPreview simPreview;
+	Recorder recorder;
+	
 	public SimRecorderSplit(int height) {
 		setOrientation(JSplitPane.VERTICAL_SPLIT); // Vertical split has to be set because default is horizontal
 		setDividerLocation((int) (0.5 * height));
@@ -16,16 +17,12 @@ public class SimRecorderSplit extends JSplitPane {
 		setOneTouchExpandable(true);
 
 		simPreview = new SimPreview(); // creates talkBox simulator object
-		JPanel recorder = new Recorder(); // creates a recorder object
+		recorder = new Recorder(simPreview); // creates a recorder object
 
 		setTopComponent(simPreview); /*
 										 * adds talkBox Simulator object to this JSplitPane. This JSplitPane is then set
 										 * to the left side of another JSplitPane in ControlsProfileSplit class
 										 */
 		setBottomComponent(recorder); // adds recording sector to the bottom of this JSplitPane.
-	}
-
-	static void updateSimPreview(int numOfButtons) {
-		simPreview.updateButtons(numOfButtons);
 	}
 }
