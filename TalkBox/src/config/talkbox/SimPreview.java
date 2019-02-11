@@ -22,7 +22,7 @@ public class SimPreview extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
-	ArrayList<JButton> buttons = new ArrayList<JButton>();
+	static ArrayList<JButton> buttons = new ArrayList<JButton>();
 	JPanel buttonsPanel;
 	int nButtons = 0;
 	int nButtonsPrev = 0;

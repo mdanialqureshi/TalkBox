@@ -74,6 +74,7 @@ public class PlayEditToggle extends JPanel {
 	}
 
 	public static void editLabel(JButton b) {
+		
 	
 		b.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

@@ -27,8 +27,8 @@ class SimPreviewTest {
 
 	@Test
 	void testUpdatingButtons() throws InterruptedException {
-		assertEquals(20, sp.buttons.size());
-		assertEquals(20, sp.buttonsPanel.getComponentCount());
+		assertEquals(40, sp.buttons.size());
+		assertEquals(40, sp.buttonsPanel.getComponentCount());
 
 		sp.updateButtons(5);
 		assertEquals(5, sp.buttons.size());
