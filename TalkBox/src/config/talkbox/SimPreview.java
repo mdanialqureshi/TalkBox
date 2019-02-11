@@ -19,7 +19,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 public class SimPreview extends JPanel {
-
+	
 	private static final long serialVersionUID = 1L;
 
 	static ArrayList<JButton> buttons = new ArrayList<JButton>();
@@ -92,18 +92,7 @@ public class SimPreview extends JPanel {
 		}
 	}
 
-	/*
-	 * public static void editLabel(JButton b) { b.addActionListener(new
-	 * ActionListener() { public void actionPerformed(ActionEvent e) { JFrame frame
-	 * = new JFrame(); String input = JOptionPane.showInputDialog(frame,
-	 * "Enter button label: "); b.setText(input);
-	 * 
-	 * }
-	 * 
-	 * });
-	 * 
-	 * }
-	 */
+	
 	private class AudioButton extends JButton {
 		private AudioButton(String text) {
 			super(text);

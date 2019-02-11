@@ -103,6 +103,8 @@ public class Recorder extends JPanel {
 		 * adding textfeild to allow user to change the number of buttons
 		 */
 		txtNumberOfButtons = new JTextField("Number of buttons");
+		springLayout.putConstraint(SpringLayout.NORTH, txtNumberOfButtons, 10, SpringLayout.NORTH, this);
+		springLayout.putConstraint(SpringLayout.SOUTH, txtNumberOfButtons, -238, SpringLayout.SOUTH, this);
 		txtNumberOfButtons.setToolTipText("Input number of buttons and press Enter key to update");
 		JButton updateNumberOfButtons = new JButton("Update Buttons");
 		springLayout.putConstraint(SpringLayout.HORIZONTAL_CENTER, updateNumberOfButtons, 0,
@@ -140,12 +142,10 @@ public class Recorder extends JPanel {
 		});
 
 		PlayEditToggle toggle = new PlayEditToggle();
-		springLayout.putConstraint(SpringLayout.NORTH, txtNumberOfButtons, 0, SpringLayout.NORTH, toggle);
-		springLayout.putConstraint(SpringLayout.SOUTH, txtNumberOfButtons, 0, SpringLayout.SOUTH, toggle);
 		springLayout.putConstraint(SpringLayout.NORTH, toggle, 10, SpringLayout.NORTH, this);
 		springLayout.putConstraint(SpringLayout.WEST, toggle, 0, SpringLayout.WEST, launchSimulator);
-		springLayout.putConstraint(SpringLayout.SOUTH, toggle, 62, SpringLayout.NORTH, this);
-		springLayout.putConstraint(SpringLayout.EAST, toggle, 0, SpringLayout.EAST, launchSimulator);
+		springLayout.putConstraint(SpringLayout.SOUTH, toggle, 38, SpringLayout.SOUTH, txtNumberOfButtons);
+		springLayout.putConstraint(SpringLayout.EAST, toggle, 18, SpringLayout.EAST, launchSimulator);
 		add(toggle);
 
 	}
