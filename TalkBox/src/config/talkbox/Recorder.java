@@ -25,8 +25,8 @@ public class Recorder extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private SoundRecorder recorder = new SoundRecorder();
-	private boolean isRecording = false;
-	private JButton recordBtn;
+	boolean isRecording = false;
+	JButton recordBtn;
 	private ImageIcon micOff;
 	private ImageIcon micOn;
 	private ImageIcon infoIcon;
@@ -37,7 +37,6 @@ public class Recorder extends JPanel {
 	public JProgressBar progressBar;
 	public static JFileChooser fileChooser;
 	public static String filePath;
-	private JButton btnButton;
 
 // Creating the Recorder sector of the TalkBox Configuration Application.
 	public Recorder() {
