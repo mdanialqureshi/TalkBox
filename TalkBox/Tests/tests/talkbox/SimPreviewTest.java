@@ -1,10 +1,14 @@
-package config.talkbox;
+package tests.talkbox;
+ //package import
+
 
 import static org.junit.Assert.assertEquals;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import config.talkbox.*;
 
 class SimPreviewTest {
 
