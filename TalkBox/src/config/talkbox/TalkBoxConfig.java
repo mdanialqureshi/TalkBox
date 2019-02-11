@@ -16,22 +16,21 @@ public class TalkBoxConfig extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public static JSplitPane controlsProfileSplit;
+	protected JSplitPane controlsProfileSplit;
 	private int width = 1280;
 	private int height = 720;
 
 	public static int numAudButtons = 20;
-	public static int numAudSets = 1;
-	public static int numSwapButtons = 2;
-	public static Path path = null;
-	public static String[][] audFileNames = new String[10][10];
+	static int numAudSets = 1;
+	static int numSwapButtons = 2;
+	static Path path = null;
+	static String[][] audFileNames = new String[10][10];
 
 	/**
 	 * Launch the application.
 	 */
 
 	public static void main(String args[]) {
-
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -49,10 +48,8 @@ public class TalkBoxConfig extends JFrame {
 	 * Create the frame.
 	 */
 	public TalkBoxConfig() {
-
 		controlsProfileSplit = new ControlsProfileSplit(width, height); // constructs the entire configuration app in
 																		// ControlsProfileSplit class.
-
 		setupFrame();
 
 	}
@@ -67,8 +64,7 @@ public class TalkBoxConfig extends JFrame {
 		// ConstrolsPorfileSplit class extends JSplitPane
 	}
 
-	public void setNumAudButtons(int numAudButtons) {
+	void setNumAudButtons(int numAudButtons) {
 		TalkBoxConfig.numAudButtons = numAudButtons;
-
 	}
 }

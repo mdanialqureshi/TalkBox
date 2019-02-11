@@ -10,13 +10,13 @@ import config.talkbox.TalkBoxSerializer;
 
 public class TalkBoxDeserializer {
 
-	public int numAudioButtons;
-	public int numAudioSets, numSwapButtons;
-	public Path path;
+	private int numAudioButtons;
+	private int numAudioSets, numSwapButtons;
+	private Path path;
 	public String[][] audioFileNames;
-	TalkBoxSerializer config;
-	File talkBoxDataPath;
-	File talkBoxData;
+	private TalkBoxSerializer config;
+	private File talkBoxDataPath;
+	private File talkBoxData;
 
 	/*
 	 * Default settings for simulator to load on startup

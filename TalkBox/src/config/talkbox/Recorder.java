@@ -24,30 +24,30 @@ import sim.talkbox.TalkBoxSim;
 public class Recorder extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	protected SoundRecorder recorder = new SoundRecorder();
-	protected boolean isRecording = false;
-	protected JButton recordBtn;
-	protected ImageIcon micOff;
-	protected ImageIcon micOn;
-	protected ImageIcon infoIcon;
-	protected JLabel recordInfo;
-	protected JButton launchSimulator;
-	protected JTextField txtNumberOfButtons;
-	protected SpringLayout springLayout;
-	protected JProgressBar progressBar;
-	protected JFileChooser fileChooser;
-	protected String filePath;
-	protected JButton updateNumberOfButtons;
-	protected SimPreview simPreview;
+	private  SoundRecorder recorder = new SoundRecorder();
+	boolean isRecording = false;
+	JButton recordBtn;
+	private ImageIcon micOff;
+	private ImageIcon micOn;
+	private ImageIcon infoIcon;
+	JLabel recordInfo;
+	JButton launchSimulator;
+	JTextField txtNumberOfButtons;
+	private SpringLayout springLayout;
+	private JProgressBar progressBar;
+	private JFileChooser fileChooser;
+	String filePath;
+	JButton updateNumberOfButtons;
+	private SimPreview simPreview;
 
 // Creating the Recorder sector of the TalkBox Configuration Application.
 	public Recorder(SimPreview simPreview) {
 		this.simPreview = simPreview;
-		
+
 		springLayout = new SpringLayout();
 		setLayout(springLayout);
 		setMinimumSize(new Dimension(300, 200));
-		
+
 		progressBar = new JProgressBar();
 		springLayout.putConstraint(SpringLayout.WEST, progressBar, 70, SpringLayout.WEST, this);
 		springLayout.putConstraint(SpringLayout.SOUTH, progressBar, -40, SpringLayout.SOUTH, this);
@@ -61,7 +61,7 @@ public class Recorder extends JPanel {
 		springLayout.putConstraint(SpringLayout.SOUTH, recordBtn, -57, SpringLayout.NORTH, progressBar);
 		recordBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+
 				recordAudio();
 			}
 		});

@@ -20,6 +20,5 @@ public class ControlsProfileSplit extends JSplitPane {
 		JPanel profile = new ProfilesPanel();
 		setRightComponent(profile); //adds the profile panel to the right side of the jframe
 		setLeftComponent(simRecorderSplit); //adds a JSplitPane to the left of the JFrame. This jSplitPane contains the talkbox simulator and recorder.
-
 	}
 }

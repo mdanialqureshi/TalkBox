@@ -11,13 +11,13 @@ public class TalkBoxSerializer implements TalkBoxConfiguration, Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	public int numAudioButtons;
-	public int numAudioSets;
-	public int numSwapButtons;
-	public Path path;
+	private int numAudioButtons;
+	private int numAudioSets;
+	private int numSwapButtons;
+	private Path path;
 	public String[][] audioFileNames;
-	File talkBoxDataPath;
-	File talkBoxData;
+	private File talkBoxDataPath;
+	private File talkBoxData;
 
 	public TalkBoxSerializer() {
 		numAudioButtons = TalkBoxConfig.numAudButtons;
