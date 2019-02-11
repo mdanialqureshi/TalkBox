@@ -13,6 +13,8 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.DataLine;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.TargetDataLine;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileSystemView;
 
 public class SoundRecorder {
 	// in milliseconds
@@ -24,7 +26,11 @@ public class SoundRecorder {
 	TargetDataLine line;
 	String userDirectoryString;
 	Path userDirectoryPath;
-	Path myDirectoryPath = Paths.get("audio/");
+	Path myDirectoryPath;
+	static String userAudioFileName;
+	
+	
+
 
 	AudioFormat getAudioFormat() {
 		float sampleRate = 16_000;
@@ -42,7 +48,7 @@ public class SoundRecorder {
 		wavFile = new File(userDirectoryString);
 		createFile();
 		userDirectoryPath = Paths.get(userDirectoryString);
-		//putInSharedDirectory();
+		myDirectoryPath = Paths.get("audio/" + userAudioFileName + ".wav");
 
 		try {
 			AudioFormat format = getAudioFormat();
@@ -65,9 +71,12 @@ public class SoundRecorder {
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
 		}
+		
+		putInSharedDirectory();
 		//adding audio file to TalkBoxConfig field
 		TalkBoxConfig.audFileNames[0][counter] = wavFile.getAbsolutePath();
 		System.out.println(TalkBoxConfig.audFileNames[0][counter]);
+		SoundRecorder.counter++;
 	}
 
 	private void createFile() {
@@ -98,7 +107,6 @@ public class SoundRecorder {
 			line.stop();
 			line.close();
 			System.out.println("Recording complete and saved.");
-
 		}
 	}
 

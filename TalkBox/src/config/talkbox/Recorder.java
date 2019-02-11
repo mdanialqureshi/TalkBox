@@ -40,6 +40,8 @@ public class Recorder extends JPanel {
 	JButton updateNumberOfButtons;
 	private SimPreview simPreview;
 
+
+
 // Creating the Recorder sector of the TalkBox Configuration Application.
 	public Recorder(SimPreview simPreview) {
 		this.simPreview = simPreview;
@@ -172,6 +174,7 @@ public class Recorder extends JPanel {
 
 		if (returnValue == JFileChooser.APPROVE_OPTION) {
 			filePath = fileChooser.getSelectedFile().toString();
+			SoundRecorder.userAudioFileName = fileChooser.getSelectedFile().getName();
 			SoundRecorder.fileLocation = filePath;
 			System.out.println(filePath);
 		}
@@ -184,7 +187,6 @@ public class Recorder extends JPanel {
 			resetRecordBtn();
 			isRecording = false;
 			// multiple recordings file name counter
-			SoundRecorder.counter++;
 		} else {
 			JFileChooserSave();
 			Thread stopper = new Thread(new Runnable() {
