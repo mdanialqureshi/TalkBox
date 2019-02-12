@@ -4,6 +4,10 @@ import javax.swing.JSplitPane;
 
 public class SimRecorderSplit extends JSplitPane {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	SimPreview simPreview;
 	Recorder recorder;
 	

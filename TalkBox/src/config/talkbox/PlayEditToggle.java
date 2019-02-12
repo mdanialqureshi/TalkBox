@@ -1,6 +1,6 @@
 package config.talkbox;
 
-import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -9,6 +9,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -30,11 +31,26 @@ public class PlayEditToggle extends JPanel {
 	JLabel instruction;
 	Recorder recObj;
 	int doubleClick;
+	JFrame confirmAudio;
+	JPanel confirmationPrompt;
+	JButton addToButton;
+	JButton cancel;
 
 	/**
 	 * 
 	 */
 	public PlayEditToggle(SimPreview simPreview,Recorder recObj) {
+		confirmAudio = new JFrame("Please Confirm");
+		confirmationPrompt = new JPanel(new FlowLayout());
+		addToButton = new JButton("Add recording to button");
+		cancel = new JButton("Cancel");
+		
+		confirmAudio.setSize(200, 100);
+		confirmationPrompt.add(addToButton);
+		confirmationPrompt.add(cancel);
+		confirmAudio.add(confirmationPrompt);
+		confirmAudio.setLocationRelativeTo(null);
+		
 		this.simPreview = simPreview;
 		this.recObj = recObj;
 		JLabel modeLbl = new JLabel("Playback Mode");
@@ -112,10 +128,7 @@ public class PlayEditToggle extends JPanel {
 		b.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				currentBtn = b;
-				doubleClick++;
-				if(doubleClick % 2 == 0) {
 				addButtonAudio();
-				}
 				}
 		});
 	}
@@ -135,8 +148,24 @@ public class PlayEditToggle extends JPanel {
 	
 	
 	private void addButtonAudio() {
-
-		currentBtn.fileName = SoundRecorder.userAudioFileName + ".wav";
+		confirmAudio.setVisible(true);
+		
+		addToButton.addActionListener(new ActionListener() {
+			
+			public void actionPerformed(ActionEvent e) {
+				currentBtn.fileName = SoundRecorder.userAudioFileName + ".wav";
+				confirmAudio.dispose();
+			}
+		});
+		
+		cancel.addActionListener(new ActionListener() {
+			
+			public void actionPerformed(ActionEvent e) {
+				confirmAudio.dispose();
+			}
+		});
+		
+		
 		
 		
 	}

@@ -113,6 +113,10 @@ public class SimPreview extends JPanel {
 	public class AudioButton extends JButton {
 	
 		
+	/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
 	public String fileName;
 	
 	public AudioButton(String text) {

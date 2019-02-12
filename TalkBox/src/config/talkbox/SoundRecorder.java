@@ -13,8 +13,7 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.DataLine;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.TargetDataLine;
-import javax.swing.JFileChooser;
-import javax.swing.filechooser.FileSystemView;
+
 
 public class SoundRecorder {
 	// in milliseconds
