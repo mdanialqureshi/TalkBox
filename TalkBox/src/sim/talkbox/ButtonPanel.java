@@ -18,13 +18,12 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
-import config.talkbox.TalkBoxConfig;
 
 public class ButtonPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
-	protected ArrayList<JButton> buttons = new ArrayList<JButton>();
+	protected ArrayList<AudioButton> buttons = new ArrayList<AudioButton>();
 	private TalkBoxDeserializer getInfo = new TalkBoxDeserializer();
 	protected JPanel buttonsPanel;
 	private int nButtons = 0;
@@ -54,6 +53,8 @@ public class ButtonPanel extends JPanel {
 	}
 
 	private void addButtonAudio() {
+		
+
 		if (buttons.size() >= 2) {
 			// adding audio functionality to some of the buttons
 			buttons.get(0).addActionListener(new ActionListener() {
@@ -96,8 +97,11 @@ public class ButtonPanel extends JPanel {
 		}
 	}
 
-	private class AudioButton extends JButton {
-		private AudioButton(String text) {
+	public class AudioButton extends JButton {
+		
+		public String fileName;
+		
+		public AudioButton(String text) {
 			super(text);
 			setVerticalAlignment(SwingConstants.BOTTOM);
 			setFont(new Font("Chalkboard", Font.PLAIN, 25));

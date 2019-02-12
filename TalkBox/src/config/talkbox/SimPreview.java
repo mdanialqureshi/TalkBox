@@ -22,7 +22,7 @@ public class SimPreview extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
-	ArrayList<JButton> buttons = new ArrayList<JButton>();
+	ArrayList<AudioButton> buttons = new ArrayList<AudioButton>();
 	protected JPanel buttonsPanel;
 	private int nButtons = 0;
 	private int nButtonsPrev = 0;
@@ -51,25 +51,39 @@ public class SimPreview extends JPanel {
 	}
 
 	private void addButtonAudio() {
-		if (buttons.size() >= 2) {
-			// adding audio functionality to some of the buttons
-			buttons.get(0).addActionListener(new ActionListener() {
-				// button 1 has an actionListener which calls PlaySound Method and plays sound
-				// of the file. (When button is clicked)
+		
+		for(AudioButton b : buttons) {
+			
+			b.addActionListener(new ActionListener() {
+				
 				public void actionPerformed(ActionEvent e) {
-
-					playSound(TalkBoxConfig.audFileNames[0][0]);
+					
+					playSound(b.fileName);
 				}
-			});
-
-			buttons.get(1).addActionListener(new ActionListener() {
-				// button 2 has an actionListener which calls PlaySound Method and plays sound
-				// of the file. (When button is clicked)
-				public void actionPerformed(ActionEvent e) {
-					playSound(TalkBoxConfig.audFileNames[0][1]); // file name must be passed in as a String parameter.
-				}
+				
 			});
 		}
+		
+		
+//		if (buttons.size() >= 2) {
+//			// adding audio functionality to some of the buttons
+//			buttons.get(0).addActionListener(new ActionListener() {
+//				// button 1 has an actionListener which calls PlaySound Method and plays sound
+//				// of the file. (When button is clicked)
+//				public void actionPerformed(ActionEvent e) {
+//
+//					playSound(TalkBoxConfig.audFileNames[0][0]);
+//				}
+//			});
+//
+//			buttons.get(1).addActionListener(new ActionListener() {
+//				// button 2 has an actionListener which calls PlaySound Method and plays sound
+//				// of the file. (When button is clicked)
+//				public void actionPerformed(ActionEvent e) {
+//					playSound(TalkBoxConfig.audFileNames[0][1]); // file name must be passed in as a String parameter.
+//				}
+//			});
+//		}
 
 	}
 
@@ -95,14 +109,20 @@ public class SimPreview extends JPanel {
 		}
 	}
 
-	private class AudioButton extends JButton {
-		private AudioButton(String text) {
-			super(text);
-			setVerticalAlignment(SwingConstants.BOTTOM);
-			setFont(new Font("Chalkboard", Font.PLAIN, 25));
-			setPreferredSize(new Dimension(70, 40));
-		}
+	
+	public class AudioButton extends JButton {
+	
+		
+	public String fileName;
+	
+	public AudioButton(String text) {
+		super(text);
+		setVerticalAlignment(SwingConstants.BOTTOM);
+		setFont(new Font("Chalkboard", Font.PLAIN, 25));
+		setPreferredSize(new Dimension(70, 40));
 	}
+	}
+
 
 	private void setupButtons() {
 		if (nButtons < nButtonsPrev) {

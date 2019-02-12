@@ -14,6 +14,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 
+import config.talkbox.SimPreview.AudioButton;
+
 public class PlayEditToggle extends JPanel {
 
 	/**
@@ -22,11 +24,12 @@ public class PlayEditToggle extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private SimPreview simPreview;
 	private JToggleButton toggleBtn;
-	private JButton currentBtn;
+	private AudioButton currentBtn;
 	private JTextField buttonLbl;
 	int numOfButtons = TalkBoxConfig.numAudButtons;
 	JLabel instruction;
 	Recorder recObj;
+	int doubleClick;
 
 	/**
 	 * 
@@ -43,7 +46,7 @@ public class PlayEditToggle extends JPanel {
 		buttonLbl.setColumns(10);
 
 		for (int i = 0; i < numOfButtons; i++) {
-			JButton b = simPreview.buttons.get(i);
+			AudioButton b = simPreview.buttons.get(i);
 
 			b.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -93,9 +96,8 @@ public class PlayEditToggle extends JPanel {
 
 		for (int i = 0; i < numOfButtons; i++) {
 			editLabelandAudio(simPreview.buttons.get(i));
-
 		}
-
+		
 	}
 
 	private void PlayMode() {
@@ -106,11 +108,14 @@ public class PlayEditToggle extends JPanel {
 
 	}
 
-	private void editLabelandAudio(JButton b) {
+	private void editLabelandAudio(AudioButton b) {
 		b.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				currentBtn = b;
+				doubleClick++;
+				if(doubleClick % 2 == 0) {
 				addButtonAudio();
+				}
 				}
 		});
 	}
@@ -122,24 +127,17 @@ public class PlayEditToggle extends JPanel {
 		// currentBtn.setBackground(null);
 	}
 
-	private void resetPlayMode(JButton b) {
+	private void resetPlayMode(AudioButton b) {
 		ActionListener[] list = b.getActionListeners();
 		b.removeActionListener(list[0]);
 	}
 
 	
 	
-	
 	private void addButtonAudio() {
 
-		if (currentBtn != null && TalkBoxConfig.audFileNames[0][0] != null) {
-			currentBtn.addActionListener(new ActionListener() {
-				
-				public void actionPerformed(ActionEvent e) {
-					simPreview.playSound(TalkBoxConfig.audFileNames[0][SoundRecorder.counter-1]);
-				}
-			});
-		}
+		currentBtn.fileName = SoundRecorder.userAudioFileName + ".wav";
+		
 		
 	}
 
