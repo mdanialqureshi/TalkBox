@@ -19,7 +19,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 public class SimPreview extends JPanel {
-	
+
 	private static final long serialVersionUID = 1L;
 
 	ArrayList<JButton> buttons = new ArrayList<JButton>();
@@ -57,7 +57,7 @@ public class SimPreview extends JPanel {
 				// button 1 has an actionListener which calls PlaySound Method and plays sound
 				// of the file. (When button is clicked)
 				public void actionPerformed(ActionEvent e) {
-					// String helloFile = "hello.wav";
+
 					playSound(TalkBoxConfig.audFileNames[0][0]);
 				}
 			});
@@ -70,6 +70,7 @@ public class SimPreview extends JPanel {
 				}
 			});
 		}
+
 	}
 
 	/**
@@ -77,13 +78,14 @@ public class SimPreview extends JPanel {
 	 * of the button. The Argument being passed in is the name of the Audio file
 	 * which the button will play.
 	 * 
-	 * @param soundName name of audio file associated with the respective button
+	 * @param soundName
+	 *            name of audio file associated with the respective button
 	 */
 
-	private void playSound(String soundName) {
+	protected void playSound(String soundName) {
 		try {
-			File file = new File(soundName); // gets the file from its
-																		// package using file name
+			File file = new File("audio/" + soundName); // gets the file from its
+														// package using file name
 			Clip clip = AudioSystem.getClip();
 			clip.open(AudioSystem.getAudioInputStream(file));
 			clip.start(); // allows audio clip to be played
@@ -93,7 +95,6 @@ public class SimPreview extends JPanel {
 		}
 	}
 
-	
 	private class AudioButton extends JButton {
 		private AudioButton(String text) {
 			super(text);

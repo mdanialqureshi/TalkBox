@@ -24,7 +24,7 @@ import sim.talkbox.TalkBoxSim;
 public class Recorder extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private  SoundRecorder recorder = new SoundRecorder();
+	private SoundRecorder recorder = new SoundRecorder();
 	boolean isRecording = false;
 	JButton recordBtn;
 	private ImageIcon micOff;
@@ -39,10 +39,9 @@ public class Recorder extends JPanel {
 	String filePath;
 	JButton updateNumberOfButtons;
 	private SimPreview simPreview;
+	boolean isCancelled = false;
 
-
-
-// Creating the Recorder sector of the TalkBox Configuration Application.
+	// Creating the Recorder sector of the TalkBox Configuration Application.
 	public Recorder(SimPreview simPreview) {
 		this.simPreview = simPreview;
 
@@ -146,7 +145,7 @@ public class Recorder extends JPanel {
 			}
 		});
 
-		PlayEditToggle toggle = new PlayEditToggle(simPreview);
+		PlayEditToggle toggle = new PlayEditToggle(simPreview, this);
 		springLayout.putConstraint(SpringLayout.NORTH, toggle, 10, SpringLayout.NORTH, this);
 		springLayout.putConstraint(SpringLayout.WEST, toggle, 0, SpringLayout.WEST, launchSimulator);
 		springLayout.putConstraint(SpringLayout.SOUTH, toggle, 38, SpringLayout.SOUTH, txtNumberOfButtons);
@@ -176,7 +175,10 @@ public class Recorder extends JPanel {
 			filePath = fileChooser.getSelectedFile().toString();
 			SoundRecorder.userAudioFileName = fileChooser.getSelectedFile().getName();
 			SoundRecorder.fileLocation = filePath;
+			isCancelled = false;
 			System.out.println(filePath);
+		} else if (returnValue == JFileChooser.CANCEL_OPTION) {
+			isCancelled = true;
 		}
 
 	}
@@ -189,23 +191,26 @@ public class Recorder extends JPanel {
 			// multiple recordings file name counter
 		} else {
 			JFileChooserSave();
-			Thread stopper = new Thread(new Runnable() {
-				public void run() {
-					try {
-						isRecording = true;
-						recordInfo.setText("Recording in progress.");
-						recordBtn.setIcon(micOn);
-						recorder.start();
-					} catch (LineUnavailableException lue) {
-						System.out.println("Line not supported. Recording not started.");
-						recordBtn.setIcon(micOff);
-						recordInfo.setText("Mic not detected");
-						isRecording = false;
-						recorder.finish();
+			if (isCancelled == false) {
+				Thread stopper = new Thread(new Runnable() {
+					public void run() {
+						try {
+							isRecording = true;
+							recordInfo.setText("Recording in progress.");
+							recordBtn.setIcon(micOn);
+							recorder.start();
+						} catch (LineUnavailableException lue) {
+							System.out.println("Line not supported. Recording not started.");
+							recordBtn.setIcon(micOff);
+							recordInfo.setText("Mic not detected");
+							isRecording = false;
+							recorder.finish();
+						}
 					}
-				}
-			});
-			stopper.start();
+				});
+				stopper.start();
+			}
+
 		}
 
 	}

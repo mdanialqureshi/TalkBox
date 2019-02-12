@@ -1,12 +1,9 @@
 package config.talkbox;
 
-import javax.swing.JPanel;
 import javax.swing.JSplitPane;
-import javax.swing.JTextField;
 
 public class SimRecorderSplit extends JSplitPane {
 
-	private JTextField txtNumberOfButtons;
 	SimPreview simPreview;
 	Recorder recorder;
 	

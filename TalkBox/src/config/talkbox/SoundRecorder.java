@@ -28,9 +28,6 @@ public class SoundRecorder {
 	Path userDirectoryPath;
 	Path myDirectoryPath;
 	static String userAudioFileName;
-	
-	
-
 
 	AudioFormat getAudioFormat() {
 		float sampleRate = 16_000;
@@ -43,7 +40,7 @@ public class SoundRecorder {
 	}
 
 	void start() throws LineUnavailableException {
-		
+
 		userDirectoryString = fileLocation + ".wav";
 		wavFile = new File(userDirectoryString);
 		createFile();
@@ -71,10 +68,10 @@ public class SoundRecorder {
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
 		}
-		
+
 		putInSharedDirectory();
-		//adding audio file to TalkBoxConfig field
-		TalkBoxConfig.audFileNames[0][counter] = wavFile.getAbsolutePath();
+		// adding audio file to TalkBoxConfig field1
+		TalkBoxConfig.audFileNames[0][counter] = wavFile.getName();
 		System.out.println(TalkBoxConfig.audFileNames[0][counter]);
 		SoundRecorder.counter++;
 	}
@@ -87,16 +84,15 @@ public class SoundRecorder {
 			e.printStackTrace();
 		}
 	}
-	
-	
+
 	private void putInSharedDirectory() {
-		
+
 		try {
 			Files.copy(userDirectoryPath, myDirectoryPath);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}		
+		}
 	}
 
 	/**
@@ -110,6 +106,4 @@ public class SoundRecorder {
 		}
 	}
 
-	
-	
 }

@@ -1,5 +1,6 @@
 package config.talkbox;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -21,17 +22,18 @@ public class PlayEditToggle extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private SimPreview simPreview;
 	private JToggleButton toggleBtn;
-	private JLabel modeLbl;
 	private JButton currentBtn;
 	private JTextField buttonLbl;
-	private int buttonNumber;
 	int numOfButtons = TalkBoxConfig.numAudButtons;
+	JLabel instruction;
+	Recorder recObj;
 
 	/**
 	 * 
 	 */
-	public PlayEditToggle(SimPreview simPreview) {
+	public PlayEditToggle(SimPreview simPreview,Recorder recObj) {
 		this.simPreview = simPreview;
+		this.recObj = recObj;
 		JLabel modeLbl = new JLabel("Playback Mode");
 		add(modeLbl);
 		toggleBtn = new JToggleButton("Switch Modes");
@@ -90,7 +92,8 @@ public class PlayEditToggle extends JPanel {
 		int numOfButtons = TalkBoxConfig.numAudButtons;
 
 		for (int i = 0; i < numOfButtons; i++) {
-			editLabel(simPreview.buttons.get(i));
+			editLabelandAudio(simPreview.buttons.get(i));
+
 		}
 
 	}
@@ -103,11 +106,12 @@ public class PlayEditToggle extends JPanel {
 
 	}
 
-	private void editLabel(JButton b) {
+	private void editLabelandAudio(JButton b) {
 		b.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				currentBtn = b;
-			}
+				addButtonAudio();
+				}
 		});
 	}
 
@@ -115,11 +119,28 @@ public class PlayEditToggle extends JPanel {
 		if (currentBtn != null) {
 			currentBtn.setText(buttonLbl.getText());
 		}
+		// currentBtn.setBackground(null);
 	}
 
 	private void resetPlayMode(JButton b) {
 		ActionListener[] list = b.getActionListeners();
 		b.removeActionListener(list[0]);
+	}
+
+	
+	
+	
+	private void addButtonAudio() {
+
+		if (currentBtn != null && TalkBoxConfig.audFileNames[0][0] != null) {
+			currentBtn.addActionListener(new ActionListener() {
+				
+				public void actionPerformed(ActionEvent e) {
+					simPreview.playSound(TalkBoxConfig.audFileNames[0][SoundRecorder.counter-1]);
+				}
+			});
+		}
+		
 	}
 
 }
