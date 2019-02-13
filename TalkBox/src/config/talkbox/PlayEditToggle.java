@@ -35,6 +35,7 @@ public class PlayEditToggle extends JPanel {
 	JPanel confirmationPrompt;
 	JButton addToButton;
 	JButton cancel;
+	JLabel fileName;
 
 	/**
 	 * 
@@ -44,8 +45,11 @@ public class PlayEditToggle extends JPanel {
 		confirmationPrompt = new JPanel(new FlowLayout());
 		addToButton = new JButton("Add recording to button");
 		cancel = new JButton("Cancel");
+		fileName = new JLabel();
+		confirmationPrompt.add(fileName);
 		
-		confirmAudio.setSize(200, 100);
+		confirmAudio.setSize(200, 120);
+		confirmAudio.setResizable(false);
 		confirmationPrompt.add(addToButton);
 		confirmationPrompt.add(cancel);
 		confirmAudio.add(confirmationPrompt);
@@ -150,7 +154,7 @@ public class PlayEditToggle extends JPanel {
 	
 	
 	private void addButtonAudio() {
-		
+		fileName.setText(SoundRecorder.userAudioFileName + ".wav");
 		confirmAudio.setVisible(true);
 		
 		addToButton.addActionListener(new ActionListener() {
