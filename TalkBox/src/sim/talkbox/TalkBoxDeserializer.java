@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.nio.file.Path;
+import java.util.HashMap;
 
 import config.talkbox.TalkBoxSerializer;
 
@@ -17,12 +18,14 @@ public class TalkBoxDeserializer {
 	private TalkBoxSerializer config;
 	private File talkBoxDataPath;
 	private File talkBoxData;
+	private HashMap<Integer,String> buttonsMap;
 
 	/*
 	 * Default settings for simulator to load on startup
 	 */
 	public TalkBoxDeserializer() {
 		config = new TalkBoxSerializer();
+		buttonsMap = config.getButtonsMap();
 		numAudioButtons = config.getNumberOfAudioButtons();
 		numAudioSets = config.getNumberOfAudioSets();
 		numSwapButtons = config.getTotalNumberOfButtons();
@@ -52,6 +55,10 @@ public class TalkBoxDeserializer {
 		}
 	}
 
+	public HashMap<Integer,String> getButtonsMap(){
+		return buttonsMap;
+	}
+	
 	public int getNumberOfAudioButtons() {
 		return numAudioButtons;
 	}

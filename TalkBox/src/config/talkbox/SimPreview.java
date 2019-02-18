@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
@@ -26,6 +27,8 @@ public class SimPreview extends JPanel {
 	protected JPanel buttonsPanel;
 	private int nButtons = 0;
 	private int nButtonsPrev = 0;
+	//HashMap holds integer which is button number and string which is filename associated with the button
+	HashMap<Integer,String> buttonsMap = new HashMap<Integer,String>();
 
 	public SimPreview() {
 		setBackground(Color.DARK_GRAY);
@@ -111,16 +114,14 @@ public class SimPreview extends JPanel {
 
 	
 	public class AudioButton extends JButton {
-	
-		
-	/**
-		 * 
-		 */
-		private static final long serialVersionUID = 1L;
+
+	private static final long serialVersionUID = 1L;
 	public String fileName;
+	public int buttonNumber;
 	
 	public AudioButton(String text) {
 		super(text);
+		buttonNumber = Integer.parseInt(text);
 		setVerticalAlignment(SwingConstants.BOTTOM);
 		setFont(new Font("Chalkboard", Font.PLAIN, 25));
 		setPreferredSize(new Dimension(70, 40));
@@ -138,9 +139,22 @@ public class SimPreview extends JPanel {
 			for (int i = nButtonsPrev; i < nButtons; i++) {
 				buttons.add(new AudioButton("" + (i + 1)));
 				buttonsPanel.add(buttons.get(i));
+				
 			}
 		}
 		nButtonsPrev = nButtons;
+		
+		
+		for(int i = 0; i < nButtons; i++){
+			if(buttons.get(i).fileName != null) {
+			buttonsMap.put(buttons.get(i).buttonNumber, buttons.get(i).fileName);
+			}
+			
+			TalkBoxConfig.buttonsMap = buttonsMap;
+		}
+		
+		
+		
 	}
 
 	public void updateButtons(int nButtons) {

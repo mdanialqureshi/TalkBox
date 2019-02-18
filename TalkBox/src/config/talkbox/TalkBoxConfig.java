@@ -3,6 +3,7 @@ package config.talkbox;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.nio.file.Path;
+import java.util.HashMap;
 
 import javax.swing.JFrame;
 import javax.swing.JSplitPane;
@@ -25,6 +26,7 @@ public class TalkBoxConfig extends JFrame {
 	static int numSwapButtons = 2;
 	static Path path = null;
 	static String[][] audFileNames = new String[200][200];
+	static HashMap<Integer,String> buttonsMap = new HashMap<Integer,String>();
 
 	/**
 	 * Launch the application.

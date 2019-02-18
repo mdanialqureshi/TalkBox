@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.nio.file.Path;
+import java.util.HashMap;
 
 public class TalkBoxSerializer implements TalkBoxConfiguration, Serializable {
 
@@ -18,8 +19,10 @@ public class TalkBoxSerializer implements TalkBoxConfiguration, Serializable {
 	public String[][] audioFileNames;
 	private File talkBoxDataPath;
 	private File talkBoxData;
+	private HashMap<Integer,String> buttonsMap;
 
 	public TalkBoxSerializer() {
+		buttonsMap = TalkBoxConfig.buttonsMap;
 		numAudioButtons = TalkBoxConfig.numAudButtons;
 		numAudioSets = TalkBoxConfig.numAudSets;
 		numSwapButtons = TalkBoxConfig.numSwapButtons;
@@ -46,6 +49,10 @@ public class TalkBoxSerializer implements TalkBoxConfiguration, Serializable {
 		}
 
 		System.out.println("TalkBox was serialized. Number of audio buttons is: " + this.numAudioButtons);
+	}
+	
+	public HashMap<Integer,String> getButtonsMap(){
+		return buttonsMap;
 	}
 
 	public int getNumberOfAudioButtons() {

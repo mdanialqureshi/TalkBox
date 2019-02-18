@@ -143,7 +143,6 @@ public class PlayEditToggle extends JPanel {
 		if (currentBtn != null) {
 			currentBtn.setText(buttonLbl.getText());
 		}
-		// currentBtn.setBackground(null);
 	}
 
 	private void resetPlayMode(AudioButton b) {
@@ -162,6 +161,7 @@ public class PlayEditToggle extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				currentBtn.fileName = SoundRecorder.userAudioFileName + ".wav";
 				confirmAudio.dispose();
+				simPreview.updateButtons(TalkBoxConfig.numAudButtons);
 			}
 		});
 		
@@ -171,10 +171,6 @@ public class PlayEditToggle extends JPanel {
 				confirmAudio.dispose();
 			}
 		});
-		
-		
-		
-		
 	}
 
 }

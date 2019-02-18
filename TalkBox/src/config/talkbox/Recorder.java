@@ -191,7 +191,7 @@ public class Recorder extends JPanel {
 			// multiple recordings file name counter
 		} else {
 			JFileChooserSave();
-			if (isCancelled == false) {
+			if (!isCancelled) {
 				Thread stopper = new Thread(new Runnable() {
 					public void run() {
 						try {
