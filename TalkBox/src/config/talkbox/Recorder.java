@@ -68,8 +68,10 @@ public class Recorder extends JPanel {
 		});
 
 		// getting image from its package and making a new ImageIcon
-		micOff = new ImageIcon("images/mic-off-icon.png");
-		micOn = new ImageIcon("images/mic-on-icon.png");
+		java.net.URL micOffURL = Recorder.class.getResource("images/mic-off-icon.png");
+		micOff = new ImageIcon(micOffURL);
+		java.net.URL micOnURL = Recorder.class.getResource("images/mic-on-icon.png");
+		micOn = new ImageIcon(micOnURL);
 
 		recordBtn.setIcon(micOff); // setting button Icon to the image
 		recordBtn.setForeground(Color.DARK_GRAY);
