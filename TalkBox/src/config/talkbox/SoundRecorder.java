@@ -44,7 +44,7 @@ public class SoundRecorder {
 		wavFile = new File(userDirectoryString);
 		createFile();
 		userDirectoryPath = Paths.get(userDirectoryString);
-		myDirectoryPath = Paths.get("audio/" + userAudioFileName + ".wav");
+		myDirectoryPath = Paths.get("src/audioFiles/" + userAudioFileName + ".wav");
 
 		try {
 			AudioFormat format = getAudioFormat();

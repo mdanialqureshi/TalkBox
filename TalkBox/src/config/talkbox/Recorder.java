@@ -35,7 +35,7 @@ public class Recorder extends JPanel {
 	JTextField txtNumberOfButtons;
 	private SpringLayout springLayout;
 	private JProgressBar progressBar;
-	private JFileChooser fileChooser;
+	protected JFileChooser fileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
 	String filePath;
 	JButton updateNumberOfButtons;
 	private SimPreview simPreview;
@@ -164,7 +164,7 @@ public class Recorder extends JPanel {
 	}
 
 	protected void JFileChooserSave() {
-		fileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+	//	fileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
 		fileChooser.setDialogTitle("Name your audio file and save to a directory: ");
 		fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 		fileChooser.setVisible(true);
