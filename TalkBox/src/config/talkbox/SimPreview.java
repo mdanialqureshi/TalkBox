@@ -8,6 +8,7 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -25,6 +26,7 @@ public class SimPreview extends JPanel {
 
 	ArrayList<AudioButton> buttons = new ArrayList<AudioButton>();
 	protected JPanel buttonsPanel;
+	private JButton currentBtn;
 	private int nButtons = 0;
 	private int nButtonsPrev = 0;
 	//HashMap holds integer which is button number and string which is filename associated with the button
@@ -60,34 +62,27 @@ public class SimPreview extends JPanel {
 			b.addActionListener(new ActionListener() {
 				
 				public void actionPerformed(ActionEvent e) {
-					
+					removeHighlight();
+					currentBtn = b;
+					highlightBtn();
 					playSound(b.fileName);
 				}
 				
 			});
 		}
-		
-		
-//		if (buttons.size() >= 2) {
-//			// adding audio functionality to some of the buttons
-//			buttons.get(0).addActionListener(new ActionListener() {
-//				// button 1 has an actionListener which calls PlaySound Method and plays sound
-//				// of the file. (When button is clicked)
-//				public void actionPerformed(ActionEvent e) {
-//
-//					playSound(TalkBoxConfig.audFileNames[0][0]);
-//				}
-//			});
-//
-//			buttons.get(1).addActionListener(new ActionListener() {
-//				// button 2 has an actionListener which calls PlaySound Method and plays sound
-//				// of the file. (When button is clicked)
-//				public void actionPerformed(ActionEvent e) {
-//					playSound(TalkBoxConfig.audFileNames[0][1]); // file name must be passed in as a String parameter.
-//				}
-//			});
-//		}
 
+	}
+	
+	public void removeHighlight() {
+		if (currentBtn != null) {
+			currentBtn.setForeground(Color.BLACK);
+		}
+	}
+	
+	public void highlightBtn() {
+		if (currentBtn != null) {
+			currentBtn.setForeground(Color.BLUE);
+		}
 	}
 
 	/**

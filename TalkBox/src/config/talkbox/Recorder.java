@@ -40,6 +40,7 @@ public class Recorder extends JPanel {
 	JButton updateNumberOfButtons;
 	private SimPreview simPreview;
 	boolean isCancelled = false;
+	private JTextField fileLbl;
 
 	// Creating the Recorder sector of the TalkBox Configuration Application.
 	public Recorder(SimPreview simPreview) {
@@ -72,7 +73,6 @@ public class Recorder extends JPanel {
 		micOff = new ImageIcon(micOffURL);
 		java.net.URL micOnURL = Recorder.class.getResource("images/mic-on-icon.png");
 		micOn = new ImageIcon(micOnURL);
-
 		recordBtn.setIcon(micOff); // setting button Icon to the image
 		recordBtn.setForeground(Color.DARK_GRAY);
 		add(recordBtn);
@@ -85,6 +85,20 @@ public class Recorder extends JPanel {
 		springLayout.putConstraint(SpringLayout.NORTH, recordInfo, 6, SpringLayout.SOUTH, recordBtn);
 		springLayout.putConstraint(SpringLayout.SOUTH, recordInfo, 26, SpringLayout.SOUTH, recordBtn);
 		add(recordInfo);
+		
+		JTextField fileLbl = new JTextField("Enter file name: ");
+		springLayout.putConstraint(SpringLayout.HORIZONTAL_CENTER, fileLbl, 0, SpringLayout.HORIZONTAL_CENTER,
+				recordBtn);
+		fileLbl.setColumns(10);
+		add(fileLbl);
+		fileLbl.addFocusListener(new FocusListener() {
+			public void focusGained(FocusEvent e) {
+				fileLbl.setText(fileChooser.getSelectedFile().getName());
+			}
+
+			public void focusLost(FocusEvent e) {
+			}
+		});
 
 		/*
 		 * launching the simulator from the configuration application
@@ -113,10 +127,9 @@ public class Recorder extends JPanel {
 		springLayout.putConstraint(SpringLayout.SOUTH, txtNumberOfButtons, -238, SpringLayout.SOUTH, this);
 		txtNumberOfButtons.setToolTipText("Input number of buttons and press Enter key to update");
 		updateNumberOfButtons = new JButton("Update Buttons");
+		springLayout.putConstraint(SpringLayout.NORTH, updateNumberOfButtons, 70, SpringLayout.NORTH, this);
 		springLayout.putConstraint(SpringLayout.HORIZONTAL_CENTER, updateNumberOfButtons, 0,
 				SpringLayout.HORIZONTAL_CENTER, txtNumberOfButtons);
-		springLayout.putConstraint(SpringLayout.NORTH, updateNumberOfButtons, 60, SpringLayout.NORTH,
-				txtNumberOfButtons);
 		add(updateNumberOfButtons);
 		updateNumberOfButtons.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -150,7 +163,7 @@ public class Recorder extends JPanel {
 		PlayEditToggle toggle = new PlayEditToggle(simPreview, this);
 		springLayout.putConstraint(SpringLayout.NORTH, toggle, 10, SpringLayout.NORTH, this);
 		springLayout.putConstraint(SpringLayout.WEST, toggle, 0, SpringLayout.WEST, launchSimulator);
-		springLayout.putConstraint(SpringLayout.SOUTH, toggle, 38, SpringLayout.SOUTH, txtNumberOfButtons);
+		springLayout.putConstraint(SpringLayout.SOUTH, toggle, -70, SpringLayout.NORTH, launchSimulator);
 		springLayout.putConstraint(SpringLayout.EAST, toggle, 18, SpringLayout.EAST, launchSimulator);
 		add(toggle);
 
@@ -182,7 +195,6 @@ public class Recorder extends JPanel {
 		} else if (returnValue == JFileChooser.CANCEL_OPTION) {
 			isCancelled = true;
 		}
-
 	}
 
 	protected void recordAudio() {
