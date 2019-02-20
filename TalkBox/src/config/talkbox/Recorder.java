@@ -165,7 +165,7 @@ public class Recorder extends JPanel {
 
 	protected void JFileChooserSave() {
 		fileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
-		fileChooser.setDialogTitle("Choose a directory to save your file: ");
+		fileChooser.setDialogTitle("Name your audio file and save to a directory: ");
 		fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 		fileChooser.setVisible(true);
 
