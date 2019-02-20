@@ -103,7 +103,7 @@ public class ButtonPanel extends JPanel {
 
 	private void playSound(String soundName) {
 		try {
-			File file = new File("audio/" + soundName); // gets the file from its
+			File file = new File("src/audioFiles/" + soundName); // gets the file from its
 																		// package using file name
 			Clip clip = AudioSystem.getClip();
 			clip.open(AudioSystem.getAudioInputStream(file));
