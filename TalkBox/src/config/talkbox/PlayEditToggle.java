@@ -24,9 +24,9 @@ public class PlayEditToggle extends JPanel {
 	 */
 	private static final long serialVersionUID = 1L;
 	private SimPreview simPreview;
-	private JToggleButton toggleBtn;
+	protected JToggleButton toggleBtn;
 	private AudioButton currentBtn;
-	private JTextField buttonLbl;
+	protected JTextField buttonLbl;
 	int numOfButtons = TalkBoxConfig.numAudButtons;
 	JLabel instruction;
 	Recorder recObj;

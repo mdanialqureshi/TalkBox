@@ -40,6 +40,7 @@ public class Recorder extends JPanel {
 	JButton updateNumberOfButtons;
 	private SimPreview simPreview;
 	boolean isCancelled = false;
+	protected PlayEditToggle toggle;
 
 	// Creating the Recorder sector of the TalkBox Configuration Application.
 	public Recorder(SimPreview simPreview) {
@@ -145,7 +146,7 @@ public class Recorder extends JPanel {
 			}
 		});
 
-		PlayEditToggle toggle = new PlayEditToggle(simPreview, this);
+		toggle = new PlayEditToggle(simPreview, this);
 		springLayout.putConstraint(SpringLayout.NORTH, toggle, 10, SpringLayout.NORTH, this);
 		springLayout.putConstraint(SpringLayout.WEST, toggle, 0, SpringLayout.WEST, launchSimulator);
 		springLayout.putConstraint(SpringLayout.SOUTH, toggle, 38, SpringLayout.SOUTH, txtNumberOfButtons);

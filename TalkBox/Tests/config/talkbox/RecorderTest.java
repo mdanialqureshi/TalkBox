@@ -3,6 +3,8 @@ package config.talkbox;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.awt.AWTException;
+import java.awt.Component;
+import java.awt.Container;
 import java.awt.Robot;
 import java.awt.event.KeyEvent;
 import java.io.File;
@@ -30,15 +32,15 @@ class RecorderTest {
 	
 	@Test
 	void testRecording() throws InterruptedException, AWTException {
-		Robot robot = new Robot();
+	//	Robot robot = new Robot();
 
 		recObj.fileChooser.setCurrentDirectory((new File  
 				(System.getProperty("user.home") + "/Desktop")));
 		recObj.fileChooser.setSelectedFile(new File("test"));
 		Thread.sleep(500);
 		recObj.recordBtn.doClick();
-		robot.keyPress(KeyEvent.VK_ENTER);
-		robot.keyRelease(KeyEvent.VK_ENTER);
+//		robot.keyPress(KeyEvent.VK_ENTER);
+//		robot.keyRelease(KeyEvent.VK_ENTER);
 		Thread.sleep(2000);
 		recObj.recordBtn.doClick();
 		String h = System.getProperty("user.home") + "/Desktop/test";
