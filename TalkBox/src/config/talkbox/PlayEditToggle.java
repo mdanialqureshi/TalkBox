@@ -38,6 +38,7 @@ public class PlayEditToggle extends JPanel {
 	JButton addToButton;
 	JButton cancel;
 	JLabel fileName;
+	JButton updateButtonLbl;
 
 	/**
 	 * 
@@ -66,12 +67,16 @@ public class PlayEditToggle extends JPanel {
 		buttonLbl = new JTextField("Button Label");
 		add(buttonLbl);
 		buttonLbl.setColumns(10);
+		updateButtonLbl = new JButton("Update Label");
+		add(updateButtonLbl);
+		
 
 		for (int i = 0; i < numOfButtons; i++) {
 			AudioButton b = simPreview.buttons.get(i);
 			b.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					buttonLbl.setText(b.getText());
+					PlayMode();
 				}
 			});
 		}
@@ -117,6 +122,13 @@ public class PlayEditToggle extends JPanel {
 		});
 		
 		buttonLbl.setEnabled(true);
+		updateButtonLbl.setEnabled(true);
+		updateButtonLbl.addActionListener(new ActionListener() {
+			
+			public void actionPerformed(ActionEvent e) {
+				updateLabel();
+			}
+		});
 
 		for (int i = 0; i < numOfButtons; i++) {
 			editLabelandAudio(simPreview.buttons.get(i));
@@ -137,6 +149,8 @@ public class PlayEditToggle extends JPanel {
 				}
 			}
 		});
+		
+		updateButtonLbl.setEnabled(false);
 		
 		buttonLbl.setEnabled(false);
 
