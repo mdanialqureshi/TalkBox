@@ -32,6 +32,12 @@ public class SimPreview extends JPanel {
 	// associated with the button
 	HashMap<Integer, String> buttonsMap = new HashMap<Integer, String>();
 
+	public enum SimPreviewMode {
+		PLAY_MODE, EDIT_MODE;
+	}
+
+	public SimPreviewMode mode = SimPreviewMode.PLAY_MODE;
+
 	public SimPreview() {
 		setBackground(Color.DARK_GRAY);
 		setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -60,12 +66,15 @@ public class SimPreview extends JPanel {
 		for (AudioButton b : buttons) {
 
 			b.addActionListener(new ActionListener() {
-
 				public void actionPerformed(ActionEvent e) {
-					removeHighlight();
-					currentBtn = b;
-					highlightBtn();
-					playSound(b.fileName);
+					if (mode == SimPreviewMode.PLAY_MODE) {
+						b.playSound();
+					} else if (mode == SimPreviewMode.EDIT_MODE) {
+						removeHighlight();
+						currentBtn = b;
+						highlightBtn();
+					}
+
 				}
 
 			});
@@ -85,31 +94,11 @@ public class SimPreview extends JPanel {
 		}
 	}
 
-	/**
-	 * ActionListeners of the buttons call playSound() method which plays the sound
-	 * of the button. The Argument being passed in is the name of the Audio file
-	 * which the button will play.
-	 * 
-	 * @param soundName name of audio file associated with the respective button
-	 */
-
-	protected void playSound(String soundName) {
-		try {
-			File file = new File("src/audioFiles/" + soundName); // gets the file from its
-			// package using file name
-			Clip clip = AudioSystem.getClip();
-			clip.open(AudioSystem.getAudioInputStream(file));
-			clip.start(); // allows audio clip to be played
-		} catch (Exception e) {
-			System.err.println("Could not play back audio.");
-			System.err.println(e.getMessage());
-		}
-	}
-
 	public class AudioButton extends JButton {
 
 		private static final long serialVersionUID = 1L;
 		public String fileName;
+		private File audioFile;
 		public int buttonNumber;
 
 		public AudioButton(int buttonNumber, String text) {
@@ -118,6 +107,26 @@ public class SimPreview extends JPanel {
 			setVerticalAlignment(SwingConstants.BOTTOM);
 			setFont(new Font("Chalkboard", Font.PLAIN, 25));
 			setPreferredSize(new Dimension(70, 40));
+		}
+
+		public void setAudioFile(String fileName) {
+			this.fileName = fileName;
+			audioFile = new File("src/audioFiles/" + fileName);
+		}
+
+		public void playSound() {
+			if (audioFile != null) {
+				try {
+					Clip clip = AudioSystem.getClip();
+					clip.open(AudioSystem.getAudioInputStream(audioFile));
+					clip.start(); // allows audio clip to be played
+				} catch (Exception e) {
+					System.err.println("Could not play back audio.");
+					System.err.println(e.getMessage());
+				}
+			} else {
+				System.err.println("No audio file associated with this button.");
+			}
 		}
 	}
 

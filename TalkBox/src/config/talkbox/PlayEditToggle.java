@@ -18,6 +18,7 @@ import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 
 import config.talkbox.SimPreview.AudioButton;
+import config.talkbox.SimPreview.SimPreviewMode;
 
 public class PlayEditToggle extends JPanel {
 
@@ -78,17 +79,19 @@ public class PlayEditToggle extends JPanel {
 				}
 			});
 		}
-		buttonLbl.setEnabled(false);
-		updateButtonLbl.setEnabled(false);
+
+		setupButtonLbl();
+		setupUpdateButtonLbl();
+
 		toggleBtn.addItemListener(new ItemListener() {
 
 			public void itemStateChanged(ItemEvent ev) {
 				if (ev.getStateChange() == ItemEvent.SELECTED) {
-					EditMode();
+					editMode();
 					modeLbl.setText("Edit Mode");
 				} else if (ev.getStateChange() == ItemEvent.DESELECTED) {
+					playMode();
 					modeLbl.setText("Playback Mode");
-					PlayMode();
 				}
 			}
 
@@ -96,14 +99,22 @@ public class PlayEditToggle extends JPanel {
 
 	}
 
-	private void EditMode() {
-		int numOfButtons = TalkBoxConfig.numAudButtons;
+	private void setupUpdateButtonLbl() {
+		updateButtonLbl.setEnabled(false);
+		updateButtonLbl.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				updateLabel();
+			}
+		});
+	}
+
+	private void setupButtonLbl() {
+		buttonLbl.setEnabled(false);
 		buttonLbl.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				updateLabel();
 			}
 		});
-
 		buttonLbl.addFocusListener(new FocusListener() {
 
 			public void focusGained(FocusEvent e) {
@@ -116,24 +127,22 @@ public class PlayEditToggle extends JPanel {
 				}
 			}
 		});
+	}
 
+	private void editMode() {
+		simPreview.mode = SimPreviewMode.EDIT_MODE;
+		int numOfButtons = TalkBoxConfig.numAudButtons;
 		buttonLbl.setEnabled(true);
 		updateButtonLbl.setEnabled(true);
-		updateButtonLbl.addActionListener(new ActionListener() {
-
-			public void actionPerformed(ActionEvent e) {
-				updateLabel();
-			}
-		});
 
 		for (int i = 0; i < numOfButtons; i++) {
 			editLabelandAudio(simPreview.buttons.get(i));
 		}
-
+		
 	}
 
-	private void PlayMode() {
-
+	private void playMode() {
+		simPreview.mode = SimPreviewMode.PLAY_MODE;
 		updateButtonLbl.setEnabled(false);
 		buttonLbl.setEnabled(false);
 
