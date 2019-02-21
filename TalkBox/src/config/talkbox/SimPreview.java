@@ -8,7 +8,6 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -29,8 +28,9 @@ public class SimPreview extends JPanel {
 	private JButton currentBtn;
 	private int nButtons = 0;
 	private int nButtonsPrev = 0;
-	//HashMap holds integer which is button number and string which is filename associated with the button
-	HashMap<Integer,String> buttonsMap = new HashMap<Integer,String>();
+	// HashMap holds integer which is button number and string which is filename
+	// associated with the button
+	HashMap<Integer, String> buttonsMap = new HashMap<Integer, String>();
 
 	public SimPreview() {
 		setBackground(Color.DARK_GRAY);
@@ -56,29 +56,29 @@ public class SimPreview extends JPanel {
 	}
 
 	private void addButtonAudio() {
-		
-		for(AudioButton b : buttons) {
-			
+
+		for (AudioButton b : buttons) {
+
 			b.addActionListener(new ActionListener() {
-				
+
 				public void actionPerformed(ActionEvent e) {
 					removeHighlight();
 					currentBtn = b;
 					highlightBtn();
 					playSound(b.fileName);
 				}
-				
+
 			});
 		}
 
 	}
-	
+
 	public void removeHighlight() {
 		if (currentBtn != null) {
 			currentBtn.setForeground(Color.BLACK);
 		}
 	}
-	
+
 	public void highlightBtn() {
 		if (currentBtn != null) {
 			currentBtn.setForeground(Color.BLUE);
@@ -90,14 +90,13 @@ public class SimPreview extends JPanel {
 	 * of the button. The Argument being passed in is the name of the Audio file
 	 * which the button will play.
 	 * 
-	 * @param soundName
-	 *            name of audio file associated with the respective button
+	 * @param soundName name of audio file associated with the respective button
 	 */
 
 	protected void playSound(String soundName) {
 		try {
 			File file = new File("src/audioFiles/" + soundName); // gets the file from its
-														// package using file name
+			// package using file name
 			Clip clip = AudioSystem.getClip();
 			clip.open(AudioSystem.getAudioInputStream(file));
 			clip.start(); // allows audio clip to be played
@@ -107,22 +106,20 @@ public class SimPreview extends JPanel {
 		}
 	}
 
-	
 	public class AudioButton extends JButton {
 
-	private static final long serialVersionUID = 1L;
-	public String fileName;
-	public int buttonNumber;
-	
-	public AudioButton(String text) {
-		super(text);
-		buttonNumber = Integer.parseInt(text);
-		setVerticalAlignment(SwingConstants.BOTTOM);
-		setFont(new Font("Chalkboard", Font.PLAIN, 25));
-		setPreferredSize(new Dimension(70, 40));
-	}
-	}
+		private static final long serialVersionUID = 1L;
+		public String fileName;
+		public int buttonNumber;
 
+		public AudioButton(int buttonNumber, String text) {
+			super(text);
+			this.buttonNumber = buttonNumber;
+			setVerticalAlignment(SwingConstants.BOTTOM);
+			setFont(new Font("Chalkboard", Font.PLAIN, 25));
+			setPreferredSize(new Dimension(70, 40));
+		}
+	}
 
 	private void setupButtons() {
 		if (nButtons < nButtonsPrev) {
@@ -132,24 +129,20 @@ public class SimPreview extends JPanel {
 			}
 		} else {
 			for (int i = nButtonsPrev; i < nButtons; i++) {
-				buttons.add(new AudioButton("" + (i + 1)));
+				buttons.add(new AudioButton(i + 1, Integer.toString(i + 1)));
 				buttonsPanel.add(buttons.get(i));
-				
 			}
 		}
 		nButtonsPrev = nButtons;
-		
-		
-		for(int i = 0; i < nButtons; i++){
-			if(buttons.get(i).fileName != null) {
-			buttonsMap.put(buttons.get(i).buttonNumber, buttons.get(i).fileName);
+
+		for (int i = 0; i < nButtons; i++) {
+			if (buttons.get(i).fileName != null) {
+				buttonsMap.put(buttons.get(i).buttonNumber, buttons.get(i).fileName);
 			}
-			
+
 			TalkBoxConfig.buttonsMap = buttonsMap;
 		}
-		
-		
-		
+
 	}
 
 	public void updateButtons(int nButtons) {
