@@ -15,18 +15,18 @@ public class TalkBoxSerializer implements TalkBoxConfiguration, Serializable {
 	private int numAudioButtons;
 	private int numAudioSets;
 	private int numSwapButtons;
-	private Path path;
+	private Path relativePathToAudioFiles;
 	public String[][] audioFileNames;
 	private File talkBoxDataPath;
 	private File talkBoxData;
-	private HashMap<Integer,String> buttonsMap;
+	private HashMap<Integer, String> buttonsMap;
 
 	public TalkBoxSerializer() {
 		buttonsMap = TalkBoxConfig.buttonsMap;
 		numAudioButtons = TalkBoxConfig.numAudButtons;
 		numAudioSets = TalkBoxConfig.numAudSets;
 		numSwapButtons = TalkBoxConfig.numSwapButtons;
-		path = TalkBoxConfig.path;
+		relativePathToAudioFiles = TalkBoxConfig.talkBoxDataPath.toPath();
 		audioFileNames = TalkBoxConfig.audFileNames;
 	}
 
@@ -34,24 +34,25 @@ public class TalkBoxSerializer implements TalkBoxConfiguration, Serializable {
 		this();
 
 		this.talkBoxDataPath = talkBoxDataPath;
-		this.talkBoxData = new File(talkBoxDataPath + "/TalkBoxData.tbc");
+		this.talkBoxData = new File(talkBoxDataPath, "TalkBoxData.tbc");
 
 		try {
-			talkBoxData.getParentFile().mkdirs();
-			talkBoxData.createNewFile();
-			FileOutputStream fileOut = new FileOutputStream(talkBoxData);
-			ObjectOutputStream out = new ObjectOutputStream(fileOut);
-			out.writeObject(this);
-			out.close();
-			fileOut.close();
+			if (!talkBoxData.exists()) {
+				talkBoxData.getParentFile().mkdirs();
+				talkBoxData.createNewFile();
+				FileOutputStream fileOut = new FileOutputStream(talkBoxData);
+				ObjectOutputStream out = new ObjectOutputStream(fileOut);
+				out.writeObject(this);
+				out.close();
+				fileOut.close();
+			}
+			System.out.println("TalkBox was serialized. Number of audio buttons is: " + this.numAudioButtons);
 		} catch (IOException i) {
 			i.printStackTrace();
 		}
-
-		System.out.println("TalkBox was serialized. Number of audio buttons is: " + this.numAudioButtons);
 	}
-	
-	public HashMap<Integer,String> getButtonsMap(){
+
+	public HashMap<Integer, String> getButtonsMap() {
 		return buttonsMap;
 	}
 
@@ -68,7 +69,7 @@ public class TalkBoxSerializer implements TalkBoxConfiguration, Serializable {
 	}
 
 	public Path getRelativePathToAudioFiles() {
-		return path;
+		return relativePathToAudioFiles;
 	}
 
 	public String[][] getAudioFileNames() {

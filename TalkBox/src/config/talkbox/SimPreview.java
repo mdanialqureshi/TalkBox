@@ -25,7 +25,7 @@ public class SimPreview extends JPanel {
 
 	ArrayList<AudioButton> buttons = new ArrayList<AudioButton>();
 	protected JPanel buttonsPanel;
-	private JButton currentBtn;
+	AudioButton currentBtn;
 	private int nButtons = 0;
 	private int nButtonsPrev = 0;
 	// HashMap holds integer which is button number and string which is filename
@@ -58,6 +58,7 @@ public class SimPreview extends JPanel {
 		// Get number of audio buttons from TalkBoxDeserializer
 		nButtons = TalkBoxConfig.numAudButtons;
 		setupButtons();
+		currentBtn = buttons.get(0);
 		addButtonAudio();
 	}
 
@@ -111,7 +112,7 @@ public class SimPreview extends JPanel {
 
 		public void setAudioFile(String fileName) {
 			this.fileName = fileName;
-			audioFile = new File("src/audioFiles/" + fileName);
+			audioFile = new File(TalkBoxConfig.talkBoxDataPath, fileName);
 		}
 
 		public void playSound() {

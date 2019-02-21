@@ -2,9 +2,6 @@ package config.talkbox;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 import javax.sound.sampled.AudioFileFormat;
 import javax.sound.sampled.AudioFormat;
@@ -14,19 +11,14 @@ import javax.sound.sampled.DataLine;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.TargetDataLine;
 
-
 public class SoundRecorder {
 	// in milliseconds
 	static final long RECORD_TIME = 60_000;
 	static int counter = 0;
 	File wavFile;
-	static String fileLocation;
 	AudioFileFormat.Type fileType = AudioFileFormat.Type.WAVE;
 	TargetDataLine line;
 	String userDirectoryString;
-	Path userDirectoryPath;
-	Path myDirectoryPath;
-	static String userAudioFileName;
 
 	AudioFormat getAudioFormat() {
 		float sampleRate = 16_000;
@@ -38,13 +30,10 @@ public class SoundRecorder {
 		return format;
 	}
 
-	void start() throws LineUnavailableException {
+	void start(int buttonNumber) throws LineUnavailableException {
 
-		userDirectoryString = fileLocation + ".wav";
-		wavFile = new File(userDirectoryString);
+		wavFile = new File(TalkBoxConfig.talkBoxDataPath, String.format("button-%d.wav", buttonNumber));
 		createFile();
-		userDirectoryPath = Paths.get(userDirectoryString);
-		myDirectoryPath = Paths.get("src/audioFiles/" + userAudioFileName + ".wav");
 
 		try {
 			AudioFormat format = getAudioFormat();
@@ -68,7 +57,6 @@ public class SoundRecorder {
 			ioe.printStackTrace();
 		}
 
-		putInSharedDirectory();
 		// adding audio file to TalkBoxConfig field1
 		TalkBoxConfig.audFileNames[0][counter] = wavFile.getName();
 		System.out.println(TalkBoxConfig.audFileNames[0][counter]);
@@ -80,16 +68,6 @@ public class SoundRecorder {
 			wavFile.getParentFile().mkdirs();
 			wavFile.createNewFile();
 		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	private void putInSharedDirectory() {
-
-		try {
-			Files.copy(userDirectoryPath, myDirectoryPath);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

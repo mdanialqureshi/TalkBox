@@ -178,25 +178,6 @@ public class Recorder extends JPanel {
 		}
 	}
 
-	protected void JFileChooserSave() {
-		fileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
-		fileChooser.setDialogTitle("Name your audio file and save to a directory: ");
-		fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-		fileChooser.setVisible(true);
-
-		int returnValue = fileChooser.showSaveDialog(null);
-
-		if (returnValue == JFileChooser.APPROVE_OPTION) {
-			filePath = fileChooser.getSelectedFile().toString();
-			SoundRecorder.userAudioFileName = fileChooser.getSelectedFile().getName();
-			SoundRecorder.fileLocation = filePath;
-			isCancelled = false;
-			System.out.println(filePath);
-		} else if (returnValue == JFileChooser.CANCEL_OPTION) {
-			isCancelled = true;
-		}
-	}
-
 	protected void recordAudio() {
 		if (isRecording) {
 			recorder.finish();
@@ -204,7 +185,6 @@ public class Recorder extends JPanel {
 			isRecording = false;
 			// multiple recordings file name counter
 		} else {
-			JFileChooserSave();
 			if (!isCancelled) {
 				Thread stopper = new Thread(new Runnable() {
 					public void run() {
@@ -212,7 +192,7 @@ public class Recorder extends JPanel {
 							isRecording = true;
 							recordInfo.setText("Recording in progress.");
 							recordBtn.setIcon(micOn);
-							recorder.start();
+							recorder.start(simPreview.currentBtn.buttonNumber);
 						} catch (LineUnavailableException lue) {
 							System.out.println("Line not supported. Recording not started.");
 							recordBtn.setIcon(micOff);

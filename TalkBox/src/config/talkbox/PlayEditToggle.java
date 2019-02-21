@@ -7,6 +7,7 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.io.File;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -174,13 +175,15 @@ public class PlayEditToggle extends JPanel {
 	}
 
 	private void addButtonAudio() {
-		fileName.setText(SoundRecorder.userAudioFileName + ".wav");
+		File audioFile = new File(TalkBoxConfig.talkBoxDataPath,
+				String.format("button-%d.wav", currentBtn.buttonNumber));
+		fileName.setText(audioFile.getName());
 		confirmAudio.setVisible(true);
 
 		addToButton.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-				currentBtn.setAudioFile(SoundRecorder.userAudioFileName + ".wav");
+				currentBtn.setAudioFile(audioFile.getName());
 				confirmAudio.dispose();
 				simPreview.updateButtons(TalkBoxConfig.numAudButtons);
 			}
