@@ -69,18 +69,17 @@ public class PlayEditToggle extends JPanel {
 		buttonLbl.setColumns(10);
 		updateButtonLbl = new JButton("Update Label");
 		add(updateButtonLbl);
-		
 
 		for (int i = 0; i < numOfButtons; i++) {
 			AudioButton b = simPreview.buttons.get(i);
 			b.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					buttonLbl.setText(b.getText());
-					PlayMode();
 				}
 			});
 		}
-
+		buttonLbl.setEnabled(false);
+		updateButtonLbl.setEnabled(false);
 		toggleBtn.addItemListener(new ItemListener() {
 
 			public void itemStateChanged(ItemEvent ev) {
@@ -88,9 +87,6 @@ public class PlayEditToggle extends JPanel {
 					EditMode();
 					modeLbl.setText("Edit Mode");
 				} else if (ev.getStateChange() == ItemEvent.DESELECTED) {
-					modeLbl.setText("Playback Mode");
-					PlayMode();
-				} else {
 					modeLbl.setText("Playback Mode");
 					PlayMode();
 				}
@@ -120,11 +116,11 @@ public class PlayEditToggle extends JPanel {
 				}
 			}
 		});
-		
+
 		buttonLbl.setEnabled(true);
 		updateButtonLbl.setEnabled(true);
 		updateButtonLbl.addActionListener(new ActionListener() {
-			
+
 			public void actionPerformed(ActionEvent e) {
 				updateLabel();
 			}
@@ -138,20 +134,7 @@ public class PlayEditToggle extends JPanel {
 
 	private void PlayMode() {
 
-		buttonLbl.addFocusListener(new FocusListener() {
-			public void focusGained(FocusEvent e) {
-				buttonLbl.setText("Playback only!");
-			}
-
-			public void focusLost(FocusEvent e) {
-				if (buttonLbl.getText().isEmpty() && currentBtn != null) {
-					buttonLbl.setText(currentBtn.getText());
-				}
-			}
-		});
-		
 		updateButtonLbl.setEnabled(false);
-		
 		buttonLbl.setEnabled(false);
 
 		for (int i = 0; i < numOfButtons; i++) {
