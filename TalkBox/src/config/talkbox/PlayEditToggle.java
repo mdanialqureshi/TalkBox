@@ -180,7 +180,7 @@ public class PlayEditToggle extends JPanel {
 		addToButton.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-				currentBtn.fileName = SoundRecorder.userAudioFileName + ".wav";
+				currentBtn.setAudioFile(SoundRecorder.userAudioFileName + ".wav");
 				confirmAudio.dispose();
 				simPreview.updateButtons(TalkBoxConfig.numAudButtons);
 			}
