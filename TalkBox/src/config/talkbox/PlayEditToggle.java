@@ -1,8 +1,6 @@
 package config.talkbox;
 
-import java.awt.Color;
 import java.awt.FlowLayout;
-import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -138,7 +136,7 @@ public class PlayEditToggle extends JPanel {
 		for (int i = 0; i < numOfButtons; i++) {
 			editLabelandAudio(simPreview.buttons.get(i));
 		}
-		
+
 	}
 
 	private void playMode() {
@@ -150,6 +148,7 @@ public class PlayEditToggle extends JPanel {
 			resetPlayMode(simPreview.buttons.get(i));
 		}
 
+		simPreview.removeHighlight();
 	}
 
 	private void editLabelandAudio(AudioButton b) {
