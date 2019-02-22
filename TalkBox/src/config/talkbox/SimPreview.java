@@ -59,7 +59,7 @@ public class SimPreview extends JPanel {
 		swapButtonsPanel.setForeground(new Color(0, 0, 0));
 		swapButtonsPanel.setBackground(Color.DARK_GRAY);
 		swapButtonsPanel.setLayout(new BoxLayout(swapButtonsPanel, BoxLayout.Y_AXIS));
-		swapButtonsPanel.add(Box.createVerticalStrut(50));
+		swapButtonsPanel.add(Box.createVerticalStrut(15));
 		swap1 = new JButton("Profile 1");
 		swapButtonsPanel.add(swap1);
 		swap2 = new JButton("Profile 2");
