@@ -63,35 +63,33 @@ public class SimPreview extends JPanel {
 	}
 
 	private void addButtonAudio() {
-
 		for (AudioButton b : buttons) {
-
 			b.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					if (mode == SimPreviewMode.PLAY_MODE) {
+						currentBtn = b;
 						b.playSound();
 					} else if (mode == SimPreviewMode.EDIT_MODE) {
 						removeHighlight();
 						currentBtn = b;
 						highlightBtn();
 					}
-
 				}
-
 			});
 		}
-
 	}
 
 	public void removeHighlight() {
 		if (currentBtn != null) {
 			currentBtn.setForeground(Color.BLACK);
+			currentBtn.setFont(new Font("Chalkboard", Font.PLAIN, 25));
 		}
 	}
 
 	public void highlightBtn() {
 		if (currentBtn != null) {
 			currentBtn.setForeground(Color.BLUE);
+			currentBtn.setFont(new Font("Chalkboard", Font.BOLD, 25));
 		}
 	}
 
@@ -157,7 +155,6 @@ public class SimPreview extends JPanel {
 
 			TalkBoxConfig.buttonsMap = buttonsMap;
 		}
-
 	}
 
 	public void updateButtons(int nButtons) {

@@ -61,9 +61,9 @@ public class Recorder extends JPanel {
 		springLayout.putConstraint(SpringLayout.HORIZONTAL_CENTER, recordBtn, 0, SpringLayout.HORIZONTAL_CENTER,
 				progressBar);
 		springLayout.putConstraint(SpringLayout.SOUTH, recordBtn, -57, SpringLayout.NORTH, progressBar);
+		recordBtn.setEnabled(false);
 		recordBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
 				recordAudio();
 			}
 		});
@@ -78,7 +78,8 @@ public class Recorder extends JPanel {
 		add(recordBtn);
 
 		infoIcon = new ImageIcon("images/info-icon.png");
-		recordInfo = new JLabel("Begin recording?", SwingConstants.CENTER);
+
+		recordInfo = new JLabel("Switch to play mode to begin recording.", SwingConstants.CENTER);
 		recordInfo.setIcon(infoIcon);
 		springLayout.putConstraint(SpringLayout.HORIZONTAL_CENTER, recordInfo, 0, SpringLayout.HORIZONTAL_CENTER,
 				recordBtn);

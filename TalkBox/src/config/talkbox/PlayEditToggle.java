@@ -130,9 +130,14 @@ public class PlayEditToggle extends JPanel {
 
 	private void editMode() {
 		simPreview.mode = SimPreviewMode.EDIT_MODE;
+		recObj.recordBtn.setEnabled(true);
 		int numOfButtons = TalkBoxConfig.numAudButtons;
 		buttonLbl.setEnabled(true);
 		updateButtonLbl.setEnabled(true);
+		recObj.recordInfo.setText("Begin recording?");
+
+		currentBtn = simPreview.currentBtn;
+		simPreview.highlightBtn();
 
 		for (int i = 0; i < numOfButtons; i++) {
 			editLabelandAudio(simPreview.buttons.get(i));
@@ -144,6 +149,8 @@ public class PlayEditToggle extends JPanel {
 		simPreview.mode = SimPreviewMode.PLAY_MODE;
 		updateButtonLbl.setEnabled(false);
 		buttonLbl.setEnabled(false);
+		recObj.recordBtn.setEnabled(false);
+		recObj.recordInfo.setText("Switch to play mode to begin recording.");
 
 		for (int i = 0; i < numOfButtons; i++) {
 			resetPlayMode(simPreview.buttons.get(i));
@@ -156,7 +163,6 @@ public class PlayEditToggle extends JPanel {
 		b.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				currentBtn = b;
-				addButtonAudio();
 			}
 		});
 	}
@@ -170,29 +176,6 @@ public class PlayEditToggle extends JPanel {
 	private void resetPlayMode(AudioButton b) {
 		ActionListener[] list = b.getActionListeners();
 		b.removeActionListener(list[0]);
-	}
-
-	private void addButtonAudio() {
-		File audioFile = new File(TalkBoxConfig.talkBoxDataPath,
-				String.format("button-%d.wav", currentBtn.buttonNumber));
-		fileName.setText(audioFile.getName());
-		confirmAudio.setVisible(true);
-
-		addToButton.addActionListener(new ActionListener() {
-
-			public void actionPerformed(ActionEvent e) {
-				currentBtn.setAudioFile(audioFile.getName());
-				confirmAudio.dispose();
-				simPreview.updateButtons(TalkBoxConfig.numAudButtons);
-			}
-		});
-
-		cancel.addActionListener(new ActionListener() {
-
-			public void actionPerformed(ActionEvent e) {
-				confirmAudio.dispose();
-			}
-		});
 	}
 
 }
