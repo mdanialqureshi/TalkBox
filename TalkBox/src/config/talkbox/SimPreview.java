@@ -152,12 +152,6 @@ public class SimPreview extends JPanel {
 			}
 		}
 		nButtonsPrev = nButtons;
-
-//		for (int i = 0; i < nButtons; i++) {
-//			if (buttons.get(i).fileName != null) {
-//				TalkBoxConfig.buttonsMap.put(buttons.get(i).buttonNumber, buttons.get(i).fileName);
-//			}
-//		}
 	}
 
 	public void updateButtons(int nButtons) {
