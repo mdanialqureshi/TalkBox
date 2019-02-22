@@ -11,7 +11,9 @@ public class Profile {
 	/**
 	 * Default no parameter constructor
 	 */
-	public Profile() {
+	public Profile(String profileName) {
+		this.profileName = profileName;
+		audioFileNames = new ArrayList<String>();
 		
 	}
 	
