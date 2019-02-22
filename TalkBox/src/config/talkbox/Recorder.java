@@ -99,11 +99,9 @@ public class Recorder extends JPanel {
 		add(launchSimulator);
 
 		launchSimulator.addActionListener(new ActionListener() {
-
 			public void actionPerformed(ActionEvent e) {
-
-				TalkBoxSim.main(new String[] {});
-
+				String[] talkBoxSimArgs = {TalkBoxConfig.talkBoxDataPath.toString()};
+				TalkBoxSim.main(talkBoxSimArgs);
 			}
 		});
 
