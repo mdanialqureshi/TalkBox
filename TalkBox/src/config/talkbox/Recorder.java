@@ -87,20 +87,6 @@ public class Recorder extends JPanel {
 		springLayout.putConstraint(SpringLayout.SOUTH, recordInfo, 26, SpringLayout.SOUTH, recordBtn);
 		add(recordInfo);
 
-		JTextField fileLbl = new JTextField("Enter file name: ");
-		springLayout.putConstraint(SpringLayout.HORIZONTAL_CENTER, fileLbl, 0, SpringLayout.HORIZONTAL_CENTER,
-				recordBtn);
-		fileLbl.setColumns(10);
-		add(fileLbl);
-		fileLbl.addFocusListener(new FocusListener() {
-			public void focusGained(FocusEvent e) {
-				fileLbl.setText(fileChooser.getSelectedFile().getName());
-			}
-
-			public void focusLost(FocusEvent e) {
-			}
-		});
-
 		/*
 		 * launching the simulator from the configuration application
 		 */
