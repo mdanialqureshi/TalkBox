@@ -150,7 +150,7 @@ public class PlayEditToggle extends JPanel {
 		updateButtonLbl.setEnabled(false);
 		buttonLbl.setEnabled(false);
 		recObj.recordBtn.setEnabled(false);
-		recObj.recordInfo.setText("Switch to play mode to begin recording.");
+		recObj.recordInfo.setText("Switch to edit mode to begin recording.");
 
 		for (int i = 0; i < numOfButtons; i++) {
 			resetPlayMode(simPreview.buttons.get(i));

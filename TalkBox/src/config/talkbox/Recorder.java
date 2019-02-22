@@ -79,7 +79,7 @@ public class Recorder extends JPanel {
 
 		infoIcon = new ImageIcon("images/info-icon.png");
 
-		recordInfo = new JLabel("Switch to play mode to begin recording.", SwingConstants.CENTER);
+		recordInfo = new JLabel("Switch to edit mode to begin recording.", SwingConstants.CENTER);
 		recordInfo.setIcon(infoIcon);
 		springLayout.putConstraint(SpringLayout.HORIZONTAL_CENTER, recordInfo, 0, SpringLayout.HORIZONTAL_CENTER,
 				recordBtn);
