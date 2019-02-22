@@ -37,12 +37,19 @@ public class TalkBoxDeserializer {
 
 	public TalkBoxDeserializer(File talkBoxDataPath) {
 		this.talkBoxDataPath = talkBoxDataPath;
-		this.talkBoxData = new File(talkBoxDataPath + "/TalkBoxData.tbc");
+		this.talkBoxData = new File(talkBoxDataPath, "TalkBoxData.tbc");
 
 		try {
 			FileInputStream fileIn = new FileInputStream(talkBoxData);
 			ObjectInputStream in = new ObjectInputStream(fileIn);
 			config = (TalkBoxSerializer) in.readObject();
+			buttonsMap = config.getButtonsMap();
+			numAudioButtons = config.getNumberOfAudioButtons();
+			numAudioSets = config.getNumberOfAudioSets();
+			numSwapButtons = config.getTotalNumberOfButtons();
+			path = config.getRelativePathToAudioFiles();
+			audioFileNames = config.getAudioFileNames();
+
 			in.close();
 			fileIn.close();
 		} catch (IOException i) {
@@ -54,12 +61,6 @@ public class TalkBoxDeserializer {
 			return;
 		}
 
-		buttonsMap = config.getButtonsMap();
-		numAudioButtons = config.getNumberOfAudioButtons();
-		numAudioSets = config.getNumberOfAudioSets();
-		numSwapButtons = config.getTotalNumberOfButtons();
-		path = config.getRelativePathToAudioFiles();
-		audioFileNames = config.getAudioFileNames();
 	}
 
 	public HashMap<Integer, String> getButtonsMap() {

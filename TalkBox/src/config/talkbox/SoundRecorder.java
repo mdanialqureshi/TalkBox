@@ -14,7 +14,6 @@ import javax.sound.sampled.TargetDataLine;
 public class SoundRecorder {
 	// in milliseconds
 	static final long RECORD_TIME = 60_000;
-	static int counter = 0;
 	File wavFile;
 	AudioFileFormat.Type fileType = AudioFileFormat.Type.WAVE;
 	TargetDataLine line;
@@ -58,9 +57,8 @@ public class SoundRecorder {
 		}
 
 		// adding audio file to TalkBoxConfig field1
-		TalkBoxConfig.audFileNames[0][counter] = wavFile.getName();
-		System.out.println(TalkBoxConfig.audFileNames[0][counter]);
-		SoundRecorder.counter++;
+		TalkBoxConfig.audFileNames[0][buttonNumber - 1] = wavFile.getName();
+//		System.out.println("SoundRecorder: " + TalkBoxConfig.audFileNames[0][buttonNumber - 1]);
 	}
 
 	private void createFile() {

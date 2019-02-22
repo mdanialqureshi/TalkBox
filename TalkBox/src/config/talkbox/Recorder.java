@@ -85,7 +85,7 @@ public class Recorder extends JPanel {
 		springLayout.putConstraint(SpringLayout.NORTH, recordInfo, 6, SpringLayout.SOUTH, recordBtn);
 		springLayout.putConstraint(SpringLayout.SOUTH, recordInfo, 26, SpringLayout.SOUTH, recordBtn);
 		add(recordInfo);
-		
+
 		JTextField fileLbl = new JTextField("Enter file name: ");
 		springLayout.putConstraint(SpringLayout.HORIZONTAL_CENTER, fileLbl, 0, SpringLayout.HORIZONTAL_CENTER,
 				recordBtn);
@@ -167,6 +167,21 @@ public class Recorder extends JPanel {
 		springLayout.putConstraint(SpringLayout.EAST, toggle, 18, SpringLayout.EAST, launchSimulator);
 		add(toggle);
 
+		JButton saveSettings = new JButton("Save Settings");
+		springLayout.putConstraint(SpringLayout.SOUTH, saveSettings, -6, SpringLayout.NORTH, progressBar);
+		springLayout.putConstraint(SpringLayout.EAST, saveSettings, 0, SpringLayout.EAST, progressBar);
+		saveSettings.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				saveSettings();
+			}
+		});
+		add(saveSettings);
+
+	}
+
+	protected void saveSettings() {
+		TalkBoxSerializer tbs = new TalkBoxSerializer(TalkBoxConfig.talkBoxDataPath);
+		tbs.serialize();
 	}
 
 	protected void updateButtons() {

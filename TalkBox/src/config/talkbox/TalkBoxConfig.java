@@ -57,9 +57,9 @@ public class TalkBoxConfig extends JFrame {
 	 * Create the frame.
 	 */
 	public TalkBoxConfig() {
-		controlsProfileSplit = new ControlsProfileSplit(width, height); // constructs the entire configuration app in
-																		// ControlsProfileSplit class.
 		loadTalkBoxConfiguration();
+																		// ControlsProfileSplit class.
+		controlsProfileSplit = new ControlsProfileSplit(width, height); // constructs the entire configuration app in
 		setupFrame();
 
 	}
@@ -67,6 +67,7 @@ public class TalkBoxConfig extends JFrame {
 	private void loadTalkBoxConfiguration() {
 		loadTalkBoxConfigurationFolder();
 		TalkBoxSerializer tbs = new TalkBoxSerializer(talkBoxDataPath);
+		tbs.init();
 		TalkBoxDeserializer tbd = new TalkBoxDeserializer(talkBoxDataPath);
 
 		numAudButtons = tbd.getNumberOfAudioButtons();
@@ -81,6 +82,7 @@ public class TalkBoxConfig extends JFrame {
 		fileChooser.setDialogTitle("Please choose a directory to save or load TalkBox data");
 		fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 		fileChooser.setVisible(true);
+		// only show directories
 		fileChooser.setAcceptAllFileFilterUsed(false);
 		int returnValue = fileChooser.showOpenDialog(null);
 		if (returnValue == JFileChooser.APPROVE_OPTION) {
@@ -88,7 +90,7 @@ public class TalkBoxConfig extends JFrame {
 			talkBoxDataPath = new File(talkBoxDataParentDir, "TalkBoxData");
 			tbc = new File(talkBoxDataPath, "TalkBoxConfiguration.tbc");
 		} else if (returnValue == JFileChooser.CANCEL_OPTION) {
-			loadTalkBoxConfigurationFolder();
+			System.exit(1);
 		}
 	}
 

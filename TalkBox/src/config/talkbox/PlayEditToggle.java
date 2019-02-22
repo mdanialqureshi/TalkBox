@@ -156,9 +156,7 @@ public class PlayEditToggle extends JPanel {
 		b.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				currentBtn = b;
-				if (SoundRecorder.counter > 0) {
-					addButtonAudio();
-				}
+				addButtonAudio();
 			}
 		});
 	}

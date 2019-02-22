@@ -139,7 +139,12 @@ public class SimPreview extends JPanel {
 			}
 		} else {
 			for (int i = nButtonsPrev; i < nButtons; i++) {
-				buttons.add(new AudioButton(i + 1, Integer.toString(i + 1)));
+				AudioButton ab = new AudioButton(i + 1, Integer.toString(i + 1));
+				if (TalkBoxConfig.audFileNames[0][i] != null) {
+					System.out.println(TalkBoxConfig.audFileNames[0][i]);
+					ab.setAudioFile(TalkBoxConfig.audFileNames[0][i]);
+				}
+				buttons.add(ab);
 				buttonsPanel.add(buttons.get(i));
 			}
 		}
