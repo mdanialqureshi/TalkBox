@@ -35,13 +35,13 @@ public class Recorder extends JPanel {
 	JTextField txtNumberOfButtons;
 	private SpringLayout springLayout;
 	private JProgressBar progressBar;
-	private JFileChooser fileChooser;
+	protected JFileChooser fileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
 	String filePath;
 	JButton updateNumberOfButtons;
 	private SimPreview simPreview;
 	boolean isCancelled = false;
 	private JTextField fileLbl;
-
+	protected PlayEditToggle toggle;
 	// Creating the Recorder sector of the TalkBox Configuration Application.
 	public Recorder(SimPreview simPreview) {
 		this.simPreview = simPreview;
@@ -160,7 +160,7 @@ public class Recorder extends JPanel {
 			}
 		});
 
-		PlayEditToggle toggle = new PlayEditToggle(simPreview, this);
+		toggle = new PlayEditToggle(simPreview, this);
 		springLayout.putConstraint(SpringLayout.NORTH, toggle, 10, SpringLayout.NORTH, this);
 		springLayout.putConstraint(SpringLayout.WEST, toggle, 0, SpringLayout.WEST, launchSimulator);
 		springLayout.putConstraint(SpringLayout.SOUTH, toggle, -70, SpringLayout.NORTH, launchSimulator);
@@ -179,7 +179,7 @@ public class Recorder extends JPanel {
 	}
 
 	protected void JFileChooserSave() {
-		fileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+	//	fileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
 		fileChooser.setDialogTitle("Name your audio file and save to a directory: ");
 		fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 		fileChooser.setVisible(true);

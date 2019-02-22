@@ -3,10 +3,12 @@ package config.talkbox;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
+
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -18,6 +20,7 @@ class SimPreviewTest {
 	void setUp() throws Exception {
 		tbc = new TalkBoxConfig();
 		sp = ((SimRecorderSplit) tbc.controlsProfileSplit.getLeftComponent()).simPreview;
+		sp.buttons.get(0).fileName = "hello.wav";
 	}
 
 	@AfterEach
@@ -42,14 +45,23 @@ class SimPreviewTest {
 	void testPlayingSound() throws InterruptedException {
 		final ByteArrayOutputStream sperr = new ByteArrayOutputStream();
 		System.setErr(new PrintStream(sperr));
-		TalkBoxConfig.audFileNames[0][0] = "audio/hello.wav";
 		sp.buttons.get(0).doClick();
-
+		assertEquals("", sperr.toString());
+	}
+	
+	
+	
+	@Test
+	void testErrorPlayingSound() throws Exception {
+		final ByteArrayOutputStream sperr = new ByteArrayOutputStream();
+		System.setErr(new PrintStream(sperr));
+		sp.buttons.get(0).fileName = "doesNotExist";
 		assertEquals("", sperr.toString());
 	}
 
 	@Test
 	void testPlayingMissingSoundFile() throws InterruptedException {
+		sp.buttons.get(0).fileName = null;
 		final ByteArrayOutputStream sperr = new ByteArrayOutputStream();
 		System.setErr(new PrintStream(sperr));
 		sp.buttons.get(0).doClick();
