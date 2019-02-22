@@ -8,6 +8,7 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -32,6 +33,7 @@ public class ButtonPanel extends JPanel {
 	protected JPanel buttonsPanel;
 	private int nButtons = 0;
 	private int nButtonsPrev = 0;
+	private int currentProfile = 0;
 	private HashMap<Integer, String> buttonsMap;
 
 	public ButtonPanel() {
@@ -90,7 +92,8 @@ public class ButtonPanel extends JPanel {
 
 	public class AudioButton extends JButton {
 
-		public String fileName;
+		private String fileName;
+		private File profileFolder;
 		private File audioFile;
 		public int buttonNumber;
 
@@ -104,7 +107,12 @@ public class ButtonPanel extends JPanel {
 
 		public void setAudioFile(String fileName) {
 			this.fileName = fileName;
-			audioFile = new File(TalkBoxConfig.talkBoxDataPath, fileName);
+			this.profileFolder = getInfo.getProfilesList().getCurrentProfileFolder();
+			if (fileName != null) {
+				audioFile = new File(profileFolder, fileName);
+			} else {
+				audioFile = null;
+			}
 		}
 
 		public void playSound() {
@@ -132,9 +140,11 @@ public class ButtonPanel extends JPanel {
 		} else {
 			for (int i = nButtonsPrev; i < nButtons; i++) {
 				AudioButton ab = new AudioButton(i + 1, Integer.toString(i + 1));
-				if (getInfo.getAudioFileNames()[0][i] != null) {
-					System.out.println(getInfo.getAudioFileNames()[0][i]);
-					ab.setAudioFile(getInfo.getAudioFileNames()[0][i]);
+
+				String audioFilePath = getInfo.getAudioFileNames()[currentProfile][i];
+				if (audioFilePath != null) {
+					System.out.println(audioFilePath);
+					ab.setAudioFile(audioFilePath);
 				}
 				if (buttonsMap.get(i) != null) {
 					ab.setText(buttonsMap.get(i));
@@ -152,5 +162,4 @@ public class ButtonPanel extends JPanel {
 		revalidate();
 		repaint();
 	}
-
 }

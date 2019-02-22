@@ -32,16 +32,17 @@ public class ProfileList extends LinkedList<Profile> implements Serializable {
 	}
 
 	public String getAudioFileAtIndexOfCurrentProfile(int idx) {
-		return this.get(currentProfile).getAudioFileNames().get(idx);
+		return getAudioFilesOfCurrentProfile().get(idx);
 	}
 
 	public void setAudioFileAtIndexOfCurrentProfile(int idx, String audioFile) {
-		this.get(currentProfile).getAudioFileNames().set(idx, audioFile);
+		getAudioFilesOfCurrentProfile().set(idx, audioFile);
 	}
 
 	protected String[][] toArrayMatrix() {
 		String[][] audioFileNames = new String[TalkBoxConfig.numAudSets][TalkBoxConfig.numAudButtons];
 		for (int i = 0; i < TalkBoxConfig.numAudSets; ++i) {
+			
 			audioFileNames[i] = this.get(i).getAudioFileNames().toArray(new String[TalkBoxConfig.numAudButtons]);
 		}
 		return audioFileNames;
