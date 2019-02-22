@@ -1,6 +1,9 @@
 package sim.talkbox;
 
 import java.awt.EventQueue;
+import java.io.File;
+import java.nio.file.Path;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -8,22 +11,21 @@ import javax.swing.JPanel;
 
 public class TalkBoxSim extends JFrame {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	public static final int frameWidth = 950;
 	public static final int frameHeight = 500;
+	public static File talkBoxDataPath;
 	JPanel buttonPanel;
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		System.out.println(args[0]);
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					TalkBoxSim frame = new TalkBoxSim();
+					TalkBoxSim frame = new TalkBoxSim(args[0]);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -38,7 +40,8 @@ public class TalkBoxSim extends JFrame {
 	 * Constructor calls buildGUI method which builds the frame and GUI components
 	 * for TalkBoxSim
 	 */
-	public TalkBoxSim() {
+	public TalkBoxSim(String talkBoxDataPath) {
+		TalkBoxSim.talkBoxDataPath = new File(talkBoxDataPath);
 		buildGUI();
 	}
 

@@ -35,12 +35,13 @@ public class Recorder extends JPanel {
 	JTextField txtNumberOfButtons;
 	private SpringLayout springLayout;
 	private JProgressBar progressBar;
-	private JFileChooser fileChooser;
+	protected JFileChooser fileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
 	String filePath;
 	JButton updateNumberOfButtons;
 	private SimPreview simPreview;
 	boolean isCancelled = false;
 	private JTextField fileLbl;
+	protected PlayEditToggle toggle;
 
 	// Creating the Recorder sector of the TalkBox Configuration Application.
 	public Recorder(SimPreview simPreview) {
@@ -98,11 +99,9 @@ public class Recorder extends JPanel {
 		add(launchSimulator);
 
 		launchSimulator.addActionListener(new ActionListener() {
-
 			public void actionPerformed(ActionEvent e) {
-
-				TalkBoxSim.main(new String[] {});
-
+				String[] talkBoxSimArgs = {TalkBoxConfig.talkBoxDataPath.toString()};
+				TalkBoxSim.main(talkBoxSimArgs);
 			}
 		});
 
@@ -147,7 +146,7 @@ public class Recorder extends JPanel {
 			}
 		});
 
-		PlayEditToggle toggle = new PlayEditToggle(simPreview, this);
+		toggle = new PlayEditToggle(simPreview, this);
 		springLayout.putConstraint(SpringLayout.NORTH, toggle, 10, SpringLayout.NORTH, this);
 		springLayout.putConstraint(SpringLayout.WEST, toggle, 0, SpringLayout.WEST, launchSimulator);
 		springLayout.putConstraint(SpringLayout.SOUTH, toggle, -70, SpringLayout.NORTH, launchSimulator);

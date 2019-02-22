@@ -20,20 +20,19 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import config.talkbox.TalkBoxConfig;
 import utilities.TalkBoxDeserializer;
-
 
 public class ButtonPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
 	protected ArrayList<AudioButton> buttons = new ArrayList<AudioButton>();
-	private TalkBoxDeserializer getInfo = new TalkBoxDeserializer();
+	private TalkBoxDeserializer getInfo = new TalkBoxDeserializer(TalkBoxSim.talkBoxDataPath);
 	protected JPanel buttonsPanel;
 	private int nButtons = 0;
 	private int nButtonsPrev = 0;
-	private HashMap<Integer,String> buttonsMap;
-
+	private HashMap<Integer, String> buttonsMap;
 
 	public ButtonPanel() {
 		setBackground(Color.DARK_GRAY);
@@ -60,39 +59,13 @@ public class ButtonPanel extends JPanel {
 	}
 
 	private void addButtonAudio() {
-
-		for(AudioButton b : buttons) {
-			
+		for (AudioButton b : buttons) {
 			b.addActionListener(new ActionListener() {
-				
 				public void actionPerformed(ActionEvent e) {
-					
-					playSound(b.fileName);
+					b.playSound();
 				}
-				
 			});
 		}
-		
-//		if (buttons.size() >= 2) {
-//			// adding audio functionality to some of the buttons
-//			buttons.get(0).addActionListener(new ActionListener() {
-//				// button 1 has an actionListener which calls PlaySound Method and plays sound
-//				// of the file. (When button is clicked)
-//				public void actionPerformed(ActionEvent e) {
-//					// String helloFile = "hello.wav";
-//					playSound(getInfo.audioFileNames[0][0]);
-//
-//				}
-//			});
-//
-//			buttons.get(1).addActionListener(new ActionListener() {
-//				// button 2 has an actionListener which calls PlaySound Method and plays sound
-//				// of the file. (When button is clicked)
-//				public void actionPerformed(ActionEvent e) {
-//					playSound(getInfo.audioFileNames[0][1]);
-//				}
-//			});
-//		}
 	}
 
 	/**
@@ -106,7 +79,7 @@ public class ButtonPanel extends JPanel {
 	private void playSound(String soundName) {
 		try {
 			File file = new File("src/audioFiles/" + soundName); // gets the file from its
-																		// package using file name
+																	// package using file name
 			Clip clip = AudioSystem.getClip();
 			clip.open(AudioSystem.getAudioInputStream(file));
 			clip.start(); // allows audio clip to be played
@@ -116,17 +89,37 @@ public class ButtonPanel extends JPanel {
 	}
 
 	public class AudioButton extends JButton {
-		
-		private static final long serialVersionUID = 1L;
+
 		public String fileName;
+		private File audioFile;
 		public int buttonNumber;
-		
-		public AudioButton(String text) {
+
+		public AudioButton(int buttonNumber, String text) {
 			super(text);
-			buttonNumber = Integer.parseInt(text);
+			this.buttonNumber = buttonNumber;
 			setVerticalAlignment(SwingConstants.BOTTOM);
 			setFont(new Font("Chalkboard", Font.PLAIN, 25));
 			setPreferredSize(new Dimension(70, 40));
+		}
+
+		public void setAudioFile(String fileName) {
+			this.fileName = fileName;
+			audioFile = new File(TalkBoxConfig.talkBoxDataPath, fileName);
+		}
+
+		public void playSound() {
+			if (audioFile != null) {
+				try {
+					Clip clip = AudioSystem.getClip();
+					clip.open(AudioSystem.getAudioInputStream(audioFile));
+					clip.start(); // allows audio clip to be played
+				} catch (Exception e) {
+					System.err.println("Could not play back audio.");
+					System.err.println(e.getMessage());
+				}
+			} else {
+				System.err.println("No audio file associated with this button.");
+			}
 		}
 	}
 
@@ -138,22 +131,19 @@ public class ButtonPanel extends JPanel {
 			}
 		} else {
 			for (int i = nButtonsPrev; i < nButtons; i++) {
-				buttons.add(new AudioButton("" + (i + 1)));
+				AudioButton ab = new AudioButton(i + 1, Integer.toString(i + 1));
+				if (getInfo.getAudioFileNames()[0][i] != null) {
+					System.out.println(getInfo.getAudioFileNames()[0][i]);
+					ab.setAudioFile(getInfo.getAudioFileNames()[0][i]);
+				}
+				if (buttonsMap.get(i) != null) {
+					ab.setText(buttonsMap.get(i));
+				}
+				buttons.add(ab);
 				buttonsPanel.add(buttons.get(i));
 			}
 		}
 		nButtonsPrev = nButtons;
-		
-		
-		for(Map.Entry<Integer, String> entry: buttonsMap.entrySet()) {
-			for(int i = 0; i < nButtons; i++) {
-				if(buttons.get(i).buttonNumber == entry.getKey()) {
-					buttons.get(i).fileName = entry.getValue();
-				}
-			}
-		}
-		
-		
 	}
 
 	public void updateButtons(int nButtons) {
