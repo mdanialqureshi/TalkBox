@@ -16,7 +16,7 @@ import config.talkbox.SimPreview.AudioButton;
 public class SoundRecorder {
 	// in milliseconds
 	static final long RECORD_TIME = 60_000;
-	File wavFile;
+	File wavFilePath;
 	AudioFileFormat.Type fileType = AudioFileFormat.Type.WAVE;
 	TargetDataLine line;
 	String userDirectoryString;
@@ -32,7 +32,8 @@ public class SoundRecorder {
 	}
 
 	void start(AudioButton ab) throws LineUnavailableException {
-		wavFile = new File(TalkBoxConfig.talkBoxDataPath, String.format("button-%d.wav", ab.buttonNumber));
+		String wavFileName = String.format("button-%d.wav", ab.buttonNumber);
+		wavFilePath = new File(TalkBoxConfig.profilesList.getCurrentProfileFolder(), wavFileName);
 		createFile();
 
 		try {
@@ -52,21 +53,22 @@ public class SoundRecorder {
 			System.out.println("Audio recording started...");
 
 			// start recording
-			AudioSystem.write(ais, fileType, wavFile);
+			AudioSystem.write(ais, fileType, wavFilePath);
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
 		}
 
 		// adding audio file to TalkBoxConfig field
-		TalkBoxConfig.audFileNames[0][ab.buttonNumber - 1] = wavFile.getName();
-		ab.setAudioFile(wavFile.getName());
+		TalkBoxConfig.profilesList.setAudioFileAtIndexOfCurrentProfile(ab.buttonNumber - 1, wavFilePath.getName());
+		System.out.println();
+		ab.setAudioFile(wavFilePath.getName());
 //		System.out.println("SoundRecorder: " + TalkBoxConfig.audFileNames[0][buttonNumber - 1]);
 	}
 
 	private void createFile() {
 		try {
-			wavFile.getParentFile().mkdirs();
-			wavFile.createNewFile();
+			wavFilePath.getParentFile().mkdirs();
+			wavFilePath.createNewFile();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

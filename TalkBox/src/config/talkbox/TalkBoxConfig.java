@@ -6,7 +6,6 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -36,7 +35,7 @@ public class TalkBoxConfig extends JFrame {
 	static int numSwapButtons = 2;
 	static String[][] audFileNames = new String[1][numAudButtons];
 	static HashMap<Integer, String> buttonsMap = new HashMap<Integer, String>();
-	static LinkedHashMap<String, String[]> profilesMap;
+	static ProfileList profilesList;
 
 	/**
 	 * Launch the application.
@@ -60,8 +59,10 @@ public class TalkBoxConfig extends JFrame {
 	 * Create the frame.
 	 */
 	public TalkBoxConfig() {
-		profilesMap = new LinkedHashMap<String, String[]>();
-		profilesMap.put("Default", new String[numAudButtons]);
+		profilesList = new ProfileList();
+		Profile defaultProfile = new Profile("default");
+		defaultProfile.add(0, "button-1.wav");
+		profilesList.add(defaultProfile);
 
 		loadTalkBoxConfiguration();
 		// constructs the entire configuration app in
@@ -101,20 +102,20 @@ public class TalkBoxConfig extends JFrame {
 	}
 
 	private void setupFrame() {
-		
+
 		addWindowListener(new WindowAdapter() {
-		    @Override
-		    public void windowClosing(WindowEvent we)
-		    { 
-		        String ObjButtons[] = {"Yes","No"};
-		        int PromptResult = JOptionPane.showOptionDialog(null,"Please make sure you have saved any changes, then click yes to exit.","Exit warning",JOptionPane.DEFAULT_OPTION,JOptionPane.WARNING_MESSAGE,null,ObjButtons,ObjButtons[1]);
-		        if(PromptResult==JOptionPane.YES_OPTION)
-		        {
-		            System.exit(0);
-		        }
-		    }
+			@Override
+			public void windowClosing(WindowEvent we) {
+				String ObjButtons[] = { "Yes", "No" };
+				int PromptResult = JOptionPane.showOptionDialog(null,
+						"Please make sure you have saved any changes, then click yes to exit.", "Exit warning",
+						JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, ObjButtons, ObjButtons[1]);
+				if (PromptResult == JOptionPane.YES_OPTION) {
+					System.exit(0);
+				}
+			}
 		});
-		
+
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setBounds(100, 100, 1280, 720);
 		setMinimumSize(MINIMUM_SIZE);

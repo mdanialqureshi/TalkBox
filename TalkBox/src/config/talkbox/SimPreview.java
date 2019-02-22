@@ -93,7 +93,8 @@ public class SimPreview extends JPanel {
 	public class AudioButton extends JButton {
 
 		private static final long serialVersionUID = 1L;
-		public String fileName;
+		private String fileName;
+		private File profileFolder;
 		private File audioFile;
 		public int buttonNumber;
 
@@ -107,8 +108,9 @@ public class SimPreview extends JPanel {
 
 		public void setAudioFile(String fileName) {
 			this.fileName = fileName;
+			this.profileFolder = TalkBoxConfig.profilesList.getCurrentProfileFolder();
 			if (fileName != null) {
-				audioFile = new File(TalkBoxConfig.talkBoxDataPath, fileName);
+				audioFile = new File(profileFolder, fileName);
 			} else {
 				audioFile = null;
 			}
@@ -139,9 +141,9 @@ public class SimPreview extends JPanel {
 		} else {
 			for (int i = nButtonsPrev; i < nButtons; i++) {
 				AudioButton ab = new AudioButton(i + 1, Integer.toString(i + 1));
-				if (TalkBoxConfig.audFileNames[0][i] != null) {
-					System.out.println(TalkBoxConfig.audFileNames[0][i]);
-					ab.setAudioFile(TalkBoxConfig.audFileNames[0][i]);
+				if (TalkBoxConfig.profilesList.getAudioFilesOfCurrentProfile().get(i) != null) {
+					System.out.println(TalkBoxConfig.profilesList.getAudioFilesOfCurrentProfile().get(i));
+					ab.setAudioFile(TalkBoxConfig.profilesList.getAudioFilesOfCurrentProfile().get(i));
 				}
 
 				if (TalkBoxConfig.buttonsMap.get(i) != null) {

@@ -5,7 +5,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
+import java.util.ArrayList;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -22,13 +22,11 @@ import javax.swing.border.LineBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import utilities.TalkBoxDeserializer;
-
 public class ProfilesPanel extends JPanel {
 	private static final Dimension MINIMUM_SIZE = new Dimension(400, 640);
 	private final JFileChooser fc;
-	DefaultListModel<String> profilesList;
-	JList<String> list;
+	DefaultListModel<String> profilesListModel;
+	JList<String> profilesJList;
 	private int loadedProfile;
 	private int selectedProfile;
 
@@ -52,25 +50,26 @@ public class ProfilesPanel extends JPanel {
 		add(lblProfiles);
 
 		// Profiles Selector
-		profilesList = new DefaultListModel<String>();
+		profilesListModel = new DefaultListModel<String>();
 
-		list = new JList<String>(profilesList);
+		profilesJList = new JList<String>(profilesListModel);
 
-		list.setBounds(175, 51, 242, 368);
-		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		add(list);
+		profilesJList.setBounds(175, 51, 242, 368);
+		profilesJList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		add(profilesJList);
 
 		for (int i = 1; i <= TalkBoxConfig.numAudSets; ++i) {
-			profilesList.addElement("profile-" + i);
+			profilesListModel.addElement("profile-" + i);
 		}
-		list.addListSelectionListener(new ListSelectionListener() {
+		profilesJList.addListSelectionListener(new ListSelectionListener() {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
-				selectedProfile = e.getFirstIndex();
+				selectedProfile = ((JList<String>) e.getSource()).getSelectedIndex();
+				TalkBoxConfig.profilesList.setCurrentProfile(selectedProfile);
 			}
 		});
 
-		JScrollPane profiles = new JScrollPane(list);
+		JScrollPane profiles = new JScrollPane(profilesJList);
 		profiles.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		profiles.setViewportBorder(new LineBorder(Color.GRAY));
 		profiles.setBounds(25, 93, 260, 375);
@@ -121,28 +120,26 @@ public class ProfilesPanel extends JPanel {
 	}
 
 	protected void loadSelectedProfile() {
-		String selectedProfileName = getProfileName(selectedProfile);
-		String[] audioFiles = TalkBoxConfig.profilesMap.get(selectedProfileName);
 		loadedProfile = selectedProfile;
+		ArrayList<String> audioFiles = TalkBoxConfig.profilesList.get(selectedProfile).getAudioFileNames();
 		for (int i = 0; i < TalkBoxConfig.numAudButtons; ++i) {
-			TalkBoxConfig.buttonsMap.put(i, audioFiles[i]);
-			SimRecorderSplit.simPreview.buttons.get(i).setAudioFile(audioFiles[i]);
+			SimRecorderSplit.simPreview.buttons.get(i).setAudioFile(audioFiles.get(i));
 		}
 	}
 
 	protected void deleteProfile() {
-
-		profilesList.remove(selectedProfile);
+		profilesListModel.remove(selectedProfile);
 	}
 
 	protected void createNewProfile() {
 		TalkBoxConfig.numAudSets++;
 		String profileName = "profile-" + TalkBoxConfig.numAudSets;
-		profilesList.addElement(profileName);
-		TalkBoxConfig.profilesMap.put(profileName, new String[TalkBoxConfig.numAudButtons]);
+		profilesListModel.addElement(profileName);
+		Profile newProfile = new Profile(profileName);
+		TalkBoxConfig.profilesList.add(newProfile);
 	}
 
 	public String getProfileName(int profileIndex) {
-		return profilesList.getElementAt(profileIndex);
+		return profilesListModel.getElementAt(profileIndex);
 	}
 }

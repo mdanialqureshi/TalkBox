@@ -8,6 +8,7 @@ import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
+import config.talkbox.ProfileList;
 import config.talkbox.TalkBoxConfiguration;
 import config.talkbox.TalkBoxSerializer;
 
@@ -21,7 +22,7 @@ public class TalkBoxDeserializer implements TalkBoxConfiguration {
 	private File talkBoxDataPath;
 	private File talkBoxData;
 	private HashMap<Integer, String> buttonsMap;
-	private LinkedHashMap<String, String[]> profilesMap;
+	private ProfileList profilesList;
 
 	/*
 	 * Default settings for simulator to load on startup
@@ -29,7 +30,7 @@ public class TalkBoxDeserializer implements TalkBoxConfiguration {
 	public TalkBoxDeserializer() {
 		config = new TalkBoxSerializer();
 		buttonsMap = config.getButtonsMap();
-		profilesMap = config.getProfilesMap();
+		profilesList = config.getProfilesList();
 		numAudioButtons = config.getNumberOfAudioButtons();
 		numAudioSets = config.getNumberOfAudioSets();
 		numSwapButtons = config.getTotalNumberOfButtons();
@@ -48,7 +49,7 @@ public class TalkBoxDeserializer implements TalkBoxConfiguration {
 			ObjectInputStream in = new ObjectInputStream(fileIn);
 			config = (TalkBoxSerializer) in.readObject();
 			buttonsMap = config.getButtonsMap();
-			profilesMap = config.getProfilesMap();
+			profilesList = config.getProfilesList();
 			numAudioButtons = config.getNumberOfAudioButtons();
 			numAudioSets = config.getNumberOfAudioSets();
 			numSwapButtons = config.getTotalNumberOfButtons();
@@ -66,17 +67,10 @@ public class TalkBoxDeserializer implements TalkBoxConfiguration {
 			return;
 		}
 
-//		buildProfilesMap();
 	}
 
-	private void buildProfilesMap() {
-		profilesMap = new LinkedHashMap<String, String[]>();
-		for (String[] profile : audioFileNames) {
-		}
-	}
-
-	public LinkedHashMap<String, String[]> getProfilesMap() {
-		return profilesMap;
+	public ProfileList getProfilesList() {
+		return profilesList;
 	}
 
 	public HashMap<Integer, String> getButtonsMap() {
