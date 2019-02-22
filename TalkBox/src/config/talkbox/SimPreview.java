@@ -28,9 +28,6 @@ public class SimPreview extends JPanel {
 	AudioButton currentBtn;
 	private int nButtons = 0;
 	private int nButtonsPrev = 0;
-	// HashMap holds integer which is button number and string which is filename
-	// associated with the button
-	HashMap<Integer, String> buttonsMap = new HashMap<Integer, String>();
 
 	public enum SimPreviewMode {
 		PLAY_MODE, EDIT_MODE;
@@ -142,19 +139,21 @@ public class SimPreview extends JPanel {
 					System.out.println(TalkBoxConfig.audFileNames[0][i]);
 					ab.setAudioFile(TalkBoxConfig.audFileNames[0][i]);
 				}
+
+				if (TalkBoxConfig.buttonsMap.get(i) != null) {
+					ab.setText(TalkBoxConfig.buttonsMap.get(i));
+				}
 				buttons.add(ab);
 				buttonsPanel.add(buttons.get(i));
 			}
 		}
 		nButtonsPrev = nButtons;
 
-		for (int i = 0; i < nButtons; i++) {
-			if (buttons.get(i).fileName != null) {
-				buttonsMap.put(buttons.get(i).buttonNumber, buttons.get(i).fileName);
-			}
-
-			TalkBoxConfig.buttonsMap = buttonsMap;
-		}
+//		for (int i = 0; i < nButtons; i++) {
+//			if (buttons.get(i).fileName != null) {
+//				TalkBoxConfig.buttonsMap.put(buttons.get(i).buttonNumber, buttons.get(i).fileName);
+//			}
+//		}
 	}
 
 	public void updateButtons(int nButtons) {

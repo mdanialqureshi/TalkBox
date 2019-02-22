@@ -170,6 +170,7 @@ public class PlayEditToggle extends JPanel {
 	public void updateLabel() {
 		if (currentBtn != null) {
 			currentBtn.setText(buttonLbl.getText());
+			TalkBoxConfig.buttonsMap.put(currentBtn.buttonNumber-1, currentBtn.getText());
 		}
 	}
 

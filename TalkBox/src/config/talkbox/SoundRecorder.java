@@ -56,7 +56,7 @@ public class SoundRecorder {
 			ioe.printStackTrace();
 		}
 
-		// adding audio file to TalkBoxConfig field1
+		// adding audio file to TalkBoxConfig field
 		TalkBoxConfig.audFileNames[0][buttonNumber - 1] = wavFile.getName();
 //		System.out.println("SoundRecorder: " + TalkBoxConfig.audFileNames[0][buttonNumber - 1]);
 	}
