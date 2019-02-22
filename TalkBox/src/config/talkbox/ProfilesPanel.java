@@ -20,7 +20,7 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
-import sim.talkbox.TalkBoxDeserializer;
+import utilities.TalkBoxDeserializer;
 
 public class ProfilesPanel extends JPanel {
 	private static final Dimension MINIMUM_SIZE = new Dimension(400, 640);

@@ -25,12 +25,15 @@ public class SimPreview extends JPanel {
 
 	ArrayList<AudioButton> buttons = new ArrayList<AudioButton>();
 	protected JPanel buttonsPanel;
-	private JButton currentBtn;
+	AudioButton currentBtn;
 	private int nButtons = 0;
 	private int nButtonsPrev = 0;
-	// HashMap holds integer which is button number and string which is filename
-	// associated with the button
-	HashMap<Integer, String> buttonsMap = new HashMap<Integer, String>();
+
+	public enum SimPreviewMode {
+		PLAY_MODE, EDIT_MODE;
+	}
+
+	public SimPreviewMode mode = SimPreviewMode.PLAY_MODE;
 
 	public SimPreview() {
 		setBackground(Color.DARK_GRAY);
@@ -52,57 +55,38 @@ public class SimPreview extends JPanel {
 		// Get number of audio buttons from TalkBoxDeserializer
 		nButtons = TalkBoxConfig.numAudButtons;
 		setupButtons();
+		currentBtn = buttons.get(0);
 		addButtonAudio();
 	}
 
 	private void addButtonAudio() {
-
 		for (AudioButton b : buttons) {
-
 			b.addActionListener(new ActionListener() {
-
 				public void actionPerformed(ActionEvent e) {
-					removeHighlight();
-					currentBtn = b;
-					highlightBtn();
-					playSound(b.fileName);
+					if (mode == SimPreviewMode.PLAY_MODE) {
+						currentBtn = b;
+						b.playSound();
+					} else if (mode == SimPreviewMode.EDIT_MODE) {
+						removeHighlight();
+						currentBtn = b;
+						highlightBtn();
+					}
 				}
-
 			});
 		}
-
 	}
 
 	public void removeHighlight() {
 		if (currentBtn != null) {
 			currentBtn.setForeground(Color.BLACK);
+			currentBtn.setFont(new Font("Chalkboard", Font.PLAIN, 25));
 		}
 	}
 
 	public void highlightBtn() {
 		if (currentBtn != null) {
 			currentBtn.setForeground(Color.BLUE);
-		}
-	}
-
-	/**
-	 * ActionListeners of the buttons call playSound() method which plays the sound
-	 * of the button. The Argument being passed in is the name of the Audio file
-	 * which the button will play.
-	 * 
-	 * @param soundName name of audio file associated with the respective button
-	 */
-
-	protected void playSound(String soundName) {
-		try {
-			File file = new File("src/audioFiles/" + soundName); // gets the file from its
-			// package using file name
-			Clip clip = AudioSystem.getClip();
-			clip.open(AudioSystem.getAudioInputStream(file));
-			clip.start(); // allows audio clip to be played
-		} catch (Exception e) {
-			System.err.println("Could not play back audio.");
-			System.err.println(e.getMessage());
+			currentBtn.setFont(new Font("Chalkboard", Font.BOLD, 25));
 		}
 	}
 
@@ -110,6 +94,7 @@ public class SimPreview extends JPanel {
 
 		private static final long serialVersionUID = 1L;
 		public String fileName;
+		private File audioFile;
 		public int buttonNumber;
 
 		public AudioButton(int buttonNumber, String text) {
@@ -118,6 +103,26 @@ public class SimPreview extends JPanel {
 			setVerticalAlignment(SwingConstants.BOTTOM);
 			setFont(new Font("Chalkboard", Font.PLAIN, 25));
 			setPreferredSize(new Dimension(70, 40));
+		}
+
+		public void setAudioFile(String fileName) {
+			this.fileName = fileName;
+			audioFile = new File(TalkBoxConfig.talkBoxDataPath, fileName);
+		}
+
+		public void playSound() {
+			if (audioFile != null) {
+				try {
+					Clip clip = AudioSystem.getClip();
+					clip.open(AudioSystem.getAudioInputStream(audioFile));
+					clip.start(); // allows audio clip to be played
+				} catch (Exception e) {
+					System.err.println("Could not play back audio.");
+					System.err.println(e.getMessage());
+				}
+			} else {
+				System.err.println("No audio file associated with this button.");
+			}
 		}
 	}
 
@@ -129,20 +134,26 @@ public class SimPreview extends JPanel {
 			}
 		} else {
 			for (int i = nButtonsPrev; i < nButtons; i++) {
-				buttons.add(new AudioButton(i + 1, Integer.toString(i + 1)));
+				AudioButton ab = new AudioButton(i + 1, Integer.toString(i + 1));
+				if (TalkBoxConfig.audFileNames[0][i] != null) {
+					System.out.println(TalkBoxConfig.audFileNames[0][i]);
+					ab.setAudioFile(TalkBoxConfig.audFileNames[0][i]);
+				}
+
+				if (TalkBoxConfig.buttonsMap.get(i) != null) {
+					ab.setText(TalkBoxConfig.buttonsMap.get(i));
+				}
+				buttons.add(ab);
 				buttonsPanel.add(buttons.get(i));
 			}
 		}
 		nButtonsPrev = nButtons;
 
-		for (int i = 0; i < nButtons; i++) {
-			if (buttons.get(i).fileName != null) {
-				buttonsMap.put(buttons.get(i).buttonNumber, buttons.get(i).fileName);
-			}
-
-			TalkBoxConfig.buttonsMap = buttonsMap;
-		}
-
+//		for (int i = 0; i < nButtons; i++) {
+//			if (buttons.get(i).fileName != null) {
+//				TalkBoxConfig.buttonsMap.put(buttons.get(i).buttonNumber, buttons.get(i).fileName);
+//			}
+//		}
 	}
 
 	public void updateButtons(int nButtons) {

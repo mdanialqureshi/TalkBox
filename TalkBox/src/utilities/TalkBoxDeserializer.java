@@ -1,4 +1,4 @@
-package sim.talkbox;
+package utilities;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -18,7 +18,7 @@ public class TalkBoxDeserializer {
 	private TalkBoxSerializer config;
 	private File talkBoxDataPath;
 	private File talkBoxData;
-	private HashMap<Integer,String> buttonsMap;
+	private HashMap<Integer, String> buttonsMap;
 
 	/*
 	 * Default settings for simulator to load on startup
@@ -37,12 +37,19 @@ public class TalkBoxDeserializer {
 
 	public TalkBoxDeserializer(File talkBoxDataPath) {
 		this.talkBoxDataPath = talkBoxDataPath;
-		this.talkBoxData = new File(talkBoxDataPath + "/TalkBoxData.tbc");
+		this.talkBoxData = new File(talkBoxDataPath, "TalkBoxData.tbc");
 
 		try {
 			FileInputStream fileIn = new FileInputStream(talkBoxData);
 			ObjectInputStream in = new ObjectInputStream(fileIn);
 			config = (TalkBoxSerializer) in.readObject();
+			buttonsMap = config.getButtonsMap();
+			numAudioButtons = config.getNumberOfAudioButtons();
+			numAudioSets = config.getNumberOfAudioSets();
+			numSwapButtons = config.getTotalNumberOfButtons();
+			path = config.getRelativePathToAudioFiles();
+			audioFileNames = config.getAudioFileNames();
+
 			in.close();
 			fileIn.close();
 		} catch (IOException i) {
@@ -53,12 +60,13 @@ public class TalkBoxDeserializer {
 			c.printStackTrace();
 			return;
 		}
+
 	}
 
-	public HashMap<Integer,String> getButtonsMap(){
+	public HashMap<Integer, String> getButtonsMap() {
 		return buttonsMap;
 	}
-	
+
 	public int getNumberOfAudioButtons() {
 		return numAudioButtons;
 	}
