@@ -12,6 +12,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JTextField;
@@ -100,8 +101,15 @@ public class Recorder extends JPanel {
 
 		launchSimulator.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String[] talkBoxSimArgs = {TalkBoxConfig.talkBoxDataPath.toString()};
-				TalkBoxSim.main(talkBoxSimArgs);
+				String ObjButtons[] = { "Launch Simulator", "Cancel"};
+				int PromptResult = JOptionPane.showOptionDialog(null,
+						"Warning: Any unsaved changes will be saved and existing settings will be overwritten. Proceed?", "Exit warning",
+						JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, ObjButtons, ObjButtons[1]);
+				if (PromptResult == JOptionPane.YES_OPTION) {
+					saveSettings();
+					String[] talkBoxSimArgs = {TalkBoxConfig.talkBoxDataPath.toString()};
+					TalkBoxSim.main(talkBoxSimArgs);
+				}
 			}
 		});
 
