@@ -11,6 +11,8 @@ import javax.sound.sampled.DataLine;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.TargetDataLine;
 
+import config.talkbox.SimPreview.AudioButton;
+
 public class SoundRecorder {
 	// in milliseconds
 	static final long RECORD_TIME = 60_000;
@@ -29,9 +31,8 @@ public class SoundRecorder {
 		return format;
 	}
 
-	void start(int buttonNumber) throws LineUnavailableException {
-
-		wavFile = new File(TalkBoxConfig.talkBoxDataPath, String.format("button-%d.wav", buttonNumber));
+	void start(AudioButton ab) throws LineUnavailableException {
+		wavFile = new File(TalkBoxConfig.talkBoxDataPath, String.format("button-%d.wav", ab.buttonNumber));
 		createFile();
 
 		try {
@@ -57,7 +58,8 @@ public class SoundRecorder {
 		}
 
 		// adding audio file to TalkBoxConfig field
-		TalkBoxConfig.audFileNames[0][buttonNumber - 1] = wavFile.getName();
+		TalkBoxConfig.audFileNames[0][ab.buttonNumber - 1] = wavFile.getName();
+		ab.setAudioFile(wavFile.getName());
 //		System.out.println("SoundRecorder: " + TalkBoxConfig.audFileNames[0][buttonNumber - 1]);
 	}
 

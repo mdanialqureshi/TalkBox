@@ -194,7 +194,7 @@ public class Recorder extends JPanel {
 							isRecording = true;
 							recordInfo.setText("Recording in progress.");
 							recordBtn.setIcon(micOn);
-							recorder.start(simPreview.currentBtn.buttonNumber);
+							recorder.start(simPreview.currentBtn);
 						} catch (LineUnavailableException lue) {
 							System.out.println("Line not supported. Recording not started.");
 							recordBtn.setIcon(micOff);
