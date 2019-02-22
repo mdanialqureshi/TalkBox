@@ -82,6 +82,7 @@ public class TalkBoxConfig extends JFrame {
 		numSwapButtons = tbd.getNumberOfAudioSets();
 		audFileNames = tbd.getAudioFileNames();
 		buttonsMap = tbd.getButtonsMap();
+		profilesList = tbd.getProfilesList();
 	}
 
 	private void loadTalkBoxConfigurationFolder() {
