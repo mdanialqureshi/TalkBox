@@ -30,7 +30,7 @@ public class TalkBoxConfig extends JFrame {
 
 	public static File talkBoxDataPath;
 	private File tbc;
-	public static int numAudButtons = 20;
+	public static int numAudButtons = 100;
 	static int numAudSets = 1;
 	static int numSwapButtons = 2;
 	static String[][] audFileNames = new String[1][numAudButtons];

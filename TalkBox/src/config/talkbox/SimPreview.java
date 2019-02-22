@@ -9,10 +9,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -25,9 +26,16 @@ public class SimPreview extends JPanel {
 
 	ArrayList<AudioButton> buttons = new ArrayList<AudioButton>();
 	protected JPanel buttonsPanel;
+	protected JPanel swapButtonsPanel;
+	protected JPanel allButtonsPanel;
 	AudioButton currentBtn;
 	private int nButtons = 0;
 	private int nButtonsPrev = 0;
+	JButton swap1;
+	JButton swap2;
+	JButton swap3;
+	JButton swapAll;
+	private int numOfSwaps = 3;
 
 	public enum SimPreviewMode {
 		PLAY_MODE, EDIT_MODE;
@@ -45,7 +53,27 @@ public class SimPreview extends JPanel {
 		simTitle.setVerticalAlignment(SwingConstants.TOP);
 		simTitle.setFont(new Font("Chalkboard", Font.PLAIN, 50));
 		simTitle.setForeground(Color.WHITE);
-		add(simTitle, BorderLayout.PAGE_START);
+		add(simTitle, BorderLayout.BEFORE_FIRST_LINE);
+
+		swapButtonsPanel = new JPanel();
+		swapButtonsPanel.setForeground(new Color(0, 0, 0));
+		swapButtonsPanel.setBackground(Color.DARK_GRAY);
+		swapButtonsPanel.setLayout(new BoxLayout(swapButtonsPanel, BoxLayout.Y_AXIS));
+		swapButtonsPanel.add(Box.createVerticalStrut(50));
+		swap1 = new JButton("Profile 1");
+		swapButtonsPanel.add(swap1);
+		swap2 = new JButton("Profile 2");
+		swapButtonsPanel.add(swap2);
+
+		//allButtonsPanel.add(swapButtonsPanel, BorderLayout.NORTH);
+		add(swapButtonsPanel, BorderLayout.WEST);
+		swap3 = new JButton("Profile 3");
+		swapButtonsPanel.add(swap3);
+		swapAll = new JButton("Swap");
+		swapAll.setToolTipText("Swap through all profiles sequentially.");
+		swapButtonsPanel.add(swapAll);
+		// allButtonsPanel.add(buttonsPanel);
+		// add(swapButtonsPanel, BorderLayout.EAST);
 
 		buttonsPanel = new JPanel();
 		buttonsPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -57,6 +85,50 @@ public class SimPreview extends JPanel {
 		setupButtons();
 		currentBtn = buttons.get(0);
 		addButtonAudio();
+		setUpSwapButtons();
+	}
+
+	private void setUpSwapButtons() {
+
+		swap1.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				loadProfileToSwap(0);
+			}
+
+		});
+		swap2.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				loadProfileToSwap(1);
+			}
+
+		});
+		swap3.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				loadProfileToSwap(2);
+			}
+		});
+		swapAll.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+
+				loadProfileToSwap(numOfSwaps);
+				numOfSwaps++;
+				if (numOfSwaps == TalkBoxConfig.numAudSets)
+					numOfSwaps = 3;
+			}
+		});
+
+	}
+
+	protected void loadProfileToSwap(int profileNumber) {
+		TalkBoxConfig.profilesList.setCurrentProfile(profileNumber);
+		ArrayList<String> profileFileNames = TalkBoxConfig.profilesList.get(profileNumber).getAudioFileNames();
+		for (int i = 0; i < TalkBoxConfig.numAudButtons; ++i) {
+			SimRecorderSplit.simPreview.buttons.get(i).setAudioFile(profileFileNames.get(i));
+		}
 	}
 
 	private void addButtonAudio() {
