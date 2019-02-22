@@ -107,7 +107,11 @@ public class SimPreview extends JPanel {
 
 		public void setAudioFile(String fileName) {
 			this.fileName = fileName;
-			audioFile = new File(TalkBoxConfig.talkBoxDataPath, fileName);
+			if (fileName != null) {
+				audioFile = new File(TalkBoxConfig.talkBoxDataPath, fileName);
+			} else {
+				audioFile = null;
+			}
 		}
 
 		public void playSound() {

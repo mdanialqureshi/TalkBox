@@ -6,6 +6,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -33,8 +34,9 @@ public class TalkBoxConfig extends JFrame {
 	public static int numAudButtons = 20;
 	static int numAudSets = 1;
 	static int numSwapButtons = 2;
-	static String[][] audFileNames = new String[200][200];
+	static String[][] audFileNames = new String[1][numAudButtons];
 	static HashMap<Integer, String> buttonsMap = new HashMap<Integer, String>();
+	static LinkedHashMap<String, String[]> profilesMap;
 
 	/**
 	 * Launch the application.
@@ -58,9 +60,12 @@ public class TalkBoxConfig extends JFrame {
 	 * Create the frame.
 	 */
 	public TalkBoxConfig() {
+		profilesMap = new LinkedHashMap<String, String[]>();
+		profilesMap.put("Default", new String[numAudButtons]);
+
 		loadTalkBoxConfiguration();
-																		// ControlsProfileSplit class.
-		controlsProfileSplit = new ControlsProfileSplit(width, height); // constructs the entire configuration app in
+		// constructs the entire configuration app in
+		controlsProfileSplit = new ControlsProfileSplit(width, height);
 		setupFrame();
 
 	}

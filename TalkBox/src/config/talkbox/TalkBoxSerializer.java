@@ -7,7 +7,9 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 public class TalkBoxSerializer implements TalkBoxConfiguration, Serializable {
 
@@ -20,6 +22,7 @@ public class TalkBoxSerializer implements TalkBoxConfiguration, Serializable {
 	private File talkBoxDataPath;
 	private File talkBoxData;
 	private HashMap<Integer, String> buttonsMap;
+	private LinkedHashMap<String, String[]> profilesMap;
 
 	public TalkBoxSerializer() {
 		buttonsMap = TalkBoxConfig.buttonsMap;
@@ -27,7 +30,17 @@ public class TalkBoxSerializer implements TalkBoxConfiguration, Serializable {
 		numAudioSets = TalkBoxConfig.numAudSets;
 		numSwapButtons = TalkBoxConfig.numSwapButtons;
 		relativePathToAudioFiles = TalkBoxConfig.talkBoxDataPath.toString();
-		audioFileNames = TalkBoxConfig.audFileNames;
+		profilesMap = TalkBoxConfig.profilesMap;
+		audioFileNames = new String[numAudioSets][numAudioButtons];
+		setAudioFileNames();
+	}
+
+	private void setAudioFileNames() {
+		int i = 0;
+		for (String profileName : profilesMap.keySet()) {
+			audioFileNames[i] = Arrays.copyOf(profilesMap.get(profileName), numAudioButtons);
+			i++;
+		}
 	}
 
 	public TalkBoxSerializer(File talkBoxDataPath) {
@@ -65,6 +78,10 @@ public class TalkBoxSerializer implements TalkBoxConfiguration, Serializable {
 		} catch (IOException i) {
 			i.printStackTrace();
 		}
+	}
+
+	public LinkedHashMap<String, String[]> getProfilesMap() {
+		return profilesMap;
 	}
 
 	public HashMap<Integer, String> getButtonsMap() {
