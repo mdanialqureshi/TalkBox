@@ -115,7 +115,7 @@ public class TalkBoxConfig extends JFrame {
 		    }
 		});
 		
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setBounds(100, 100, 1280, 720);
 		setMinimumSize(MINIMUM_SIZE);
 		setLocationRelativeTo(null);
