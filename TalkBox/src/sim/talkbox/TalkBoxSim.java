@@ -20,7 +20,7 @@ public class TalkBoxSim extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
+	public static void main(String args[]) {
 		System.out.println(args[0]);
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -57,4 +57,6 @@ public class TalkBoxSim extends JFrame {
 		setContentPane(buttonPanel); //sets the ContentPane of the TalkBox Simulator to the one created in ButtonPanel class. 
 		//ButtonPanel class extends JPanel.
 	}
+	
+	
 }

@@ -15,12 +15,15 @@ import java.util.Map;
 
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import config.talkbox.SimRecorderSplit;
 import config.talkbox.TalkBoxConfig;
 import utilities.TalkBoxDeserializer;
 
@@ -31,10 +34,17 @@ public class ButtonPanel extends JPanel {
 	protected ArrayList<AudioButton> buttons = new ArrayList<AudioButton>();
 	private TalkBoxDeserializer getInfo = new TalkBoxDeserializer(TalkBoxSim.talkBoxDataPath);
 	protected JPanel buttonsPanel;
+	protected JPanel swapButtonsPanel;
+	protected JPanel allButtonsPanel;
 	private int nButtons = 0;
 	private int nButtonsPrev = 0;
 	private int currentProfile = 0;
+	JButton swap1;
+	JButton swap2;
+	JButton swap3;
+	JButton swapAll;
 	private HashMap<Integer, String> buttonsMap;
+	private int numOfSwaps = 3;
 
 	public ButtonPanel() {
 		setBackground(Color.DARK_GRAY);
@@ -47,6 +57,26 @@ public class ButtonPanel extends JPanel {
 		simTitle.setFont(new Font("Chalkboard", Font.PLAIN, 50));
 		simTitle.setForeground(Color.WHITE);
 		add(simTitle, BorderLayout.PAGE_START);
+		
+		swapButtonsPanel = new JPanel();
+		swapButtonsPanel.setForeground(new Color(0, 0, 0));
+		swapButtonsPanel.setBackground(Color.DARK_GRAY);
+		swapButtonsPanel.setLayout(new BoxLayout(swapButtonsPanel, BoxLayout.Y_AXIS));
+		swapButtonsPanel.add(Box.createVerticalStrut(15));
+		swap1 = new JButton("Profile 1");
+		swapButtonsPanel.add(swap1);
+		swap2 = new JButton("Profile 2");
+		swapButtonsPanel.add(swap2);
+
+		//allButtonsPanel.add(swapButtonsPanel, BorderLayout.NORTH);
+		add(swapButtonsPanel, BorderLayout.WEST);
+		swap3 = new JButton("Profile 3");
+		swapButtonsPanel.add(swap3);
+		swapAll = new JButton("Swap");
+		swapAll.setToolTipText("Swap through all profiles sequentially.");
+		swapButtonsPanel.add(swapAll);
+		// allButtonsPanel.add(buttonsPanel);
+		// add(swapButtonsPanel, BorderLayout.EAST);
 
 		buttonsPanel = new JPanel();
 		buttonsPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -161,5 +191,48 @@ public class ButtonPanel extends JPanel {
 		setupButtons();
 		revalidate();
 		repaint();
+	}
+	
+	private void setUpSwapButtons() {
+
+		swap1.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				loadProfileToSwap(0);
+			}
+
+		});
+		swap2.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				loadProfileToSwap(1);
+			}
+
+		});
+		swap3.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				loadProfileToSwap(2);
+			}
+		});
+		swapAll.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+
+				loadProfileToSwap(numOfSwaps);
+				numOfSwaps++;
+				if (numOfSwaps == getInfo.getNumberOfAudioSets())
+					numOfSwaps = 3;
+			}
+		});
+
+	}
+
+	protected void loadProfileToSwap(int profileNumber) {
+		getInfo.getProfilesList().setCurrentProfile(profileNumber);
+		ArrayList<String> profileFileNames = getInfo.getProfilesList().get(profileNumber).getAudioFileNames();
+		for (int i = 0; i < TalkBoxConfig.numAudButtons; ++i) {
+			buttons.get(i).setAudioFile(profileFileNames.get(i));
+		}
 	}
 }
