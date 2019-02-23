@@ -21,6 +21,7 @@ class PlayEditToggleTest {
 	
 	@BeforeEach
 	void setUp() throws Exception {
+		TalkBoxConfig.testmode = true;
 		tbc = new TalkBoxConfig();
 		
 		sp = SimRecorderSplit.simPreview;

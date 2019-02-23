@@ -18,6 +18,7 @@ class TalkBoxConfigTest {
 	
 	@BeforeEach
 	void setUp() throws Exception {
+		TalkBoxConfig.testmode = true;
 		obj = new TalkBoxConfig();
 		TalkBoxConfig.main(new String[] {});
 		

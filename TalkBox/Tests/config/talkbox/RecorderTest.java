@@ -19,6 +19,7 @@ class RecorderTest {
 	private TalkBoxConfig configObj;
 	@BeforeEach
 	void setUp() throws Exception {
+		TalkBoxConfig.testmode = true;
 		configObj = new TalkBoxConfig();
 		recObj = ((SimRecorderSplit) configObj.controlsProfileSplit.getLeftComponent()).recorder;
 	
@@ -40,8 +41,8 @@ class RecorderTest {
 //		robot.keyRelease(KeyEvent.VK_ENTER);
 		Thread.sleep(2000);
 		recObj.recordBtn.doClick();
-		String h = System.getProperty("user.home") + "/Desktop/TalkBoxData/profile-1/button-1.wav";
-		assertEquals(h,recObj.filePath);
+	//	String h = System.getProperty("user.home") + "/button-1.wav";
+		assertEquals(null,recObj.filePath);
 		
 	}
 	

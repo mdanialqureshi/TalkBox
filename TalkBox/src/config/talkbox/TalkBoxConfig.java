@@ -27,6 +27,7 @@ public class TalkBoxConfig extends JFrame {
 	protected JSplitPane controlsProfileSplit;
 	private int width = 1280;
 	private int height = 720;
+	static boolean testmode = false;
 
 	public static File talkBoxDataPath;
 	private File tbc;
@@ -86,6 +87,7 @@ public class TalkBoxConfig extends JFrame {
 	}
 
 	private void loadTalkBoxConfigurationFolder() {
+		if(!testmode) {
 		JFileChooser fileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
 		fileChooser.setDialogTitle("Please choose a directory to save or load TalkBox data");
 		fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
@@ -99,6 +101,10 @@ public class TalkBoxConfig extends JFrame {
 			tbc = new File(talkBoxDataPath, "TalkBoxConfiguration.tbc");
 		} else if (returnValue == JFileChooser.CANCEL_OPTION) {
 			System.exit(1);
+		}
+		
+		}else {
+			talkBoxDataPath = new File(System.getProperty("user.home"), "TalkBoxData");
 		}
 	}
 

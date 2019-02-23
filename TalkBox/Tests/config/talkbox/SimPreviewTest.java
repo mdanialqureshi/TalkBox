@@ -19,6 +19,7 @@ class SimPreviewTest {
 	private TalkBoxConfig tbc;
 	@BeforeEach
 	void setUp() throws Exception {
+		TalkBoxConfig.testmode = true;
 		tbc = new TalkBoxConfig();
 		sp = ((SimRecorderSplit) tbc.controlsProfileSplit.getLeftComponent()).simPreview;
 		sp.buttons.get(0).audioFile = new File("audio/hello.wav");
@@ -30,8 +31,8 @@ class SimPreviewTest {
 
 	@Test
 	void testUpdatingButtons() throws InterruptedException {
-		assertEquals(20, sp.buttons.size());
-		assertEquals(20, sp.buttonsPanel.getComponentCount());
+		assertEquals(30, sp.buttons.size());
+		assertEquals(30, sp.buttonsPanel.getComponentCount());
 
 		sp.updateButtons(5);
 		assertEquals(5, sp.buttons.size());
