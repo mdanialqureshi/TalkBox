@@ -1,12 +1,12 @@
 package config.talkbox;
 
-import org.junit.platform.runner.JUnitPlatform;
-import org.junit.platform.suite.api.SelectPackages;
-import org.junit.platform.suite.api.SuiteDisplayName;
 import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
 
-@RunWith(JUnitPlatform.class)
-@SuiteDisplayName("TalkBox Configurer Test Suite")
-@SelectPackages("config.talkbox")
+
+@RunWith(Suite.class)
+@Suite.SuiteClasses({ PlayEditToggleTest.class, RecorderTest.class, SimPreviewTest.class, TalkBoxConfigTest.class})
+//@SelectPackages("config.talkbox")
 public class TalkBoxConfigTestSuite {
+	
 }
