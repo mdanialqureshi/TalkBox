@@ -44,7 +44,6 @@ public class Recorder extends JPanel {
 	private JTextField fileLbl;
 	protected PlayEditToggle toggle;
 
-	
 	// Creating the Recorder sector of the TalkBox Configuration Application.
 	public Recorder(SimPreview simPreview) {
 		this.simPreview = simPreview;
