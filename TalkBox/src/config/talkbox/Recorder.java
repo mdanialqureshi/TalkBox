@@ -12,6 +12,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JTextField;
@@ -42,6 +43,8 @@ public class Recorder extends JPanel {
 	boolean isCancelled = false;
 	private JTextField fileLbl;
 	protected PlayEditToggle toggle;
+
+	
 	// Creating the Recorder sector of the TalkBox Configuration Application.
 	public Recorder(SimPreview simPreview) {
 		this.simPreview = simPreview;
@@ -61,9 +64,9 @@ public class Recorder extends JPanel {
 		springLayout.putConstraint(SpringLayout.HORIZONTAL_CENTER, recordBtn, 0, SpringLayout.HORIZONTAL_CENTER,
 				progressBar);
 		springLayout.putConstraint(SpringLayout.SOUTH, recordBtn, -57, SpringLayout.NORTH, progressBar);
+		recordBtn.setEnabled(false);
 		recordBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
 				recordAudio();
 			}
 		});
@@ -78,27 +81,14 @@ public class Recorder extends JPanel {
 		add(recordBtn);
 
 		infoIcon = new ImageIcon("images/info-icon.png");
-		recordInfo = new JLabel("Begin recording?", SwingConstants.CENTER);
+
+		recordInfo = new JLabel("Switch to edit mode to begin recording.", SwingConstants.CENTER);
 		recordInfo.setIcon(infoIcon);
 		springLayout.putConstraint(SpringLayout.HORIZONTAL_CENTER, recordInfo, 0, SpringLayout.HORIZONTAL_CENTER,
 				recordBtn);
 		springLayout.putConstraint(SpringLayout.NORTH, recordInfo, 6, SpringLayout.SOUTH, recordBtn);
 		springLayout.putConstraint(SpringLayout.SOUTH, recordInfo, 26, SpringLayout.SOUTH, recordBtn);
 		add(recordInfo);
-		
-		JTextField fileLbl = new JTextField("Enter file name: ");
-		springLayout.putConstraint(SpringLayout.HORIZONTAL_CENTER, fileLbl, 0, SpringLayout.HORIZONTAL_CENTER,
-				recordBtn);
-		fileLbl.setColumns(10);
-		add(fileLbl);
-		fileLbl.addFocusListener(new FocusListener() {
-			public void focusGained(FocusEvent e) {
-				fileLbl.setText(fileChooser.getSelectedFile().getName());
-			}
-
-			public void focusLost(FocusEvent e) {
-			}
-		});
 
 		/*
 		 * launching the simulator from the configuration application
@@ -111,11 +101,16 @@ public class Recorder extends JPanel {
 		add(launchSimulator);
 
 		launchSimulator.addActionListener(new ActionListener() {
-
 			public void actionPerformed(ActionEvent e) {
-
-				TalkBoxSim.main(new String[] {});
-
+				String ObjButtons[] = { "Launch Simulator", "Cancel"};
+				int PromptResult = JOptionPane.showOptionDialog(null,
+						"Warning: Any unsaved changes will be saved and existing settings will be overwritten. Proceed?", "Exit warning",
+						JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, ObjButtons, ObjButtons[1]);
+				if (PromptResult == JOptionPane.YES_OPTION) {
+					saveSettings();
+					String[] talkBoxSimArgs = {TalkBoxConfig.talkBoxDataPath.toString()};
+					TalkBoxSim.main(talkBoxSimArgs);
+				}
 			}
 		});
 
@@ -167,6 +162,21 @@ public class Recorder extends JPanel {
 		springLayout.putConstraint(SpringLayout.EAST, toggle, 18, SpringLayout.EAST, launchSimulator);
 		add(toggle);
 
+		JButton saveSettings = new JButton("Save Settings");
+		springLayout.putConstraint(SpringLayout.SOUTH, saveSettings, -6, SpringLayout.NORTH, progressBar);
+		springLayout.putConstraint(SpringLayout.EAST, saveSettings, 0, SpringLayout.EAST, progressBar);
+		saveSettings.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				saveSettings();
+			}
+		});
+		add(saveSettings);
+
+	}
+
+	protected void saveSettings() {
+		TalkBoxSerializer tbs = new TalkBoxSerializer(TalkBoxConfig.talkBoxDataPath);
+		tbs.serialize();
 	}
 
 	protected void updateButtons() {
@@ -178,25 +188,6 @@ public class Recorder extends JPanel {
 		}
 	}
 
-	protected void JFileChooserSave() {
-	//	fileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
-		fileChooser.setDialogTitle("Name your audio file and save to a directory: ");
-		fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-		fileChooser.setVisible(true);
-
-		int returnValue = fileChooser.showSaveDialog(null);
-
-		if (returnValue == JFileChooser.APPROVE_OPTION) {
-			filePath = fileChooser.getSelectedFile().toString();
-			SoundRecorder.userAudioFileName = fileChooser.getSelectedFile().getName();
-			SoundRecorder.fileLocation = filePath;
-			isCancelled = false;
-			System.out.println(filePath);
-		} else if (returnValue == JFileChooser.CANCEL_OPTION) {
-			isCancelled = true;
-		}
-	}
-
 	protected void recordAudio() {
 		if (isRecording) {
 			recorder.finish();
@@ -204,7 +195,6 @@ public class Recorder extends JPanel {
 			isRecording = false;
 			// multiple recordings file name counter
 		} else {
-			JFileChooserSave();
 			if (!isCancelled) {
 				Thread stopper = new Thread(new Runnable() {
 					public void run() {
@@ -212,7 +202,7 @@ public class Recorder extends JPanel {
 							isRecording = true;
 							recordInfo.setText("Recording in progress.");
 							recordBtn.setIcon(micOn);
-							recorder.start();
+							recorder.start(simPreview.currentBtn);
 						} catch (LineUnavailableException lue) {
 							System.out.println("Line not supported. Recording not started.");
 							recordBtn.setIcon(micOff);

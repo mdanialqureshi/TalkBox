@@ -1,4 +1,4 @@
-package sim.talkbox;
+package utilities;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -6,10 +6,13 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.nio.file.Path;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
+import config.talkbox.ProfileList;
+import config.talkbox.TalkBoxConfiguration;
 import config.talkbox.TalkBoxSerializer;
 
-public class TalkBoxDeserializer {
+public class TalkBoxDeserializer implements TalkBoxConfiguration {
 
 	private int numAudioButtons;
 	private int numAudioSets, numSwapButtons;
@@ -18,7 +21,8 @@ public class TalkBoxDeserializer {
 	private TalkBoxSerializer config;
 	private File talkBoxDataPath;
 	private File talkBoxData;
-	private HashMap<Integer,String> buttonsMap;
+	private HashMap<Integer, String> buttonsMap;
+	private ProfileList profilesList;
 
 	/*
 	 * Default settings for simulator to load on startup
@@ -26,6 +30,7 @@ public class TalkBoxDeserializer {
 	public TalkBoxDeserializer() {
 		config = new TalkBoxSerializer();
 		buttonsMap = config.getButtonsMap();
+		profilesList = config.getProfilesList();
 		numAudioButtons = config.getNumberOfAudioButtons();
 		numAudioSets = config.getNumberOfAudioSets();
 		numSwapButtons = config.getTotalNumberOfButtons();
@@ -37,12 +42,20 @@ public class TalkBoxDeserializer {
 
 	public TalkBoxDeserializer(File talkBoxDataPath) {
 		this.talkBoxDataPath = talkBoxDataPath;
-		this.talkBoxData = new File(talkBoxDataPath + "/TalkBoxData.tbc");
+		this.talkBoxData = new File(talkBoxDataPath, "TalkBoxData.tbc");
 
 		try {
 			FileInputStream fileIn = new FileInputStream(talkBoxData);
 			ObjectInputStream in = new ObjectInputStream(fileIn);
 			config = (TalkBoxSerializer) in.readObject();
+			buttonsMap = config.getButtonsMap();
+			profilesList = config.getProfilesList();
+			numAudioButtons = config.getNumberOfAudioButtons();
+			numAudioSets = config.getNumberOfAudioSets();
+			numSwapButtons = config.getTotalNumberOfButtons();
+			path = config.getRelativePathToAudioFiles();
+			audioFileNames = config.getAudioFileNames();
+
 			in.close();
 			fileIn.close();
 		} catch (IOException i) {
@@ -53,12 +66,17 @@ public class TalkBoxDeserializer {
 			c.printStackTrace();
 			return;
 		}
+
 	}
 
-	public HashMap<Integer,String> getButtonsMap(){
+	public ProfileList getProfilesList() {
+		return profilesList;
+	}
+
+	public HashMap<Integer, String> getButtonsMap() {
 		return buttonsMap;
 	}
-	
+
 	public int getNumberOfAudioButtons() {
 		return numAudioButtons;
 	}

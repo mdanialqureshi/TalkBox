@@ -1,14 +1,13 @@
 package config.talkbox;
 
-import java.awt.Color;
 import java.awt.FlowLayout;
-import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.io.File;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -18,6 +17,7 @@ import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 
 import config.talkbox.SimPreview.AudioButton;
+import config.talkbox.SimPreview.SimPreviewMode;
 
 public class PlayEditToggle extends JPanel {
 
@@ -78,17 +78,19 @@ public class PlayEditToggle extends JPanel {
 				}
 			});
 		}
-		buttonLbl.setEnabled(false);
-		updateButtonLbl.setEnabled(false);
+
+		setupButtonLbl();
+		setupUpdateButtonLbl();
+
 		toggleBtn.addItemListener(new ItemListener() {
 
 			public void itemStateChanged(ItemEvent ev) {
 				if (ev.getStateChange() == ItemEvent.SELECTED) {
-					EditMode();
+					editMode();
 					modeLbl.setText("Edit Mode");
 				} else if (ev.getStateChange() == ItemEvent.DESELECTED) {
+					playMode();
 					modeLbl.setText("Playback Mode");
-					PlayMode();
 				}
 			}
 
@@ -96,14 +98,22 @@ public class PlayEditToggle extends JPanel {
 
 	}
 
-	private void EditMode() {
-		int numOfButtons = TalkBoxConfig.numAudButtons;
+	private void setupUpdateButtonLbl() {
+		updateButtonLbl.setEnabled(false);
+		updateButtonLbl.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				updateLabel();
+			}
+		});
+	}
+
+	private void setupButtonLbl() {
+		buttonLbl.setEnabled(false);
 		buttonLbl.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				updateLabel();
 			}
 		});
-
 		buttonLbl.addFocusListener(new FocusListener() {
 
 			public void focusGained(FocusEvent e) {
@@ -116,15 +126,18 @@ public class PlayEditToggle extends JPanel {
 				}
 			}
 		});
+	}
 
+	private void editMode() {
+		simPreview.mode = SimPreviewMode.EDIT_MODE;
+		recObj.recordBtn.setEnabled(true);
+		int numOfButtons = TalkBoxConfig.numAudButtons;
 		buttonLbl.setEnabled(true);
 		updateButtonLbl.setEnabled(true);
-		updateButtonLbl.addActionListener(new ActionListener() {
+		recObj.recordInfo.setText("Begin recording?");
 
-			public void actionPerformed(ActionEvent e) {
-				updateLabel();
-			}
-		});
+		currentBtn = simPreview.currentBtn;
+		simPreview.highlightBtn();
 
 		for (int i = 0; i < numOfButtons; i++) {
 			editLabelandAudio(simPreview.buttons.get(i));
@@ -132,24 +145,24 @@ public class PlayEditToggle extends JPanel {
 
 	}
 
-	private void PlayMode() {
-
+	private void playMode() {
+		simPreview.mode = SimPreviewMode.PLAY_MODE;
 		updateButtonLbl.setEnabled(false);
 		buttonLbl.setEnabled(false);
+		recObj.recordBtn.setEnabled(false);
+		recObj.recordInfo.setText("Switch to edit mode to begin recording.");
 
 		for (int i = 0; i < numOfButtons; i++) {
 			resetPlayMode(simPreview.buttons.get(i));
 		}
 
+		simPreview.removeHighlight();
 	}
 
 	private void editLabelandAudio(AudioButton b) {
 		b.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				currentBtn = b;
-				if (SoundRecorder.counter > 0) {
-					addButtonAudio();
-				}
 			}
 		});
 	}
@@ -157,33 +170,13 @@ public class PlayEditToggle extends JPanel {
 	public void updateLabel() {
 		if (currentBtn != null) {
 			currentBtn.setText(buttonLbl.getText());
+			TalkBoxConfig.buttonsMap.put(currentBtn.buttonNumber-1, currentBtn.getText());
 		}
 	}
 
 	private void resetPlayMode(AudioButton b) {
 		ActionListener[] list = b.getActionListeners();
 		b.removeActionListener(list[0]);
-	}
-
-	private void addButtonAudio() {
-		fileName.setText(SoundRecorder.userAudioFileName + ".wav");
-		confirmAudio.setVisible(true);
-
-		addToButton.addActionListener(new ActionListener() {
-
-			public void actionPerformed(ActionEvent e) {
-				currentBtn.fileName = SoundRecorder.userAudioFileName + ".wav";
-				confirmAudio.dispose();
-				simPreview.updateButtons(TalkBoxConfig.numAudButtons);
-			}
-		});
-
-		cancel.addActionListener(new ActionListener() {
-
-			public void actionPerformed(ActionEvent e) {
-				confirmAudio.dispose();
-			}
-		});
 	}
 
 }

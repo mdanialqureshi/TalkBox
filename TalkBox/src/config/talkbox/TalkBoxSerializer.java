@@ -6,52 +6,75 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 
 public class TalkBoxSerializer implements TalkBoxConfiguration, Serializable {
 
-	private static final long serialVersionUID = 1L;
-
+	private static final long serialVersionUID = 8857840839980976375L;
 	private int numAudioButtons;
 	private int numAudioSets;
 	private int numSwapButtons;
-	private Path path;
+	private String relativePathToAudioFiles;
 	public String[][] audioFileNames;
 	private File talkBoxDataPath;
 	private File talkBoxData;
-	private HashMap<Integer,String> buttonsMap;
+	private HashMap<Integer, String> buttonsMap;
+	private ProfileList profilesList;
 
 	public TalkBoxSerializer() {
 		buttonsMap = TalkBoxConfig.buttonsMap;
 		numAudioButtons = TalkBoxConfig.numAudButtons;
 		numAudioSets = TalkBoxConfig.numAudSets;
 		numSwapButtons = TalkBoxConfig.numSwapButtons;
-		path = TalkBoxConfig.path;
-		audioFileNames = TalkBoxConfig.audFileNames;
+		relativePathToAudioFiles = TalkBoxConfig.talkBoxDataPath.toString();
+		
+		profilesList = TalkBoxConfig.profilesList;
+		audioFileNames = profilesList.toArrayMatrix();
 	}
 
 	public TalkBoxSerializer(File talkBoxDataPath) {
 		this();
 
 		this.talkBoxDataPath = talkBoxDataPath;
-		this.talkBoxData = new File(talkBoxDataPath + "/TalkBoxData.tbc");
+		this.talkBoxData = new File(talkBoxDataPath, "TalkBoxData.tbc");
+	}
 
+	public void init() {
 		try {
-			talkBoxData.getParentFile().mkdirs();
-			talkBoxData.createNewFile();
+			if (!talkBoxData.exists()) {
+				talkBoxData.getParentFile().mkdirs();
+				talkBoxData.createNewFile();
+				FileOutputStream fileOut = new FileOutputStream(talkBoxData);
+				ObjectOutputStream out = new ObjectOutputStream(fileOut);
+				out.writeObject(this);
+				out.close();
+				fileOut.close();
+				System.out.println("TalkBox was serialized. Number of audio buttons is: " + this.numAudioButtons);
+			}
+		} catch (IOException i) {
+			i.printStackTrace();
+		}
+	}
+
+	public void serialize() {
+		try {
 			FileOutputStream fileOut = new FileOutputStream(talkBoxData);
 			ObjectOutputStream out = new ObjectOutputStream(fileOut);
 			out.writeObject(this);
 			out.close();
 			fileOut.close();
+			System.out.println("TalkBox was serialized. Number of audio buttons is: " + this.numAudioButtons);
 		} catch (IOException i) {
 			i.printStackTrace();
 		}
-
-		System.out.println("TalkBox was serialized. Number of audio buttons is: " + this.numAudioButtons);
 	}
-	
-	public HashMap<Integer,String> getButtonsMap(){
+
+	public ProfileList getProfilesList() {
+		return profilesList;
+	}
+
+	public HashMap<Integer, String> getButtonsMap() {
 		return buttonsMap;
 	}
 
@@ -68,7 +91,7 @@ public class TalkBoxSerializer implements TalkBoxConfiguration, Serializable {
 	}
 
 	public Path getRelativePathToAudioFiles() {
-		return path;
+		return Paths.get(relativePathToAudioFiles);
 	}
 
 	public String[][] getAudioFileNames() {

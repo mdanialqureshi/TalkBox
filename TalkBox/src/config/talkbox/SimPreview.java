@@ -9,10 +9,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -25,12 +26,22 @@ public class SimPreview extends JPanel {
 
 	ArrayList<AudioButton> buttons = new ArrayList<AudioButton>();
 	protected JPanel buttonsPanel;
-	private JButton currentBtn;
+	protected JPanel swapButtonsPanel;
+	protected JPanel allButtonsPanel;
+	AudioButton currentBtn;
 	private int nButtons = 0;
 	private int nButtonsPrev = 0;
-	// HashMap holds integer which is button number and string which is filename
-	// associated with the button
-	HashMap<Integer, String> buttonsMap = new HashMap<Integer, String>();
+	JButton swap1;
+	JButton swap2;
+	JButton swap3;
+	JButton swapAll;
+	private int numOfSwaps = 3;
+
+	public enum SimPreviewMode {
+		PLAY_MODE, EDIT_MODE;
+	}
+
+	public SimPreviewMode mode = SimPreviewMode.PLAY_MODE;
 
 	public SimPreview() {
 		setBackground(Color.DARK_GRAY);
@@ -42,7 +53,27 @@ public class SimPreview extends JPanel {
 		simTitle.setVerticalAlignment(SwingConstants.TOP);
 		simTitle.setFont(new Font("Chalkboard", Font.PLAIN, 50));
 		simTitle.setForeground(Color.WHITE);
-		add(simTitle, BorderLayout.PAGE_START);
+		add(simTitle, BorderLayout.BEFORE_FIRST_LINE);
+
+		swapButtonsPanel = new JPanel();
+		swapButtonsPanel.setForeground(new Color(0, 0, 0));
+		swapButtonsPanel.setBackground(Color.DARK_GRAY);
+		swapButtonsPanel.setLayout(new BoxLayout(swapButtonsPanel, BoxLayout.Y_AXIS));
+		swapButtonsPanel.add(Box.createVerticalStrut(15));
+		swap1 = new JButton("Profile 1");
+		swapButtonsPanel.add(swap1);
+		swap2 = new JButton("Profile 2");
+		swapButtonsPanel.add(swap2);
+
+		//allButtonsPanel.add(swapButtonsPanel, BorderLayout.NORTH);
+		add(swapButtonsPanel, BorderLayout.WEST);
+		swap3 = new JButton("Profile 3");
+		swapButtonsPanel.add(swap3);
+		swapAll = new JButton("Swap");
+		swapAll.setToolTipText("Swap through all profiles sequentially.");
+		swapButtonsPanel.add(swapAll);
+		// allButtonsPanel.add(buttonsPanel);
+		// add(swapButtonsPanel, BorderLayout.EAST);
 
 		buttonsPanel = new JPanel();
 		buttonsPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -52,64 +83,91 @@ public class SimPreview extends JPanel {
 		// Get number of audio buttons from TalkBoxDeserializer
 		nButtons = TalkBoxConfig.numAudButtons;
 		setupButtons();
+		currentBtn = buttons.get(0);
 		addButtonAudio();
+		setUpSwapButtons();
+	}
+
+	private void setUpSwapButtons() {
+
+		swap1.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				loadProfileToSwap(0);
+			}
+
+		});
+		swap2.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				loadProfileToSwap(1);
+			}
+
+		});
+		swap3.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				loadProfileToSwap(2);
+			}
+		});
+		swapAll.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+
+				loadProfileToSwap(numOfSwaps);
+				numOfSwaps++;
+				if (numOfSwaps == TalkBoxConfig.numAudSets)
+					numOfSwaps = 3;
+			}
+		});
+
+	}
+
+	protected void loadProfileToSwap(int profileNumber) {
+		TalkBoxConfig.profilesList.setCurrentProfile(profileNumber);
+		ArrayList<String> profileFileNames = TalkBoxConfig.profilesList.get(profileNumber).getAudioFileNames();
+		for (int i = 0; i < TalkBoxConfig.numAudButtons; ++i) {
+			SimRecorderSplit.simPreview.buttons.get(i).setAudioFile(profileFileNames.get(i));
+		}
 	}
 
 	private void addButtonAudio() {
-
 		for (AudioButton b : buttons) {
-
 			b.addActionListener(new ActionListener() {
-
 				public void actionPerformed(ActionEvent e) {
-					removeHighlight();
-					currentBtn = b;
-					highlightBtn();
-					playSound(b.fileName);
+					if (mode == SimPreviewMode.PLAY_MODE) {
+						currentBtn = b;
+						b.playSound();
+					} else if (mode == SimPreviewMode.EDIT_MODE) {
+						removeHighlight();
+						currentBtn = b;
+						highlightBtn();
+					}
 				}
-
 			});
 		}
-
 	}
 
 	public void removeHighlight() {
 		if (currentBtn != null) {
 			currentBtn.setForeground(Color.BLACK);
+			currentBtn.setFont(new Font("Chalkboard", Font.PLAIN, 25));
 		}
 	}
 
 	public void highlightBtn() {
 		if (currentBtn != null) {
 			currentBtn.setForeground(Color.BLUE);
-		}
-	}
-
-	/**
-	 * ActionListeners of the buttons call playSound() method which plays the sound
-	 * of the button. The Argument being passed in is the name of the Audio file
-	 * which the button will play.
-	 * 
-	 * @param soundName name of audio file associated with the respective button
-	 */
-
-	protected void playSound(String soundName) {
-		try {
-			File file = new File("src/audioFiles/" + soundName); // gets the file from its
-			// package using file name
-			Clip clip = AudioSystem.getClip();
-			clip.open(AudioSystem.getAudioInputStream(file));
-			clip.start(); // allows audio clip to be played
-		} catch (Exception e) {
-			System.err.println("Could not play back audio.");
-			System.err.println(e.getMessage());
+			currentBtn.setFont(new Font("Chalkboard", Font.BOLD, 25));
 		}
 	}
 
 	public class AudioButton extends JButton {
 
 		private static final long serialVersionUID = 1L;
-		public String fileName;
+		private String fileName;
+		private File profileFolder;
+		private File audioFile;
 		public int buttonNumber;
 
 		public AudioButton(int buttonNumber, String text) {
@@ -118,6 +176,31 @@ public class SimPreview extends JPanel {
 			setVerticalAlignment(SwingConstants.BOTTOM);
 			setFont(new Font("Chalkboard", Font.PLAIN, 25));
 			setPreferredSize(new Dimension(70, 40));
+		}
+
+		public void setAudioFile(String fileName) {
+			this.fileName = fileName;
+			this.profileFolder = TalkBoxConfig.profilesList.getCurrentProfileFolder();
+			if (fileName != null) {
+				audioFile = new File(profileFolder, fileName);
+			} else {
+				audioFile = null;
+			}
+		}
+
+		public void playSound() {
+			if (audioFile != null) {
+				try {
+					Clip clip = AudioSystem.getClip();
+					clip.open(AudioSystem.getAudioInputStream(audioFile));
+					clip.start(); // allows audio clip to be played
+				} catch (Exception e) {
+					System.err.println("Could not play back audio.");
+					System.err.println(e.getMessage());
+				}
+			} else {
+				System.err.println("No audio file associated with this button.");
+			}
 		}
 	}
 
@@ -129,20 +212,21 @@ public class SimPreview extends JPanel {
 			}
 		} else {
 			for (int i = nButtonsPrev; i < nButtons; i++) {
-				buttons.add(new AudioButton(i + 1, Integer.toString(i + 1)));
+				AudioButton ab = new AudioButton(i + 1, Integer.toString(i + 1));
+				String audioFilePath = TalkBoxConfig.profilesList.getAudioFilesOfCurrentProfile().get(i);
+				if (audioFilePath != null) {
+					System.out.println(audioFilePath);
+					ab.setAudioFile(audioFilePath);
+				}
+
+				if (TalkBoxConfig.buttonsMap.get(i) != null) {
+					ab.setText(TalkBoxConfig.buttonsMap.get(i));
+				}
+				buttons.add(ab);
 				buttonsPanel.add(buttons.get(i));
 			}
 		}
 		nButtonsPrev = nButtons;
-
-		for (int i = 0; i < nButtons; i++) {
-			if (buttons.get(i).fileName != null) {
-				buttonsMap.put(buttons.get(i).buttonNumber, buttons.get(i).fileName);
-			}
-
-			TalkBoxConfig.buttonsMap = buttonsMap;
-		}
-
 	}
 
 	public void updateButtons(int nButtons) {
