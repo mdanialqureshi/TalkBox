@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNotEquals;
 
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.PrintStream;
 
 import org.junit.jupiter.api.AfterEach;
@@ -20,7 +21,7 @@ class SimPreviewTest {
 	void setUp() throws Exception {
 		tbc = new TalkBoxConfig();
 		sp = ((SimRecorderSplit) tbc.controlsProfileSplit.getLeftComponent()).simPreview;
-	//	sp.buttons.get(0).fileName = "hello.wav";
+		sp.buttons.get(0).audioFile = new File("audio/hello.wav");
 	}
 
 	@AfterEach
@@ -61,7 +62,7 @@ class SimPreviewTest {
 
 	@Test
 	void testPlayingMissingSoundFile() throws InterruptedException {
-	//	sp.buttons.get(0).fileName = null;
+		sp.buttons.get(0).audioFile = null;
 		final ByteArrayOutputStream sperr = new ByteArrayOutputStream();
 		System.setErr(new PrintStream(sperr));
 		sp.buttons.get(0).doClick();

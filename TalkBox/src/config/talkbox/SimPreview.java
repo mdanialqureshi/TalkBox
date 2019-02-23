@@ -164,10 +164,10 @@ public class SimPreview extends JPanel {
 
 	public class AudioButton extends JButton {
 
-		private static final long serialVersionUID = 1L;
-		private String fileName;
-		private File profileFolder;
-		private File audioFile;
+		protected static final long serialVersionUID = 1L;
+		protected String fileName;
+		protected File profileFolder;
+		protected File audioFile;
 		public int buttonNumber;
 
 		public AudioButton(int buttonNumber, String text) {
