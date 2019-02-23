@@ -28,7 +28,7 @@ public class ButtonPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
-	protected ArrayList<AudioButton> buttons = new ArrayList<AudioButton>();
+	public ArrayList<AudioButton> buttons = new ArrayList<AudioButton>();
 	private TalkBoxDeserializer getInfo = new TalkBoxDeserializer(TalkBoxSim.talkBoxDataPath);
 	protected JPanel buttonsPanel;
 	public int nButtons = 0;

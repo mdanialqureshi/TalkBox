@@ -3,6 +3,7 @@ package config.talkbox;
 import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.awt.AWTException;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.PrintStream;
@@ -41,6 +42,15 @@ class TalkBoxSimTest {
 		
 		btnPnl.updateButtons(30);
 		assertEquals(30, btnPnl.nButtons);
-	}	
+	}
+
+	@Test
+	void testPlayingSound() throws InterruptedException {
+		final ByteArrayOutputStream sperr = new ByteArrayOutputStream();
+		System.setErr(new PrintStream(sperr));
+		btnPnl.buttons.get(0).doClick();
+		assertEquals("", sperr.toString());
+	}
+	
 
 }
