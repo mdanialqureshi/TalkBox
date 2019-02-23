@@ -15,7 +15,7 @@ public class TalkBoxSim extends JFrame {
 	public static final int frameWidth = 950;
 	public static final int frameHeight = 500;
 	public static File talkBoxDataPath;
-	JPanel buttonPanel;
+	public JPanel buttonPanel;
 
 	/**
 	 * Launch the application.
@@ -48,7 +48,7 @@ public class TalkBoxSim extends JFrame {
 	/**
 	 * GUI for TalkBox Simulator is created.
 	 */
-	private void buildGUI() {
+	public void buildGUI() {
 		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, frameWidth, frameHeight);

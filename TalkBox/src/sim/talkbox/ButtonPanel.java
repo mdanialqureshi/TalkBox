@@ -31,7 +31,7 @@ public class ButtonPanel extends JPanel {
 	protected ArrayList<AudioButton> buttons = new ArrayList<AudioButton>();
 	private TalkBoxDeserializer getInfo = new TalkBoxDeserializer(TalkBoxSim.talkBoxDataPath);
 	protected JPanel buttonsPanel;
-	private int nButtons = 0;
+	public int nButtons = 0;
 	private int nButtonsPrev = 0;
 	private int currentProfile = 0;
 	private HashMap<Integer, String> buttonsMap;
@@ -78,7 +78,7 @@ public class ButtonPanel extends JPanel {
 	 * @param soundName name of audio file associated with the respective button
 	 */
 
-	private void playSound(String soundName) {
+	public void playSound(String soundName) {
 		try {
 			File file = new File("src/audioFiles/" + soundName); // gets the file from its
 																	// package using file name
