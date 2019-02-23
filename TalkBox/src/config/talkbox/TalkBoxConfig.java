@@ -27,7 +27,7 @@ public class TalkBoxConfig extends JFrame {
 	protected JSplitPane controlsProfileSplit;
 	private int width = 1280;
 	private int height = 720;
-	static boolean testmode = false;
+	public static boolean testmode = false;
 
 	public static File talkBoxDataPath;
 	private File tbc;
