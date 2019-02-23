@@ -9,6 +9,7 @@ import java.awt.Robot;
 import java.awt.event.KeyEvent;
 import java.io.File;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -26,24 +27,20 @@ class RecorderTest {
 	@Test
 	void testInitialFields() {
 		assertEquals(false, recObj.isRecording);
-		assertEquals("Begin recording?",recObj.recordInfo.getText());		
+		assertEquals("Switch to edit mode to begin recording.",recObj.recordInfo.getText());		
 	}
 
 	
 	@Test
 	void testRecording() throws InterruptedException, AWTException {
 	//	Robot robot = new Robot();
-
-		recObj.fileChooser.setCurrentDirectory((new File  
-				(System.getProperty("user.home") + "/Desktop")));
-		recObj.fileChooser.setSelectedFile(new File("test"));
-		Thread.sleep(500);
+		recObj.toggle.toggleBtn.doClick();
 		recObj.recordBtn.doClick();
 //		robot.keyPress(KeyEvent.VK_ENTER);
 //		robot.keyRelease(KeyEvent.VK_ENTER);
 		Thread.sleep(2000);
 		recObj.recordBtn.doClick();
-		String h = System.getProperty("user.home") + "/Desktop/test";
+		String h = System.getProperty("user.home") + "/Desktop/TalkBoxData/profile-1/button-1.wav";
 		assertEquals(h,recObj.filePath);
 		
 	}
@@ -67,6 +64,10 @@ class RecorderTest {
 		
 	}
 	
+	@AfterEach
+	void tearDown() throws Exception {
+		return;
+	}
 	
 	
 	

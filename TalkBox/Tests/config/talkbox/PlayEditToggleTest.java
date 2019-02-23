@@ -63,7 +63,7 @@ class PlayEditToggleTest {
 	
 	@AfterEach
 	void tearDown() throws Exception {
-		tbc.dispose();
+		return;
 	}
 	
 	

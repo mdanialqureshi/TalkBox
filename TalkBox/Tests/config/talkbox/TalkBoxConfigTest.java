@@ -2,6 +2,7 @@ package config.talkbox;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -31,9 +32,9 @@ class TalkBoxConfigTest {
 	
 	@Test
 	void testInitialFields() {
-		assertEquals(20,TalkBoxConfig.numAudButtons);
+		assertEquals(30,TalkBoxConfig.numAudButtons);
 		assertEquals(1, TalkBoxConfig.numAudSets);
-		assertEquals(null, TalkBoxConfig.audFileNames[0][0]);
+		assertEquals("button-1.wav", TalkBoxConfig.audFileNames[0][0]);
 		assertEquals(null, TalkBoxConfig.buttonsMap.get(0));
 	}
 	
@@ -47,7 +48,10 @@ class TalkBoxConfigTest {
 	}
 	
 	
-	
+	@AfterEach
+	void tearDown() throws Exception {
+		return;
+	}
 	
 
 
