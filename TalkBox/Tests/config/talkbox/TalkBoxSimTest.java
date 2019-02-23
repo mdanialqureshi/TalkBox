@@ -1,4 +1,4 @@
-package sim.talkbox;
+package config.talkbox;
 
 import static org.junit.jupiter.api.Assertions.*;
 
