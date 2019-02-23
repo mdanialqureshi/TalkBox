@@ -29,6 +29,9 @@ public class ProfilesPanel extends JPanel {
 	JList<String> profilesJList;
 	private int loadedProfile;
 	private int selectedProfile;
+	JButton loadProf;
+	JButton newProf;
+	JButton delProf;
 
 	public ProfilesPanel() {
 		fc = new JFileChooser();
@@ -85,7 +88,7 @@ public class ProfilesPanel extends JPanel {
 		textField.setColumns(10);
 
 		// Buttons
-		JButton loadProf = new JButton("Load Profile");
+		loadProf = new JButton("Load Profile");
 		loadProf.setBounds(30, 470, 110, 30);
 		loadProf.setHorizontalAlignment(SwingConstants.CENTER);
 		loadProf.setVerticalAlignment(SwingConstants.CENTER);
@@ -96,7 +99,7 @@ public class ProfilesPanel extends JPanel {
 			}
 		});
 
-		JButton newProf = new JButton("New Profile");
+		newProf = new JButton("New Profile");
 		newProf.setBounds(164, 470, 110, 30);
 		newProf.setHorizontalAlignment(SwingConstants.CENTER);
 		newProf.setVerticalAlignment(SwingConstants.CENTER);
@@ -107,7 +110,7 @@ public class ProfilesPanel extends JPanel {
 			}
 		});
 
-		JButton delProf = new JButton("Delete Profile");
+		delProf = new JButton("Delete Profile");
 		delProf.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				deleteProfile();
@@ -141,5 +144,9 @@ public class ProfilesPanel extends JPanel {
 
 	public String getProfileName(int profileIndex) {
 		return profilesListModel.getElementAt(profileIndex);
+	}
+
+	public String getSelectedProfileName() {
+		return profilesListModel.getElementAt(selectedProfile);
 	}
 }
