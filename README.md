@@ -35,7 +35,7 @@ Project is created with:
 * Eclipse
 
 ## Authors 
-* Danial Qureshi
+* Muhammad Danial Qureshi
 * Jessie Leung
 * Manish Bhasin 
 
