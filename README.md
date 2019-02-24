@@ -27,7 +27,7 @@ Testing of the project is done using JUnit testing framework. Testing is used to
 * RecorderTest
 * SimPreviewTest
 * TalkBoxConfigTest
-*TalkBoxSimTest
+* TalkBoxSimTest
 
 ## Technologies 
 Project is created with: 
