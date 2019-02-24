@@ -88,6 +88,7 @@ public class ButtonPanel extends JPanel {
 		buttonsMap = getInfo.getButtonsMap();
 		setupButtons();
 		addButtonAudio();
+		setUpSwapButtons();
 	}
 
 	private void addButtonAudio() {

@@ -100,24 +100,31 @@ public class SimPreview extends JPanel {
 		swap2.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
+				if(TalkBoxConfig.profilesList.size()>1) {
 				loadProfileToSwap(1);
+			}
 			}
 
 		});
 		swap3.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
+				if(TalkBoxConfig.profilesList.size()>2) {
 				loadProfileToSwap(2);
+			}
 			}
 		});
 		swapAll.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-
+				if(TalkBoxConfig.profilesList.size()>3) {
+					
+				
 				loadProfileToSwap(numOfSwaps);
 				numOfSwaps++;
 				if (numOfSwaps == TalkBoxConfig.numAudSets)
 					numOfSwaps = 3;
+			}
 			}
 		});
 
