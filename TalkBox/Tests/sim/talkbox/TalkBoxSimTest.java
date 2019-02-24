@@ -1,31 +1,24 @@
 package sim.talkbox;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.*;
 
+
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.PrintStream;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import config.talkbox.TalkBoxConfig;
-import sim.talkbox.ButtonPanel;
-import sim.talkbox.TalkBoxSim;
 
-class TalkBoxSimTest {
+public class TalkBoxSimTest {
 	
 	private TalkBoxSim tbs; 
-	private TalkBoxConfig tbc; 
 	private ButtonPanel btnPnl;
 	
 	@BeforeEach
 	void setUp() throws Exception {
 		TalkBoxConfig.testmode = true;
-		tbc = new TalkBoxConfig();
-		tbs = new TalkBoxSim(tbc.talkBoxDataPath.toString());
+		tbs = new TalkBoxSim(TalkBoxConfig.talkBoxDataPath.toString());
 		btnPnl = (ButtonPanel) tbs.buttonPanel;
 		
 	}
@@ -42,6 +35,15 @@ class TalkBoxSimTest {
 		
 		btnPnl.updateButtons(30);
 		assertEquals(30, btnPnl.nButtons);
-	}	
+	}
+
+	@Test
+	void testPlayingSound() throws InterruptedException {
+		final ByteArrayOutputStream sperr = new ByteArrayOutputStream();
+		System.setErr(new PrintStream(sperr));
+		btnPnl.buttons.get(0).doClick();
+		assertEquals("", sperr.toString());
+	}
+	
 
 }

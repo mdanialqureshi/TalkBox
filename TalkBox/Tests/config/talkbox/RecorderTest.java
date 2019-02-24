@@ -1,17 +1,9 @@
 package config.talkbox;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.awt.AWTException;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Robot;
-import java.awt.event.KeyEvent;
-import java.io.File;
-
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 
 class RecorderTest {
 

@@ -17,6 +17,7 @@ class SimPreviewTest {
 
 	private SimPreview sp;
 	private TalkBoxConfig tbc;
+	
 	@BeforeEach
 	void setUp() throws Exception {
 		TalkBoxConfig.testmode = true;
@@ -25,9 +26,6 @@ class SimPreviewTest {
 		sp.buttons.get(0).audioFile = new File("audio/hello.wav");
 	}
 
-	@AfterEach
-	void tearDown() throws Exception {
-	}
 
 	@Test
 	void testUpdatingButtons() throws InterruptedException {
@@ -69,4 +67,10 @@ class SimPreviewTest {
 		sp.buttons.get(0).doClick();
 		assertNotEquals("", sperr.toString());
 	}
+	
+	@AfterEach
+	void tearDown() throws Exception {
+		return;
+	}
+	
 }
