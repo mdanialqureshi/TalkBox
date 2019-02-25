@@ -132,6 +132,8 @@ public class SimPreview extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				if (TalkBoxConfig.profilesList.size() > 3) {
 					profileNumber.setText("  Profile " + (numOfSwaps + 1));
+					revalidate();
+					repaint();
 					loadProfileToSwap(numOfSwaps);
 					numOfSwaps++;
 					if (numOfSwaps == TalkBoxConfig.numAudSets)

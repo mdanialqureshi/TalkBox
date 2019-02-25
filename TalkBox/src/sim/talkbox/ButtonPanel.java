@@ -187,9 +187,16 @@ public class ButtonPanel extends JPanel {
 	
 	private void setUpSwapButtons() {
 
+		JLabel profileNumber = new JLabel();
+		profileNumber.setForeground(Color.CYAN);
+		swapButtonsPanel.add(profileNumber);
+		
 		swap1.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
+				profileNumber.setText("  Profile 1");
+				revalidate();
+				repaint();
 				loadProfileToSwap(0);
 			}
 
@@ -197,6 +204,9 @@ public class ButtonPanel extends JPanel {
 		swap2.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
+				profileNumber.setText("  Profile 2");
+				revalidate();
+				repaint();
 				loadProfileToSwap(1);
 			}
 
@@ -204,13 +214,18 @@ public class ButtonPanel extends JPanel {
 		swap3.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
+				profileNumber.setText("  Profile 3");
+				revalidate();
+				repaint();
 				loadProfileToSwap(2);
 			}
 		});
 		swapAll.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-
+				profileNumber.setText("  Profile " + (numOfSwaps + 1));
+				revalidate();
+				repaint();
 				loadProfileToSwap(numOfSwaps);
 				numOfSwaps++;
 				if (numOfSwaps == getInfo.getNumberOfAudioSets())
