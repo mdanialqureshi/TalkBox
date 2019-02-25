@@ -8,9 +8,15 @@ TalkBox is a device that helps anybody, who is unable to talk, communicate. Each
 * System must have Java Runtime Environment installed
 
 ## Launch
-To run the project, install it locally and run: 
+To run the project, install it locally and run the Configuration Application with : 
 ```
-java -jar TalkBox.jar
+java -jar TalkBoxConfig.jar 
+
+```
+run the Simulator Application with : 
+```
+java -jar TalkBoxSim.jar 
+
 ```
 ## Features 
 ![TalkBox Config App](https://i.imgur.com/VgQQDpI.png)
