@@ -42,9 +42,9 @@ public class TalkBoxSim extends JFrame {
 						fileChooser.setAcceptAllFileFilterUsed(false);
 						int returnValue = fileChooser.showOpenDialog(null);
 						if (returnValue == JFileChooser.APPROVE_OPTION) {
-							File talkBoxDataParentDir = fileChooser.getSelectedFile();
+							File talkBoxDataPath = fileChooser.getSelectedFile();
 							TalkBoxSim frame = new TalkBoxSim(
-									(new File(talkBoxDataParentDir, "TalkBoxData").toString()));
+									(talkBoxDataPath.toString()));
 							frame.setVisible(true);
 						} else if (returnValue == JFileChooser.CANCEL_OPTION) {
 							System.exit(1);
