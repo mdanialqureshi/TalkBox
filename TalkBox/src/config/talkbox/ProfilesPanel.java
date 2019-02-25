@@ -27,8 +27,8 @@ public class ProfilesPanel extends JPanel {
 	private final JFileChooser fc;
 	DefaultListModel<String> profilesListModel;
 	JList<String> profilesJList;
-	private int loadedProfile;
-	private int selectedProfile;
+	private int loadedProfile  = 0;
+	private int selectedProfile = 0;
 	JButton loadProf;
 	JButton newProf;
 	JButton delProf;
@@ -71,6 +71,7 @@ public class ProfilesPanel extends JPanel {
 				TalkBoxConfig.profilesList.setCurrentProfile(selectedProfile);
 			}
 		});
+		profilesJList.setSelectedIndex(selectedProfile);
 
 		JScrollPane profiles = new JScrollPane(profilesJList);
 		profiles.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
@@ -124,7 +125,8 @@ public class ProfilesPanel extends JPanel {
 
 	protected void loadSelectedProfile() {
 		loadedProfile = selectedProfile;
-		ArrayList<String> audioFiles = TalkBoxConfig.profilesList.get(selectedProfile).getAudioFileNames();
+		TalkBoxConfig.profilesList.setCurrentProfile(selectedProfile);
+		ArrayList<String> audioFiles = TalkBoxConfig.profilesList.getAudioFilesOfCurrentProfile();
 		for (int i = 0; i < TalkBoxConfig.numAudButtons; ++i) {
 			SimRecorderSplit.simPreview.buttons.get(i).setAudioFile(audioFiles.get(i));
 		}
@@ -132,10 +134,14 @@ public class ProfilesPanel extends JPanel {
 
 	protected void deleteProfile() {
 		profilesListModel.remove(selectedProfile);
+		TalkBoxConfig.numAudSets--;
+		selectedProfile = Math.floorMod(selectedProfile - 1, TalkBoxConfig.numAudSets);
+		profilesJList.setSelectedIndex(selectedProfile);
 	}
 
 	protected void createNewProfile() {
 		TalkBoxConfig.numAudSets++;
+		selectedProfile = Math.floorMod(++selectedProfile, TalkBoxConfig.numAudSets);
 		String profileName = "profile-" + TalkBoxConfig.numAudSets;
 		profilesListModel.addElement(profileName);
 		Profile newProfile = new Profile(profileName);
