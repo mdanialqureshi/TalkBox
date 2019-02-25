@@ -154,18 +154,20 @@ public class SimPreview extends JPanel {
 
 	private void addButtonAudio() {
 		for (AudioButton b : buttons) {
-			b.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					if (mode == SimPreviewMode.PLAY_MODE) {
-						currentBtn = b;
-						b.playSound();
-					} else if (mode == SimPreviewMode.EDIT_MODE) {
-						removeHighlight();
-						currentBtn = b;
-						highlightBtn();
+			if (b.getActionListeners().length < 1) {
+				b.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						if (mode == SimPreviewMode.PLAY_MODE) {
+							currentBtn = b;
+							b.playSound();
+						} else if (mode == SimPreviewMode.EDIT_MODE) {
+							removeHighlight();
+							currentBtn = b;
+							highlightBtn();
+						}
 					}
-				}
-			});
+				});
+			}
 		}
 	}
 
@@ -234,8 +236,9 @@ public class SimPreview extends JPanel {
 		} else {
 			for (int i = nButtonsPrev; i < nButtons; i++) {
 				AudioButton ab = new AudioButton(i + 1, Integer.toString(i + 1));
-				String audioFilePath = TalkBoxConfig.profilesList.getAudioFilesOfCurrentProfile().get(i);
-				if (audioFilePath != null) {
+				ArrayList<String> audioFilePaths = TalkBoxConfig.profilesList.getAudioFilesOfCurrentProfile();
+				if (i < audioFilePaths.size() && audioFilePaths.get(i) != null) {
+					String audioFilePath = audioFilePaths.get(i);
 					System.out.println(audioFilePath);
 					ab.setAudioFile(audioFilePath);
 				}
@@ -253,6 +256,7 @@ public class SimPreview extends JPanel {
 	public void updateButtons(int nButtons) {
 		this.nButtons = nButtons;
 		setupButtons();
+		addButtonAudio();
 		revalidate();
 		repaint();
 	}
