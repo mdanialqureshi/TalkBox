@@ -35,7 +35,7 @@ public class TalkBoxSim extends JFrame {
 					} else {
 						JFileChooser fileChooser = new JFileChooser(
 								FileSystemView.getFileSystemView().getHomeDirectory());
-						fileChooser.setDialogTitle("Please choose a directory to load TalkBox Data");
+						fileChooser.setDialogTitle("Please choose the parent directory of the TalkBoxData directory.");
 						fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 						fileChooser.setVisible(true);
 						// only show directories
