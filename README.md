@@ -13,7 +13,7 @@ To run the project, install it locally and run the Configuration Application wit
 java -jar TalkBoxConfig.jar 
 
 ```
-run the Simulator Application with : 
+Run the Simulator Application with : 
 ```
 java -jar TalkBoxSim.jar 
 
