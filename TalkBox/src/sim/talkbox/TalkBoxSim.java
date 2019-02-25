@@ -65,8 +65,7 @@ public class TalkBoxSim extends JFrame {
 	public TalkBoxSim(String talkBoxDataPath) {
 		TalkBoxSim.talkBoxDataPath = new File(talkBoxDataPath);
 		File tbcCheck = new File(talkBoxDataPath, "TalkBoxData.tbc");
-		
-		if (tbcCheck.exists()) {
+			if (tbcCheck.exists()) {
 			buildGUI();
 		} else {
 			JFrame warningPrompt = new JFrame("Warning");
