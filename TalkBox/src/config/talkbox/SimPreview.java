@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -202,6 +203,7 @@ public class SimPreview extends JPanel {
 		public AudioButton(int buttonNumber, String text) {
 			super(text);
 			this.buttonNumber = buttonNumber;
+			setMargin(new Insets(0, 0, 0, 0));
 			setVerticalAlignment(SwingConstants.BOTTOM);
 			setFont(new Font("Chalkboard", Font.PLAIN, 25));
 			setPreferredSize(new Dimension(70, 40));
