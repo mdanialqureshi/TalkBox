@@ -44,7 +44,8 @@ public class ButtonPanel extends JPanel {
 	JButton swap3;
 	JButton swapAll;
 	private HashMap<Integer, String> buttonsMap;
-	private int numOfSwaps = 3;
+	private int numOfSwaps = 0;
+	JLabel profileNumber;
 
 	public ButtonPanel() {
 		setBackground(Color.DARK_GRAY);
@@ -72,7 +73,7 @@ public class ButtonPanel extends JPanel {
 		add(swapButtonsPanel, BorderLayout.WEST);
 		swap3 = new JButton("Profile 3");
 		swapButtonsPanel.add(swap3);
-		swapAll = new JButton("Swap");
+		swapAll = new JButton("  Swap   ");
 		swapAll.setToolTipText("Swap through all profiles sequentially.");
 		swapButtonsPanel.add(swapAll);
 		// allButtonsPanel.add(buttonsPanel);
@@ -86,6 +87,10 @@ public class ButtonPanel extends JPanel {
 		// Get number of audio buttons from TalkBoxDeserializer
 		nButtons = getInfo.getNumberOfAudioButtons();
 		buttonsMap = getInfo.getButtonsMap();
+		profileNumber = new JLabel();
+		profileNumber.setForeground(Color.CYAN);
+		profileNumber.setText("  Profile 1");
+		swapButtonsPanel.add(profileNumber);
 		setupButtons();
 		addButtonAudio();
 		setUpSwapButtons();
@@ -186,14 +191,12 @@ public class ButtonPanel extends JPanel {
 
 	private void setUpSwapButtons() {
 
-		JLabel profileNumber = new JLabel();
-		profileNumber.setForeground(Color.CYAN);
-		swapButtonsPanel.add(profileNumber);
 
 		swap1.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
 				profileNumber.setText("  Profile 1");
+				numOfSwaps = 0;
 				revalidate();
 				repaint();
 				loadProfileToSwap(0);
@@ -204,6 +207,7 @@ public class ButtonPanel extends JPanel {
 
 			public void actionPerformed(ActionEvent e) {
 				profileNumber.setText("  Profile 2");
+				numOfSwaps = 1;
 				revalidate();
 				repaint();
 				loadProfileToSwap(1);
@@ -214,6 +218,7 @@ public class ButtonPanel extends JPanel {
 
 			public void actionPerformed(ActionEvent e) {
 				profileNumber.setText("  Profile 3");
+				numOfSwaps = 2;
 				revalidate();
 				repaint();
 				loadProfileToSwap(2);
@@ -228,7 +233,7 @@ public class ButtonPanel extends JPanel {
 				loadProfileToSwap(numOfSwaps);
 				numOfSwaps++;
 				if (numOfSwaps == getInfo.getNumberOfAudioSets())
-					numOfSwaps = 3;
+					numOfSwaps = 0;
 			}
 		});
 
