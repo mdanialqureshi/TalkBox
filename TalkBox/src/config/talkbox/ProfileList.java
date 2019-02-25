@@ -11,9 +11,13 @@ public class ProfileList extends LinkedList<Profile> implements Serializable {
 	private int currentProfile = 0;
 	private File talkBoxDataPath;
 
-	public ProfileList() {
+	public void setTalkBoxDataPath(File talkBoxDataPath) {
+		this.talkBoxDataPath = talkBoxDataPath;
+	}
+
+	public ProfileList(File talkBoxDataPath) {
 		super();
-		talkBoxDataPath = TalkBoxConfig.talkBoxDataPath;
+		this.talkBoxDataPath = talkBoxDataPath;
 	}
 
 	public int getCurrentProfile() {

@@ -60,7 +60,7 @@ public class TalkBoxConfig extends JFrame {
 	 * Create the frame.
 	 */
 	public TalkBoxConfig() {
-		profilesList = new ProfileList();
+		profilesList = new ProfileList(talkBoxDataPath);
 		Profile defaultProfile = new Profile("default");
 		defaultProfile.add(0, "button-1.wav");
 		profilesList.add(defaultProfile);
@@ -98,6 +98,7 @@ public class TalkBoxConfig extends JFrame {
 			if (returnValue == JFileChooser.APPROVE_OPTION) {
 				File talkBoxDataParentDir = fileChooser.getSelectedFile();
 				talkBoxDataPath = new File(talkBoxDataParentDir, "TalkBoxData");
+				profilesList.setTalkBoxDataPath(talkBoxDataPath);
 				tbc = new File(talkBoxDataPath, "TalkBoxConfiguration.tbc");
 			} else if (returnValue == JFileChooser.CANCEL_OPTION) {
 				System.exit(1);
