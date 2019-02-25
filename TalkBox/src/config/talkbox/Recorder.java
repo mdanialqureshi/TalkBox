@@ -2,6 +2,7 @@ package config.talkbox;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -93,6 +94,7 @@ public class Recorder extends JPanel {
 		 * launching the simulator from the configuration application
 		 */
 		launchSimulator = new JButton("Launch Simulator");
+		launchSimulator.setMargin(new Insets(0, 0, 0, 0));
 		launchSimulator.setPreferredSize(new Dimension(100, 60));
 		springLayout.putConstraint(SpringLayout.WEST, launchSimulator, 23, SpringLayout.WEST, this);
 		springLayout.putConstraint(SpringLayout.SOUTH, launchSimulator, -10, SpringLayout.NORTH, progressBar);
@@ -129,6 +131,7 @@ public class Recorder extends JPanel {
 		springLayout.putConstraint(SpringLayout.SOUTH, txtNumberOfButtons, -238, SpringLayout.SOUTH, this);
 		txtNumberOfButtons.setToolTipText("Input number of buttons and press Enter key to update");
 		updateNumberOfButtons = new JButton("Update Buttons");
+		updateNumberOfButtons.setMargin(new Insets(0, 0, 0, 0));
 		springLayout.putConstraint(SpringLayout.NORTH, updateNumberOfButtons, 70, SpringLayout.NORTH, this);
 		springLayout.putConstraint(SpringLayout.HORIZONTAL_CENTER, updateNumberOfButtons, 0,
 				SpringLayout.HORIZONTAL_CENTER, txtNumberOfButtons);
@@ -170,6 +173,7 @@ public class Recorder extends JPanel {
 		add(toggle);
 
 		JButton saveSettings = new JButton("Save Settings");
+		saveSettings.setMargin(new Insets(0, 0, 0, 0));
 		springLayout.putConstraint(SpringLayout.SOUTH, saveSettings, -6, SpringLayout.NORTH, progressBar);
 		springLayout.putConstraint(SpringLayout.EAST, saveSettings, 0, SpringLayout.EAST, progressBar);
 		saveSettings.addActionListener(new ActionListener() {

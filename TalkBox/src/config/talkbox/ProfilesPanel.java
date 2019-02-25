@@ -3,6 +3,7 @@ package config.talkbox;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -90,6 +91,7 @@ public class ProfilesPanel extends JPanel {
 
 		// Buttons
 		loadProf = new JButton("Load Profile");
+		loadProf.setMargin(new Insets(0, 0, 0, 0));
 		loadProf.setBounds(30, 470, 110, 30);
 		loadProf.setHorizontalAlignment(SwingConstants.CENTER);
 		loadProf.setVerticalAlignment(SwingConstants.CENTER);
@@ -101,6 +103,7 @@ public class ProfilesPanel extends JPanel {
 		});
 
 		newProf = new JButton("New Profile");
+		newProf.setMargin(new Insets(0, 0, 0, 0));
 		newProf.setBounds(164, 470, 110, 30);
 		newProf.setHorizontalAlignment(SwingConstants.CENTER);
 		newProf.setVerticalAlignment(SwingConstants.CENTER);
@@ -112,6 +115,7 @@ public class ProfilesPanel extends JPanel {
 		});
 
 		delProf = new JButton("Delete Profile");
+		delProf.setMargin(new Insets(0, 0, 0, 0));
 		delProf.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				deleteProfile();
