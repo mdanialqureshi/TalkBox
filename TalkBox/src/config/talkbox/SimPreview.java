@@ -35,7 +35,8 @@ public class SimPreview extends JPanel {
 	JButton swap2;
 	JButton swap3;
 	JButton swapAll;
-	private int numOfSwaps = 3;
+	private int numOfSwaps = 0;
+	JLabel profileNumber;
 
 	public enum SimPreviewMode {
 		PLAY_MODE, EDIT_MODE;
@@ -84,20 +85,23 @@ public class SimPreview extends JPanel {
 		nButtons = TalkBoxConfig.numAudButtons;
 		setupButtons();
 		currentBtn = buttons.get(0);
+		profileNumber = new JLabel();
+		profileNumber.setForeground(Color.CYAN);
+		profileNumber.setText("  Profile 1");
+		swapButtonsPanel.add(profileNumber);
+		
 		addButtonAudio();
 		setUpSwapButtons();
 	}
 
 	private void setUpSwapButtons() {
 
-		JLabel profileNumber = new JLabel();
-		profileNumber.setForeground(Color.CYAN);
-		swapButtonsPanel.add(profileNumber);
-
+		
 		swap1.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
 				profileNumber.setText("  Profile 1");
+				numOfSwaps = 0;
 				revalidate();
 				repaint();
 				loadProfileToSwap(0);
@@ -109,6 +113,7 @@ public class SimPreview extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				if (TalkBoxConfig.profilesList.size() > 1) {
 					profileNumber.setText("  Profile 2");
+					numOfSwaps = 1;
 					revalidate();
 					repaint();
 					loadProfileToSwap(1);
@@ -121,6 +126,7 @@ public class SimPreview extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				if (TalkBoxConfig.profilesList.size() > 2) {
 					profileNumber.setText("  Profile 3");
+					numOfSwaps = 2;
 					revalidate();
 					repaint();
 					loadProfileToSwap(2);
@@ -130,14 +136,14 @@ public class SimPreview extends JPanel {
 		swapAll.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-				if (TalkBoxConfig.profilesList.size() > 3) {
+				if (TalkBoxConfig.profilesList.size() > 0) {
 					profileNumber.setText("  Profile " + (numOfSwaps + 1));
 					revalidate();
 					repaint();
 					loadProfileToSwap(numOfSwaps);
 					numOfSwaps++;
 					if (numOfSwaps == TalkBoxConfig.numAudSets)
-						numOfSwaps = 3;
+						numOfSwaps = 0;
 				}
 			}
 		});
