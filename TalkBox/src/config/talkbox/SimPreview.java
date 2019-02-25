@@ -69,7 +69,7 @@ public class SimPreview extends JPanel {
 		add(swapButtonsPanel, BorderLayout.WEST);
 		swap3 = new JButton("Profile 3");
 		swapButtonsPanel.add(swap3);
-		swapAll = new JButton("Swap");
+		swapAll = new JButton("  Swap   ");
 		swapAll.setToolTipText("Swap through all profiles sequentially.");
 		swapButtonsPanel.add(swapAll);
 		// allButtonsPanel.add(buttonsPanel);
