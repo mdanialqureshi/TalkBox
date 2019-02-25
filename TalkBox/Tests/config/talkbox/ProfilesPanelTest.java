@@ -41,19 +41,19 @@ class ProfilesPanelTest {
 		assertEquals(3, pp.profilesListModel.size());
 		assertThrows(ArrayIndexOutOfBoundsException.class, () -> pp.getProfileName(3));
 
-//		pp.profilesJList.grabFocus();
-//		assertEquals("profile-3", pp.getSelectedProfileName());
-//		
-//		robot.keyPress(KeyEvent.VK_DOWN);
-//		robot.keyRelease(KeyEvent.VK_DOWN);
-//		robot.keyPress(KeyEvent.VK_DOWN);
-//		robot.keyRelease(KeyEvent.VK_DOWN);
-//		robot.keyPress(KeyEvent.VK_DOWN);
-//		robot.keyRelease(KeyEvent.VK_DOWN);
-//		
-//		assertEquals("profile-3", pp.getSelectedProfileName());
-//
-//		pp.loadProf.doClick();
+		// pp.profilesJList.grabFocus();
+		// assertEquals("profile-3", pp.getSelectedProfileName());
+		//
+		// robot.keyPress(KeyEvent.VK_DOWN);
+		// robot.keyRelease(KeyEvent.VK_DOWN);
+		// robot.keyPress(KeyEvent.VK_DOWN);
+		// robot.keyRelease(KeyEvent.VK_DOWN);
+		// robot.keyPress(KeyEvent.VK_DOWN);
+		// robot.keyRelease(KeyEvent.VK_DOWN);
+		//
+		// assertEquals("profile-3", pp.getSelectedProfileName());
+		//
+		// pp.loadProf.doClick();
 
 	}
 

@@ -12,8 +12,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.filechooser.FileSystemView;
 
-
-
 public class TalkBoxSim extends JFrame {
 
 	private static final long serialVersionUID = 1L;
@@ -26,16 +24,16 @@ public class TalkBoxSim extends JFrame {
 	 * Launch the application.
 	 */
 	public static void main(String args[]) {
-		
-		//System.out.println(args[0]);
+
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					if(args.length != 0) {
-					TalkBoxSim frame = new TalkBoxSim(args[0]);
-					frame.setVisible(true);
+					if (args.length != 0) {
+						TalkBoxSim frame = new TalkBoxSim(args[0]);
+						frame.setVisible(true);
 					} else {
-						JFileChooser fileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+						JFileChooser fileChooser = new JFileChooser(
+								FileSystemView.getFileSystemView().getHomeDirectory());
 						fileChooser.setDialogTitle("Please choose a directory to load TalkBox Data");
 						fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 						fileChooser.setVisible(true);
@@ -44,7 +42,8 @@ public class TalkBoxSim extends JFrame {
 						int returnValue = fileChooser.showOpenDialog(null);
 						if (returnValue == JFileChooser.APPROVE_OPTION) {
 							File talkBoxDataParentDir = fileChooser.getSelectedFile();
-							TalkBoxSim frame = new TalkBoxSim((new File(talkBoxDataParentDir, "TalkBoxData").toString()));
+							TalkBoxSim frame = new TalkBoxSim(
+									(new File(talkBoxDataParentDir, "TalkBoxData").toString()));
 							frame.setVisible(true);
 						} else if (returnValue == JFileChooser.CANCEL_OPTION) {
 							System.exit(1);
@@ -55,9 +54,8 @@ public class TalkBoxSim extends JFrame {
 				}
 			}
 		});
-		
+
 	}
-	
 
 	/**
 	 * Constructor calls buildGUI method which builds the frame and GUI components
@@ -66,29 +64,31 @@ public class TalkBoxSim extends JFrame {
 	public TalkBoxSim(String talkBoxDataPath) {
 		TalkBoxSim.talkBoxDataPath = new File(talkBoxDataPath);
 		File tbcCheck = new File(talkBoxDataPath, "TalkBoxData.tbc");
-		if(tbcCheck.exists()) {
-		buildGUI();
+		
+		if (tbcCheck.exists()) {
+			buildGUI();
 		} else {
-		JFrame warningPrompt = new JFrame("Warning");
-		JPanel launchConfigPrompt = new JPanel();
-		JLabel launchConfigLabel = new JLabel("<html>You must first launch the TalkBox Configuration Application <br/> " + 
-				" to set up the Simulator Application.</html>");
-		
-		launchConfigPrompt.add(launchConfigLabel);
-		warningPrompt.add(launchConfigPrompt);
-		warningPrompt.setLocationRelativeTo(null);
-		warningPrompt.setSize(500, 100);
-		warningPrompt.setVisible(true);
-		
-		warningPrompt.addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowClosing(WindowEvent we) {
+			JFrame warningPrompt = new JFrame("Warning");
+			JPanel launchConfigPrompt = new JPanel();
+			JLabel launchConfigLabel = new JLabel(
+					"<html>You must first launch the TalkBox Configuration Application <br/> "
+							+ " to set up the Simulator Application.</html>");
 
-				if (JOptionPane.CLOSED_OPTION != 0) {
-					System.exit(0);
+			launchConfigPrompt.add(launchConfigLabel);
+			warningPrompt.add(launchConfigPrompt);
+			warningPrompt.setLocationRelativeTo(null);
+			warningPrompt.setSize(500, 100);
+			warningPrompt.setVisible(true);
+
+			warningPrompt.addWindowListener(new WindowAdapter() {
+				@Override
+				public void windowClosing(WindowEvent we) {
+
+					if (JOptionPane.CLOSED_OPTION != 0) {
+						System.exit(0);
+					}
 				}
-			}
-		});
+			});
 		}
 	}
 
@@ -96,13 +96,14 @@ public class TalkBoxSim extends JFrame {
 	 * GUI for TalkBox Simulator is created.
 	 */
 	public void buildGUI() {
-		
+
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, frameWidth, frameHeight);
-		setResizable(false); 
-		buttonPanel = new ButtonPanel(); //ButtonPanel class constructs the TalkBox simulator GUI.
-		setContentPane(buttonPanel); //sets the ContentPane of the TalkBox Simulator to the one created in ButtonPanel class. 
-		//ButtonPanel class extends JPanel.
+		setResizable(false);
+		buttonPanel = new ButtonPanel(); // ButtonPanel class constructs the TalkBox simulator GUI.
+		setContentPane(buttonPanel); // sets the ContentPane of the TalkBox Simulator to the one created in
+										// ButtonPanel class.
+		// ButtonPanel class extends JPanel.
 	}
-	
+
 }

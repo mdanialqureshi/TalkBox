@@ -10,7 +10,7 @@ public class SimRecorderSplit extends JSplitPane {
 	private static final long serialVersionUID = 1L;
 	static SimPreview simPreview;
 	Recorder recorder;
-	
+
 	public SimRecorderSplit(int height) {
 		setOrientation(JSplitPane.VERTICAL_SPLIT); // Vertical split has to be set because default is horizontal
 		setDividerLocation((int) (0.5 * height));

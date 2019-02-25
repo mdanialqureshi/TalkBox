@@ -57,7 +57,7 @@ public class ButtonPanel extends JPanel {
 		simTitle.setFont(new Font("Chalkboard", Font.PLAIN, 50));
 		simTitle.setForeground(Color.WHITE);
 		add(simTitle, BorderLayout.PAGE_START);
-		
+
 		swapButtonsPanel = new JPanel();
 		swapButtonsPanel.setForeground(new Color(0, 0, 0));
 		swapButtonsPanel.setBackground(Color.DARK_GRAY);
@@ -68,7 +68,7 @@ public class ButtonPanel extends JPanel {
 		swap2 = new JButton("Profile 2");
 		swapButtonsPanel.add(swap2);
 
-		//allButtonsPanel.add(swapButtonsPanel, BorderLayout.NORTH);
+		// allButtonsPanel.add(swapButtonsPanel, BorderLayout.NORTH);
 		add(swapButtonsPanel, BorderLayout.WEST);
 		swap3 = new JButton("Profile 3");
 		swapButtonsPanel.add(swap3);
@@ -106,13 +106,12 @@ public class ButtonPanel extends JPanel {
 	 * of the button. The Argument being passed in is the name of the Audio file
 	 * which the button will play.
 	 * 
-	 * @param soundName name of audio file associated with the respective button
+	 * @param soundName
+	 *            name of audio file associated with the respective button
 	 */
-
 
 	public class AudioButton extends JButton {
 
-	
 		private static final long serialVersionUID = 1L;
 		private String fileName;
 		private File profileFolder;
@@ -184,13 +183,13 @@ public class ButtonPanel extends JPanel {
 		revalidate();
 		repaint();
 	}
-	
+
 	private void setUpSwapButtons() {
 
 		JLabel profileNumber = new JLabel();
 		profileNumber.setForeground(Color.CYAN);
 		swapButtonsPanel.add(profileNumber);
-		
+
 		swap1.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {

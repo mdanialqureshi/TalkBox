@@ -23,12 +23,13 @@ public class TalkBoxSerializer implements TalkBoxConfiguration, Serializable {
 	private ProfileList profilesList;
 
 	public TalkBoxSerializer() {
+
 		buttonsMap = TalkBoxConfig.buttonsMap;
 		numAudioButtons = TalkBoxConfig.numAudButtons;
 		numAudioSets = TalkBoxConfig.numAudSets;
 		numSwapButtons = TalkBoxConfig.numSwapButtons;
 		relativePathToAudioFiles = TalkBoxConfig.talkBoxDataPath.toString();
-		
+
 		profilesList = TalkBoxConfig.profilesList;
 		audioFileNames = profilesList.toArrayMatrix();
 	}

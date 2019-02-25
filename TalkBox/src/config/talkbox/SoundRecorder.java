@@ -62,7 +62,8 @@ public class SoundRecorder {
 		TalkBoxConfig.profilesList.setAudioFileAtIndexOfCurrentProfile(ab.buttonNumber - 1, wavFilePath.getName());
 		System.out.println();
 		ab.setAudioFile(wavFilePath.getName());
-//		System.out.println("SoundRecorder: " + TalkBoxConfig.audFileNames[0][buttonNumber - 1]);
+		// System.out.println("SoundRecorder: " +
+		// TalkBoxConfig.audFileNames[0][buttonNumber - 1]);
 	}
 
 	private void createFile() {

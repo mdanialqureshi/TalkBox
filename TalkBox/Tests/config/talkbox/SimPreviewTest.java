@@ -3,7 +3,6 @@ package config.talkbox;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.PrintStream;
@@ -17,7 +16,7 @@ class SimPreviewTest {
 
 	private SimPreview sp;
 	private TalkBoxConfig tbc;
-	
+
 	@BeforeEach
 	void setUp() throws Exception {
 		TalkBoxConfig.testmode = true;
@@ -25,7 +24,6 @@ class SimPreviewTest {
 		sp = ((SimRecorderSplit) tbc.controlsProfileSplit.getLeftComponent()).simPreview;
 		sp.buttons.get(0).audioFile = new File("audio/hello.wav");
 	}
-
 
 	@Test
 	void testUpdatingButtons() throws InterruptedException {
@@ -48,14 +46,12 @@ class SimPreviewTest {
 		sp.buttons.get(0).doClick();
 		assertEquals("", sperr.toString());
 	}
-	
-	
-	
+
 	@Test
 	void testErrorPlayingSound() throws Exception {
 		final ByteArrayOutputStream sperr = new ByteArrayOutputStream();
 		System.setErr(new PrintStream(sperr));
-	//	sp.buttons.get(0).fileName = "doesNotExist";
+		// sp.buttons.get(0).fileName = "doesNotExist";
 		assertEquals("", sperr.toString());
 	}
 
@@ -67,10 +63,10 @@ class SimPreviewTest {
 		sp.buttons.get(0).doClick();
 		assertNotEquals("", sperr.toString());
 	}
-	
+
 	@AfterEach
 	void tearDown() throws Exception {
 		return;
 	}
-	
+
 }
