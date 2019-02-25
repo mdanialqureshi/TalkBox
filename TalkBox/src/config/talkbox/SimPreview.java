@@ -237,10 +237,16 @@ public class SimPreview extends JPanel {
 			for (int i = nButtonsPrev; i < nButtons; i++) {
 				AudioButton ab = new AudioButton(i + 1, Integer.toString(i + 1));
 				ArrayList<String> audioFilePaths = TalkBoxConfig.profilesList.getAudioFilesOfCurrentProfile();
-				if (i < audioFilePaths.size() && audioFilePaths.get(i) != null) {
-					String audioFilePath = audioFilePaths.get(i);
-					System.out.println(audioFilePath);
-					ab.setAudioFile(audioFilePath);
+				if (i < audioFilePaths.size()) {
+					if (audioFilePaths.get(i) != null) {
+						String audioFilePath = audioFilePaths.get(i);
+						System.out.println(audioFilePath);
+						ab.setAudioFile(audioFilePath);
+					}
+				} else {
+					for (Profile p : TalkBoxConfig.profilesList) {
+						p.audioFileNames.add(null);
+					}
 				}
 
 				if (TalkBoxConfig.buttonsMap.get(i) != null) {
