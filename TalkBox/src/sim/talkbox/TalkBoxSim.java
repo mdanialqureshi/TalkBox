@@ -29,6 +29,7 @@ public class TalkBoxSim extends JFrame {
 			public void run() {
 				try {
 					if (args.length != 0) {
+					
 						TalkBoxSim frame = new TalkBoxSim(args[0]);
 						frame.setVisible(true);
 					} else {

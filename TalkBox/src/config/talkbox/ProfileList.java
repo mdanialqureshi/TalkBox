@@ -9,9 +9,11 @@ public class ProfileList extends LinkedList<Profile> implements Serializable {
 
 	private static final long serialVersionUID = -1677747622460303106L;
 	private int currentProfile = 0;
+	private File talkBoxDataPath;
 
 	public ProfileList() {
 		super();
+		talkBoxDataPath = TalkBoxConfig.talkBoxDataPath;
 	}
 
 	public int getCurrentProfile() {
@@ -20,7 +22,7 @@ public class ProfileList extends LinkedList<Profile> implements Serializable {
 
 	public File getCurrentProfileFolder() {
 		String profileFolder = String.format("/profile-%d", currentProfile + 1);
-		return new File(TalkBoxConfig.talkBoxDataPath, profileFolder);
+		return new File(talkBoxDataPath, profileFolder);
 	}
 
 	public void setCurrentProfile(int currentProfile) {
