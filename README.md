@@ -13,6 +13,8 @@ To run the project, install it locally and run:
 java -jar TalkBox.jar
 ```
 ## Features 
+![TalkBox Config App](https://i.imgur.com/VgQQDpI.png)
+
 ### Sim Preview Panel 
 The Sim Preview Panel is used to display the state of the TalkBox device as it will be when launched. 
 ### Recording and Editing Panel 
