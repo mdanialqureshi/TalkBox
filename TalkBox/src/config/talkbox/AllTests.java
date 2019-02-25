@@ -7,9 +7,9 @@ import sim.talkbox.TalkBoxSimTest;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({ PlayEditToggleTest.class,ProfilesPanelTest.class, 
 	RecorderTest.class, SimPreviewTest.class, 
-	TalkBoxConfigTest.class, TalkBoxSimTest.class})
+	TalkBoxConfigTest.class, TalkBoxSimTest.class}) 
 
-public class AllTests {
+class AllTests {
 	
 	
 }

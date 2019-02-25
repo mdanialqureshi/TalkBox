@@ -109,17 +109,6 @@ public class ButtonPanel extends JPanel {
 	 * @param soundName name of audio file associated with the respective button
 	 */
 
-//	public void playSound(String soundName) {
-//		try {
-//			File file = new File("src/audioFiles/" + soundName); // gets the file from its
-//																	// package using file name
-//			Clip clip = AudioSystem.getClip();
-//			clip.open(AudioSystem.getAudioInputStream(file));
-//			clip.start(); // allows audio clip to be played
-//		} catch (Exception e) {
-//			System.err.println(e.getMessage()); // Respective error message is output onto the console
-//		}
-//	}
 
 	public class AudioButton extends JButton {
 

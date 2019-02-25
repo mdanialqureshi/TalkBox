@@ -1,11 +1,16 @@
 package sim.talkbox;
 
 import java.awt.EventQueue;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
-import java.nio.file.Path;
 
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.filechooser.FileSystemView;
 
 
 
@@ -21,12 +26,30 @@ public class TalkBoxSim extends JFrame {
 	 * Launch the application.
 	 */
 	public static void main(String args[]) {
-		System.out.println(args[0]);
+		
+		//System.out.println(args[0]);
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					if(args.length != 0) {
 					TalkBoxSim frame = new TalkBoxSim(args[0]);
 					frame.setVisible(true);
+					} else {
+						JFileChooser fileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+						fileChooser.setDialogTitle("Please choose a directory to load TalkBox Data");
+						fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+						fileChooser.setVisible(true);
+						// only show directories
+						fileChooser.setAcceptAllFileFilterUsed(false);
+						int returnValue = fileChooser.showOpenDialog(null);
+						if (returnValue == JFileChooser.APPROVE_OPTION) {
+							File talkBoxDataParentDir = fileChooser.getSelectedFile();
+							TalkBoxSim frame = new TalkBoxSim(new File(talkBoxDataParentDir, "TalkBoxData").toString());
+							frame.setVisible(true);
+						} else if (returnValue == JFileChooser.CANCEL_OPTION) {
+							System.exit(1);
+						}
+					}
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -42,7 +65,31 @@ public class TalkBoxSim extends JFrame {
 	 */
 	public TalkBoxSim(String talkBoxDataPath) {
 		TalkBoxSim.talkBoxDataPath = new File(talkBoxDataPath);
+		File tbcCheck = new File(talkBoxDataPath, "TalkBoxData.tbc");
+		if(tbcCheck.exists()) {
 		buildGUI();
+		} else {
+		JFrame warningPrompt = new JFrame("Warning");
+		JPanel launchConfigPrompt = new JPanel();
+		JLabel launchConfigLabel = new JLabel("<html>You must first launch the TalkBox Configuration Application <br/> " + 
+				" to set up the Simulator Application.</html>");
+		
+		launchConfigPrompt.add(launchConfigLabel);
+		warningPrompt.add(launchConfigPrompt);
+		warningPrompt.setLocationRelativeTo(null);
+		warningPrompt.setSize(500, 100);
+		warningPrompt.setVisible(true);
+		
+		warningPrompt.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent we) {
+
+				if (JOptionPane.CLOSED_OPTION != 0) {
+					System.exit(0);
+				}
+			}
+		});
+		}
 	}
 
 	/**
@@ -57,6 +104,5 @@ public class TalkBoxSim extends JFrame {
 		setContentPane(buttonPanel); //sets the ContentPane of the TalkBox Simulator to the one created in ButtonPanel class. 
 		//ButtonPanel class extends JPanel.
 	}
-	
 	
 }
