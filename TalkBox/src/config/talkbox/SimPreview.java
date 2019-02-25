@@ -65,7 +65,7 @@ public class SimPreview extends JPanel {
 		swap2 = new JButton("Profile 2");
 		swapButtonsPanel.add(swap2);
 
-		//allButtonsPanel.add(swapButtonsPanel, BorderLayout.NORTH);
+		// allButtonsPanel.add(swapButtonsPanel, BorderLayout.NORTH);
 		add(swapButtonsPanel, BorderLayout.WEST);
 		swap3 = new JButton("Profile 3");
 		swapButtonsPanel.add(swap3);
@@ -90,9 +90,16 @@ public class SimPreview extends JPanel {
 
 	private void setUpSwapButtons() {
 
+		JLabel profileNumber = new JLabel();
+		profileNumber.setForeground(Color.CYAN);
+		swapButtonsPanel.add(profileNumber);
+
 		swap1.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
+				profileNumber.setText("  Profile 1");
+				revalidate();
+				repaint();
 				loadProfileToSwap(0);
 			}
 
@@ -100,31 +107,36 @@ public class SimPreview extends JPanel {
 		swap2.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-				if(TalkBoxConfig.profilesList.size()>1) {
-				loadProfileToSwap(1);
-			}
+				if (TalkBoxConfig.profilesList.size() > 1) {
+					profileNumber.setText("  Profile 2");
+					revalidate();
+					repaint();
+					loadProfileToSwap(1);
+				}
 			}
 
 		});
 		swap3.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-				if(TalkBoxConfig.profilesList.size()>2) {
-				loadProfileToSwap(2);
-			}
+				if (TalkBoxConfig.profilesList.size() > 2) {
+					profileNumber.setText("  Profile 3");
+					revalidate();
+					repaint();
+					loadProfileToSwap(2);
+				}
 			}
 		});
 		swapAll.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-				if(TalkBoxConfig.profilesList.size()>3) {
-					
-				
-				loadProfileToSwap(numOfSwaps);
-				numOfSwaps++;
-				if (numOfSwaps == TalkBoxConfig.numAudSets)
-					numOfSwaps = 3;
-			}
+				if (TalkBoxConfig.profilesList.size() > 3) {
+					profileNumber.setText("  Profile " + (numOfSwaps + 1));
+					loadProfileToSwap(numOfSwaps);
+					numOfSwaps++;
+					if (numOfSwaps == TalkBoxConfig.numAudSets)
+						numOfSwaps = 3;
+				}
 			}
 		});
 
