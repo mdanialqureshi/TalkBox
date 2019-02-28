@@ -9,11 +9,13 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
+import javax.swing.filechooser.FileSystemView;
 
 import config.talkbox.SimPreview.AudioButton;
 import config.talkbox.SimPreview.SimPreviewMode;
@@ -38,6 +40,7 @@ public class PlayEditToggle extends JPanel {
 	JButton cancel;
 	JLabel fileName;
 	JButton updateButtonLbl;
+	JFileChooser fileChooser;
 
 	/**
 	 * 
@@ -79,7 +82,7 @@ public class PlayEditToggle extends JPanel {
 		}
 
 		setupButtonLbl();
-		setupUpdateButtonLbl();
+		setupUpdateButtonLbl();		
 
 		toggleBtn.addItemListener(new ItemListener() {
 
@@ -130,6 +133,7 @@ public class PlayEditToggle extends JPanel {
 	private void editMode() {
 		simPreview.mode = SimPreviewMode.EDIT_MODE;
 		recObj.recordBtn.setEnabled(true);
+		recObj.btnUploadAudio.setEnabled(true);
 		int numOfButtons = TalkBoxConfig.numAudButtons;
 		buttonLbl.setEnabled(true);
 		updateButtonLbl.setEnabled(true);
@@ -147,6 +151,7 @@ public class PlayEditToggle extends JPanel {
 	private void playMode() {
 		simPreview.mode = SimPreviewMode.PLAY_MODE;
 		updateButtonLbl.setEnabled(false);
+		recObj.btnUploadAudio.setEnabled(false);
 		buttonLbl.setEnabled(false);
 		recObj.recordBtn.setEnabled(false);
 		recObj.recordInfo.setText("Switch to edit mode to begin recording.");
@@ -169,7 +174,7 @@ public class PlayEditToggle extends JPanel {
 	public void updateLabel() {
 		if (currentBtn != null) {
 			currentBtn.setText(buttonLbl.getText());
-			TalkBoxConfig.buttonsMap.put(currentBtn.buttonNumber-1, currentBtn.getText());
+			TalkBoxConfig.buttonsMap.put(currentBtn.buttonNumber - 1, currentBtn.getText());
 		}
 	}
 

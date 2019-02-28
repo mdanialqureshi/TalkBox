@@ -7,6 +7,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.channels.FileChannel;
 
 import javax.sound.sampled.LineUnavailableException;
 import javax.swing.ImageIcon;
@@ -44,6 +49,8 @@ public class Recorder extends JPanel {
 	boolean isCancelled = false;
 	private JTextField fileLbl;
 	protected PlayEditToggle toggle;
+	protected JButton btnUploadAudio;
+	File uploadedWavFile;
 
 	// Creating the Recorder sector of the TalkBox Configuration Application.
 	public Recorder(SimPreview simPreview) {
@@ -183,6 +190,68 @@ public class Recorder extends JPanel {
 		});
 		add(saveSettings);
 
+		JLabel lblRecordToButtons = new JLabel("Record to buttons :");
+		springLayout.putConstraint(SpringLayout.WEST, lblRecordToButtons, 0, SpringLayout.WEST, recordBtn);
+		springLayout.putConstraint(SpringLayout.SOUTH, lblRecordToButtons, -6, SpringLayout.NORTH, recordBtn);
+		add(lblRecordToButtons);
+
+		btnUploadAudio = new JButton("Upload Audio");
+		springLayout.putConstraint(SpringLayout.NORTH, btnUploadAudio, 6, SpringLayout.SOUTH, updateNumberOfButtons);
+		springLayout.putConstraint(SpringLayout.WEST, btnUploadAudio, -136, SpringLayout.EAST, updateNumberOfButtons);
+		springLayout.putConstraint(SpringLayout.EAST, btnUploadAudio, 0, SpringLayout.EAST, updateNumberOfButtons);
+		btnUploadAudio.setEnabled(false);
+		btnUploadAudio.setMargin(new Insets(0,0,0,0));
+
+		btnUploadAudio.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				try {
+					JFileChooser();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+
+		add(btnUploadAudio);
+
+	}
+
+	public void JFileChooser() throws IOException {
+		fileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+		fileChooser.setDialogTitle("Choose the audio file you wish to add to this button.");
+		fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+		fileChooser.setAcceptAllFileFilterUsed(false);
+		fileChooser.setVisible(true);
+		int returnValue = fileChooser.showOpenDialog(null);
+		if (returnValue == JFileChooser.APPROVE_OPTION) {
+			// uploadFilePath = fileChooser.getSelectedFile().toString();
+			simPreview.currentBtn.audioFile = fileChooser.getSelectedFile();
+			
+			String uploadedFileName = String.format("button-%d.wav", simPreview.currentBtn.buttonNumber);
+
+			uploadedWavFile = new File(TalkBoxConfig.profilesList.getCurrentProfileFolder(), uploadedFileName);
+			  createFile();
+
+			@SuppressWarnings("resource")
+			FileChannel src = new FileInputStream(fileChooser.getSelectedFile()).getChannel();
+			  @SuppressWarnings("resource")
+			FileChannel dest = new FileOutputStream(uploadedWavFile).getChannel();
+			  dest.transferFrom(src, 0, src.size());	
+				TalkBoxConfig.profilesList.setAudioFileAtIndexOfCurrentProfile(simPreview.currentBtn.buttonNumber - 1, uploadedWavFile.getName());
+	//		simPreview.currentBtn.setAudioFile(fileChooser.getSelectedFile().getName());
+			
+		}
+	}
+	
+	private void createFile() {
+		try {
+			uploadedWavFile.getParentFile().mkdirs();
+			uploadedWavFile.createNewFile();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	protected void saveSettings() {
