@@ -1,3 +1,5 @@
 /bin/
 /audio/
 /temp/audio/
+/build/
+/.gradle/
