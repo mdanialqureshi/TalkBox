@@ -47,6 +47,7 @@ test {
 	}
 }
 
+
 task allJars {
 	dependsOn 'configJar'
 	dependsOn 'simJar'
@@ -54,6 +55,12 @@ task allJars {
 
 task configJar(type: Jar) {
 	baseName = 'TalkBoxConfig'
+	exclude "src/config/talkbox/images"
+	from ("src/config/talkbox/images"){
+	into ("config/talkbox/images")
+	}
+	
+	
 	manifest {
 		attributes 'Main-Class': 'config.talkbox.TalkBoxConfig'
 	}
