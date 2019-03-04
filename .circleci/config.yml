@@ -22,6 +22,10 @@ jobs:
       TERM: dumb
 
     steps:
+      - run:
+	name: "navigate dir"
+	command: |
+		cd TalkBox
       - checkout
 
       # Download and cache dependencies
