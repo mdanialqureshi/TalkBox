@@ -24,7 +24,7 @@ jobs:
     steps:
 
       - checkout:
-            path:~/repo/TalkBox
+            path: ~/repo/TalkBox
 
       # Download and cache dependencies
       - restore_cache:
