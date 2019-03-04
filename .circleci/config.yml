@@ -22,7 +22,9 @@ jobs:
       TERM: dumb
 
     steps:
-      - checkout
+
+      - checkout:
+            path:~/repo/TalkBox
 
       # Download and cache dependencies
       - restore_cache:
