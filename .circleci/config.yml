@@ -43,7 +43,10 @@ jobs:
       - run:
           name: Running X virtual framebuffer
           command: |
-            Xvfb -ac :99 -screen 0 1280x1024x16 -nolisten tcp -nolisten unix
+            mkdir /tmp/.X11-unix
+            sudo chmod 1777/tmp/.X11-unix
+            sudo chown root /tmp/.X11-unix/
+            Xvfb -ac :99 -screen 0 1280x1024x16 
             export DISPLAY=:99
           background: true
           
