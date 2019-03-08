@@ -48,11 +48,11 @@ class RecorderTest {
 		// robot.keyPress(KeyEvent.VK_ENTER);
 		// Thread.sleep(1000);
 		// robot.keyRelease(KeyEvent.VK_ENTER);
-		recObj.txtNumberOfButtons.setText("40");
+		recObj.txtNumberOfButtons.setText("30");
 		recObj.updateNumberOfButtons.doClick();
 		Thread.sleep(1000);
 		recObj.launchSimulator.doClick();
-		assertEquals(40, TalkBoxConfig.numAudButtons);
+		assertEquals(30, TalkBoxConfig.numAudButtons);
 
 	}
 

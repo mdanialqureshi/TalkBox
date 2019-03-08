@@ -46,9 +46,8 @@ public class ProfileList extends LinkedList<Profile> implements Serializable {
 	}
 
 	protected String[][] toArrayMatrix() {
-		String[][] audioFileNames = new String[TalkBoxConfig.numAudSets][TalkBoxConfig.numAudButtons];
-		for (int i = 0; i < TalkBoxConfig.numAudSets; ++i) {
-			
+		String[][] audioFileNames = new String[this.size()][TalkBoxConfig.numAudButtons];
+		for (int i = 0; i < this.size(); ++i) {
 			audioFileNames[i] = this.get(i).getAudioFileNames().toArray(new String[TalkBoxConfig.numAudButtons]);
 		}
 		return audioFileNames;
