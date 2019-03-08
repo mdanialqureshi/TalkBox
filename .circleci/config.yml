@@ -42,3 +42,7 @@ jobs:
 
       # run tests!
       - run: gradle test
+      
+      # Upload test results
+      - type: test-results-store
+        path: /tmp/test-results
