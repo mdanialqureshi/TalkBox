@@ -44,5 +44,5 @@ jobs:
       - run: gradle test
       
       # Upload test results
-      - type: test-results-store
-        path: /home/circleci/repo/TalkBox/TalkBox/build/reports/tests/test/index.html
+      - store_test_results:
+        path: test-results
