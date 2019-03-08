@@ -45,4 +45,4 @@ jobs:
       
       # Upload test results
       - type: test-results-store
-        path: /tmp/test-results
+        path: /home/circleci/repo/TalkBox/TalkBox/build/reports/tests/test/index.html
