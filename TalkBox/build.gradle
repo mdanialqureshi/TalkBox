@@ -40,7 +40,6 @@ dependencies {
 
 // Tasks
 test {
-	classpath +=  project.sourceSets.main.runtimeClasspath 
 	useJUnitPlatform()
 	testLogging {
 		events "passed", "skipped", "failed"
@@ -74,3 +73,9 @@ task simJar (type: Jar) {
 	}
 	with jar
 }
+
+task copyTestResources(type: Copy) {
+    from "${projectDir}/src/config/talkbox/images"
+    into "${buildDir}/classes/java/main/config/talkbox/images"
+}
+processTestResources.dependsOn copyTestResources
