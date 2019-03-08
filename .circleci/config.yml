@@ -22,13 +22,6 @@ jobs:
       TERM: dumb
 
     steps:
-
-      - run:
-          name: Running X virtual framebuffer
-          command: |
-            Xvfb -ac :99 -screen 0 1280x1024x16
-            export DISPLAY=:99
-
       - checkout:
             path: ~/repo/TalkBox
 
@@ -46,6 +39,14 @@ jobs:
             - ~/.gradle
           key: v1-dependencies-{{ checksum "build.gradle" }}
 
+      # Start xvfb in background for tests
+      - run:
+          name: Running X virtual framebuffer
+          command: |
+            Xvfb -ac :99 -screen 0 1280x1024x16
+            export DISPLAY=:99
+          background: true
+          
       # run tests!
       - run: gradle test
 
