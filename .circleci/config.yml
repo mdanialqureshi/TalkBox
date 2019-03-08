@@ -38,20 +38,8 @@ jobs:
           paths:
             - ~/.gradle
           key: v1-dependencies-{{ checksum "build.gradle" }}
-
-      # Start xvfb in background for tests
-      - run:
-          name: Running X virtual framebuffer
-          command: |
-            mkdir /tmp/.X11-unix
-            sudo chmod 1777 /tmp/.X11-unix
-            sudo chown root /tmp/.X11-unix/
-            Xvfb -ac :99 -screen 0 1280x1024x16 
-            export DISPLAY=:99
-          background: true
-          
       # run tests!
-      - run: gradle test
+      - run: xvfb-run --server-args="-screen 0 1024x768x24" gradle test
 
       # Upload test results
       - run:
