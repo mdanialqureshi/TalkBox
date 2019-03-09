@@ -29,12 +29,12 @@ class PlayEditToggleTest {
 	void testChangingButtonLabel() throws AWTException, InterruptedException {
 		r.toggle.toggleBtn.doClick();
 		assertEquals("Button Label", r.toggle.buttonLbl.getText());
-		sp.buttons.get(1).doClick();
+		sp.buttons.get(0).doClick();
 		r.toggle.buttonLbl.setText("hey");
 		r.toggle.updateButtonLbl.doClick();
 		r.toggle.toggleBtn.doClick();
 		// button click not yet implemented
-		assertEquals("hey", sp.buttons.get(1).getText());
+		assertEquals("hey", sp.buttons.get(0).getText());
 	}
 
 	@Test
