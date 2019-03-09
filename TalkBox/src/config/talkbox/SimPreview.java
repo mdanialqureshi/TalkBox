@@ -38,6 +38,7 @@ public class SimPreview extends JPanel {
 	JButton swapAll;
 	private int numOfSwaps = 0;
 	JLabel profileNumber;
+	Clip clip;
 
 	public enum SimPreviewMode {
 		PLAY_MODE, EDIT_MODE;
@@ -157,6 +158,7 @@ public class SimPreview extends JPanel {
 		for (int i = 0; i < TalkBoxConfig.numAudButtons; ++i) {
 			SimRecorderSplit.simPreview.buttons.get(i).setAudioFile(profileFileNames.get(i));
 		}
+		
 	}
 
 	private void addButtonAudio() {
@@ -165,6 +167,10 @@ public class SimPreview extends JPanel {
 				b.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						if (mode == SimPreviewMode.PLAY_MODE) {
+							
+							if(clip != null && clip.isActive()) {
+								clip.close();
+							}
 							currentBtn = b;
 							b.playSound();
 						} else if (mode == SimPreviewMode.EDIT_MODE) {
@@ -222,7 +228,7 @@ public class SimPreview extends JPanel {
 		public void playSound() {
 			if (audioFile != null) {
 				try {
-					Clip clip = AudioSystem.getClip();
+					clip = AudioSystem.getClip();
 					clip.open(AudioSystem.getAudioInputStream(audioFile));
 					clip.start(); // allows audio clip to be played
 				} catch (Exception e) {
