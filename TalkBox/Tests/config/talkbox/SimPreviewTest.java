@@ -38,13 +38,13 @@ class SimPreviewTest {
 		assertEquals(25, sp.buttonsPanel.getComponentCount());
 	}
 
-	@Test
-	void testPlayingSound() throws InterruptedException {
-		final ByteArrayOutputStream sperr = new ByteArrayOutputStream();
-		System.setErr(new PrintStream(sperr));
-		sp.buttons.get(0).doClick();
-		assertEquals("", sperr.toString());
-	}
+//	@Test
+//	void testPlayingSound() throws InterruptedException {
+//		final ByteArrayOutputStream sperr = new ByteArrayOutputStream();
+//		System.setErr(new PrintStream(sperr));
+//		sp.buttons.get(0).doClick();
+//		assertEquals("", sperr.toString());
+//	}
 
 	@Test
 	void testErrorPlayingSound() throws Exception {
