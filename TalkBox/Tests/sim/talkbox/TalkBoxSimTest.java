@@ -17,7 +17,7 @@ public class TalkBoxSimTest {
 	@BeforeEach
 	void setUp() throws Exception {
 		TalkBoxConfig.testmode = true;
-	//	TalkBoxConfig g = new TalkBoxConfig();
+		TalkBoxConfig g = new TalkBoxConfig();
 		tbs = new TalkBoxSim(TalkBoxConfig.talkBoxDataPath.toString());
 		btnPnl = (ButtonPanel) tbs.buttonPanel;
 

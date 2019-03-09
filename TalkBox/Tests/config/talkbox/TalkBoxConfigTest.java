@@ -32,7 +32,6 @@ class TalkBoxConfigTest {
 	@Test
 	void testInitialFields() {
 		assertEquals(30, TalkBoxConfig.numAudButtons);
-		assertEquals(1, TalkBoxConfig.numAudSets);
 		assertEquals("button-1.wav", TalkBoxConfig.audFileNames[0][0]);
 		assertEquals(null, TalkBoxConfig.buttonsMap.get(0));
 	}
