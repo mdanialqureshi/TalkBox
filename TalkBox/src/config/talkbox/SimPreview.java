@@ -37,7 +37,7 @@ public class SimPreview extends JPanel {
 	JButton swap3;
 	JButton swapAll;
 	private int numOfSwaps = 0;
-	JLabel profileNumber;
+	static JLabel profileNumber;
 	Clip clip;
 
 	public enum SimPreviewMode {
