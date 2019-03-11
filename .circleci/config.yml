@@ -44,14 +44,13 @@ jobs:
 
       
       # Generate jar files
-      - run: gradle allJars
+      - run:
           name: Generate jar files
           command: |
+            gradle allJars
             mkdir -p ~/jars/
             find . -type f -regex ".*/build/libs/.*jar" -exec cp {} ~/jars/ \;
           when: always
-      - store_test_results:
-          path: ~/test-results
       - store_artifacts:
           path: ~/jars
           
