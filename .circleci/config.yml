@@ -38,9 +38,23 @@ jobs:
           paths:
             - ~/.gradle
           key: v1-dependencies-{{ checksum "build.gradle" }}
+          
       # run tests!
       - run: xvfb-run --server-args="-screen 0 1024x768x24" gradle test
 
+      
+      # Generate jar files
+      - run: gradle allJars
+          name: Generate jar files
+          command: |
+            mkdir -p ~/jars/
+            find . -type f -regex ".*/build/libs/.*jar" -exec cp {} ~/jars/ \;
+          when: always
+      - store_test_results:
+          path: ~/test-results
+      - store_artifacts:
+          path: ~/jars
+          
       # Upload test results
       - run:
           name: Save test results
