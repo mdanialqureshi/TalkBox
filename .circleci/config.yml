@@ -41,13 +41,14 @@ jobs:
           
       # run tests!
       - run: xvfb-run --server-args="-screen 0 1024x768x24" gradle test
-
       
       # Generate jar files
+      - run: gradle allJars
+      
+      # Upload jar files
       - run:
-          name: Generate jar files
+          name: Upload jar files
           command: |
-            gradle allJars
             mkdir -p ~/jars/
             find . -type f -regex ".*/build/libs/.*jar" -exec cp {} ~/jars/ \;
           when: always
