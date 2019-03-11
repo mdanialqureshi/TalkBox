@@ -41,7 +41,19 @@ jobs:
           
       # run tests!
       - run: xvfb-run --server-args="-screen 0 1024x768x24" gradle test
-      
+
+      # Upload test results
+      - run:
+          name: Save test results
+          command: |
+            mkdir -p ~/test-results/junit/
+            find . -type f -regex ".*/build/test-results/.*xml" -exec cp {} ~/test-results/junit/ \;
+          when: always
+      - store_test_results:
+          path: ~/test-results
+      - store_artifacts:
+          path: ~/test-results/junit
+          
       # Generate jar files
       - run: gradle allJars
       
@@ -54,15 +66,3 @@ jobs:
           when: always
       - store_artifacts:
           path: ~/jars
-          
-      # Upload test results
-      - run:
-          name: Save test results
-          command: |
-            mkdir -p ~/test-results/junit/
-            find . -type f -regex ".*/build/test-results/.*xml" -exec cp {} ~/test-results/junit/ \;
-          when: always
-      - store_test_results:
-          path: ~/test-results
-      - store_artifacts:
-          path: ~/test-results/junit     
