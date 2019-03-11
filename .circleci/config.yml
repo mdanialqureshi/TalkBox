@@ -41,7 +41,7 @@ jobs:
 
       # Run gradle tests
       - run:
-          name: Save test results
+          name: Run gradle tests
           command: xvfb-run --server-args="-screen 0 1024x768x24" gradle test
 
 
@@ -59,7 +59,7 @@ jobs:
 
       # Generate jar files
       - run:
-          name: Save test results
+          name: Generate jar files
           command: gradle allJars
 
 
