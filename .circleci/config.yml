@@ -38,9 +38,12 @@ jobs:
           paths:
             - ~/.gradle
           key: v1-dependencies-{{ checksum "build.gradle" }}
-          
-      # run tests!
-      - run: xvfb-run --server-args="-screen 0 1024x768x24" gradle test
+
+      # Run gradle tests
+      - run:
+          name: Save test results
+          command: xvfb-run --server-args="-screen 0 1024x768x24" gradle test
+
 
       # Upload test results
       - run:
@@ -53,10 +56,13 @@ jobs:
           path: ~/test-results
       - store_artifacts:
           path: ~/test-results/junit
-          
+
       # Generate jar files
-      - run: gradle allJars
-      
+      - run:
+          name: Save test results
+          command: gradle allJars
+
+
       # Upload jar files
       - run:
           name: Upload jar files
