@@ -44,7 +44,7 @@ jobs:
       # Run gradle tests
       - run:
           name: Run gradle tests
-          command: gradle test
+          command: xvfb-run --server-args="-screen 0 1024x768x24" gradle test
 
 
       # Upload test results
