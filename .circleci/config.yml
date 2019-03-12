@@ -2,7 +2,7 @@
 #
 # Check https://circleci.com/docs/2.0/language-java/ for more details
 #
-              
+
 version: 2
 jobs:
   build:
@@ -75,7 +75,7 @@ jobs:
           path: ~/jars
 
     # Create Release on GitHub
- - run:
+      - run:
           name: "Build and Publish Release on GitHub"
           command: |
             NOW="$(date)"
