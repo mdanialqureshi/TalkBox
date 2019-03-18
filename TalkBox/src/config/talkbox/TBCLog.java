@@ -20,6 +20,9 @@ import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import javax.swing.SpringLayout;
 import javax.swing.filechooser.FileSystemView;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.LayoutStyle.ComponentPlacement;
 
 public class TBCLog extends JFrame {
 
@@ -30,7 +33,7 @@ public class TBCLog extends JFrame {
 	JTextArea textArea;
 	File[] logFiles;
 	int currentLogFile = 0;
-	private static final Dimension MINIMUM_SIZE = new Dimension(460, 300);
+	private static final Dimension MINIMUM_SIZE = new Dimension(480, 300);
 	String talkBoxDataPath;
 	static JFileChooser fileChooser;
 
@@ -56,61 +59,38 @@ public class TBCLog extends JFrame {
 	public TBCLog(String talkBoxDataPath) {
 
 		this.talkBoxDataPath = talkBoxDataPath;
-		SpringLayout springLayout = new SpringLayout();
-		getContentPane().setLayout(springLayout);
 
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 
 		textArea = new JTextArea();
-		springLayout.putConstraint(SpringLayout.WEST, textArea, 42, SpringLayout.WEST, getContentPane());
-		springLayout.putConstraint(SpringLayout.SOUTH, textArea, -53, SpringLayout.SOUTH, getContentPane());
-		springLayout.putConstraint(SpringLayout.EAST, textArea, -59, SpringLayout.EAST, getContentPane());
-		getContentPane().add(textArea);
 
 		textArea.setEditable(false);
-		textArea.setLineWrap(true);
 
 		JLabel lblTalkboxConfigurationLogs = new JLabel("TalkBox Configuration Logs");
-		springLayout.putConstraint(SpringLayout.NORTH, textArea, 6, SpringLayout.SOUTH, lblTalkboxConfigurationLogs);
-		springLayout.putConstraint(SpringLayout.SOUTH, lblTalkboxConfigurationLogs, -247, SpringLayout.SOUTH,
-				getContentPane());
-		springLayout.putConstraint(SpringLayout.WEST, lblTalkboxConfigurationLogs, 108, SpringLayout.WEST,
-				getContentPane());
-		springLayout.putConstraint(SpringLayout.EAST, lblTalkboxConfigurationLogs, -117, SpringLayout.EAST,
-				getContentPane());
 		lblTalkboxConfigurationLogs.setFont(new Font("Chalkboard", Font.PLAIN, 16));
-		getContentPane().add(lblTalkboxConfigurationLogs);
 
 		readLogs();
 		setMinimumSize(MINIMUM_SIZE);
-		setResizable(false);
+		//setResizable(false);
 		setLocationRelativeTo(null);
 
 		JButton btnPreviousLog = new JButton("Previous Log");
-		springLayout.putConstraint(SpringLayout.NORTH, btnPreviousLog, 6, SpringLayout.SOUTH, textArea);
 		btnPreviousLog.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (logFiles != null && logFiles.length > 0)
 					readCurrentLog("prev");
 			}
 		});
-		getContentPane().add(btnPreviousLog);
 
 		JButton btnNextLog = new JButton("Next Log");
-		springLayout.putConstraint(SpringLayout.NORTH, btnNextLog, 6, SpringLayout.SOUTH, textArea);
-		springLayout.putConstraint(SpringLayout.WEST, btnNextLog, 182, SpringLayout.WEST, getContentPane());
-		springLayout.putConstraint(SpringLayout.EAST, btnPreviousLog, -21, SpringLayout.WEST, btnNextLog);
 		btnNextLog.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (logFiles != null && logFiles.length > 0)
 					readCurrentLog("next");
 			}
 		});
-		getContentPane().add(btnNextLog);
 
 		JButton btnLoadLog = new JButton("Load Log");
-		springLayout.putConstraint(SpringLayout.NORTH, btnLoadLog, 6, SpringLayout.SOUTH, textArea);
-		springLayout.putConstraint(SpringLayout.WEST, btnLoadLog, 23, SpringLayout.EAST, btnNextLog);
 
 		btnLoadLog.addActionListener(new ActionListener() {
 
@@ -128,8 +108,40 @@ public class TBCLog extends JFrame {
 				}
 			}
 		});
-
-		getContentPane().add(btnLoadLog);
+		GroupLayout groupLayout = new GroupLayout(getContentPane());
+		groupLayout.setHorizontalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(16)
+					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+						.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
+							.addComponent(btnPreviousLog, GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
+							.addGap(47)
+							.addComponent(btnNextLog, GroupLayout.DEFAULT_SIZE, 107, Short.MAX_VALUE)
+							.addGap(53)
+							.addComponent(btnLoadLog, GroupLayout.DEFAULT_SIZE, 109, Short.MAX_VALUE))
+						.addComponent(textArea, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 446, Short.MAX_VALUE))
+					.addGap(18))
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(131)
+					.addComponent(lblTalkboxConfigurationLogs, GroupLayout.PREFERRED_SIZE, 208, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(141, Short.MAX_VALUE))
+		);
+		groupLayout.setVerticalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(10)
+					.addComponent(lblTalkboxConfigurationLogs, GroupLayout.DEFAULT_SIZE, 21, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(textArea, GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(btnLoadLog, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(btnPreviousLog, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(btnNextLog, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+					.addGap(18))
+		);
+		getContentPane().setLayout(groupLayout);
 
 	}
 
