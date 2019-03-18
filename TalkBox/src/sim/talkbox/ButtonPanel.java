@@ -12,6 +12,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.*;
 
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
@@ -94,6 +95,9 @@ public class ButtonPanel extends JPanel {
 		setupButtons();
 		addButtonAudio();
 		setUpSwapButtons();
+		
+		
+		
 	}
 
 	private void addButtonAudio() {

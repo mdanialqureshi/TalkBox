@@ -28,7 +28,7 @@ import javax.swing.border.EmptyBorder;
 public class SimPreview extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private static final Logger logger = Logger.getLogger(SimPreview.class.getName());
+	private static final Logger logger = Logger.getGlobal();
 	ArrayList<AudioButton> buttons = new ArrayList<AudioButton>();
 	protected JPanel buttonsPanel;
 	protected JPanel swapButtonsPanel;
@@ -51,12 +51,6 @@ public class SimPreview extends JPanel {
 	public SimPreviewMode mode = SimPreviewMode.PLAY_MODE;
 
 	public SimPreview() {
-		
-		Handler handler  = new ConsoleHandler();
-		handler.setLevel(Level.ALL);
-		logger.addHandler(handler);
-		logger.setLevel(Level.ALL);
-		logger.setUseParentHandlers(false);
 		
 		setBackground(Color.DARK_GRAY);
 		setBorder(new EmptyBorder(5, 5, 5, 5));
