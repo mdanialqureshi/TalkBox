@@ -155,7 +155,8 @@ public class ProfilesPanel extends JPanel {
 		btnPreviousLog.setBounds(23, 638, 117, 29);
 		btnPreviousLog.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				readCurrentLog("prev");
+				if (logFiles != null && logFiles.length > 0)
+					readCurrentLog("prev");
 			}
 		});
 		add(btnPreviousLog);
@@ -164,7 +165,8 @@ public class ProfilesPanel extends JPanel {
 		btnNextLog.setBounds(153, 638, 117, 29);
 		btnNextLog.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				readCurrentLog("next");
+				if (logFiles != null && logFiles.length > 0)
+					readCurrentLog("next");
 			}
 		});
 		add(btnNextLog);
@@ -194,10 +196,11 @@ public class ProfilesPanel extends JPanel {
 	protected void readLogs() {
 		File simLogs = new File(TalkBoxConfig.talkBoxDataPath, "sim-logs");
 		if (simLogs.isDirectory())
-			;
-		logFiles = simLogs.listFiles();
-		Arrays.sort(logFiles, Collections.reverseOrder());
-		readCurrentLog("current");
+			logFiles = simLogs.listFiles();
+		if (logFiles != null && logFiles.length > 0) {
+			Arrays.sort(logFiles, Collections.reverseOrder());
+			readCurrentLog("current");
+		}
 
 	}
 
