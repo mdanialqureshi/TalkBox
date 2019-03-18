@@ -41,6 +41,7 @@ public class PlayEditToggle extends JPanel {
 	JLabel fileName;
 	JButton updateButtonLbl;
 	JFileChooser fileChooser;
+	JLabel modeLbl;
 
 	/**
 	 * 
@@ -62,7 +63,7 @@ public class PlayEditToggle extends JPanel {
 
 		this.simPreview = simPreview;
 		this.recObj = recObj;
-		JLabel modeLbl = new JLabel("Playback Mode");
+		modeLbl = new JLabel("Playback Mode");
 		add(modeLbl);
 		toggleBtn = new JToggleButton("Switch Modes");
 		add(toggleBtn);
@@ -89,10 +90,8 @@ public class PlayEditToggle extends JPanel {
 			public void itemStateChanged(ItemEvent ev) {
 				if (ev.getStateChange() == ItemEvent.SELECTED) {
 					editMode();
-					modeLbl.setText("Edit Mode");
 				} else if (ev.getStateChange() == ItemEvent.DESELECTED) {
 					playMode();
-					modeLbl.setText("Playback Mode");
 				}
 			}
 
@@ -138,6 +137,7 @@ public class PlayEditToggle extends JPanel {
 		buttonLbl.setEnabled(true);
 		updateButtonLbl.setEnabled(true);
 		recObj.recordInfo.setText("Begin recording?");
+		modeLbl.setText("Edit Mode");
 
 		currentBtn = simPreview.currentBtn;
 		simPreview.highlightBtn();
@@ -155,6 +155,8 @@ public class PlayEditToggle extends JPanel {
 		buttonLbl.setEnabled(false);
 		recObj.recordBtn.setEnabled(false);
 		recObj.recordInfo.setText("Switch to edit mode to begin recording.");
+		modeLbl.setText("Playback Mode");
+		
 
 		for (int i = 0; i < numOfButtons; i++) {
 			resetPlayMode(simPreview.buttons.get(i));
