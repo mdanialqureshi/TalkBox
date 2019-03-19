@@ -67,7 +67,6 @@ public class TBCLog extends JFrame {
 		JScrollPane scroll = new JScrollPane(textArea);
 		scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
-		
 		textArea.setEditable(false);
 
 		JLabel lblTalkboxConfigurationLogs = new JLabel("TalkBox Configuration Logs");
@@ -75,7 +74,7 @@ public class TBCLog extends JFrame {
 
 		readLogs();
 		setMinimumSize(MINIMUM_SIZE);
-		//setResizable(false);
+		// setResizable(false);
 		setLocationRelativeTo(null);
 
 		JButton btnPreviousLog = new JButton("Previous Log");
@@ -108,43 +107,36 @@ public class TBCLog extends JFrame {
 					File loadedLog = fileChooser.getSelectedFile();
 					loadLogFile(loadedLog);
 				} else if (returnValue == JFileChooser.CANCEL_OPTION) {
-					
+
 				}
 			}
 		});
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
-		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(16)
-					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.LEADING).addGroup(groupLayout
+				.createSequentialGroup().addGap(16)
+				.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
 						.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
-							.addComponent(btnPreviousLog, GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
-							.addGap(47)
-							.addComponent(btnNextLog, GroupLayout.DEFAULT_SIZE, 107, Short.MAX_VALUE)
-							.addGap(53)
-							.addComponent(btnLoadLog, GroupLayout.DEFAULT_SIZE, 109, Short.MAX_VALUE))
+								.addComponent(btnPreviousLog, GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE).addGap(47)
+								.addComponent(btnNextLog, GroupLayout.DEFAULT_SIZE, 107, Short.MAX_VALUE).addGap(53)
+								.addComponent(btnLoadLog, GroupLayout.DEFAULT_SIZE, 109, Short.MAX_VALUE))
 						.addComponent(scroll, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 446, Short.MAX_VALUE))
-					.addGap(18))
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(131)
-					.addComponent(lblTalkboxConfigurationLogs, GroupLayout.PREFERRED_SIZE, 208, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(141, Short.MAX_VALUE))
-		);
-		groupLayout.setVerticalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(10)
-					.addComponent(lblTalkboxConfigurationLogs, GroupLayout.DEFAULT_SIZE, 21, Short.MAX_VALUE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(scroll, GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+				.addGap(18))
+				.addGroup(groupLayout
+						.createSequentialGroup().addGap(131).addComponent(lblTalkboxConfigurationLogs,
+								GroupLayout.PREFERRED_SIZE, 208, GroupLayout.PREFERRED_SIZE)
+						.addContainerGap(141, Short.MAX_VALUE)));
+		groupLayout.setVerticalGroup(groupLayout.createParallelGroup(Alignment.LEADING).addGroup(groupLayout
+				.createSequentialGroup().addGap(10)
+				.addComponent(lblTalkboxConfigurationLogs, GroupLayout.DEFAULT_SIZE, 21, Short.MAX_VALUE)
+				.addPreferredGap(ComponentPlacement.RELATED)
+				.addComponent(scroll, GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)
+				.addPreferredGap(ComponentPlacement.RELATED)
+				.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(btnLoadLog, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(btnPreviousLog, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(btnPreviousLog, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE,
+								Short.MAX_VALUE)
 						.addComponent(btnNextLog, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-					.addGap(18))
-		);
+				.addGap(18)));
 		getContentPane().setLayout(groupLayout);
 
 	}
