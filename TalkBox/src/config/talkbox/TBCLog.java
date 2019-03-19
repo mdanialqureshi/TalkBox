@@ -13,16 +13,17 @@ import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.Collections;
 
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-import javax.swing.SpringLayout;
-import javax.swing.filechooser.FileSystemView;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.filechooser.FileSystemView;
 
 public class TBCLog extends JFrame {
 
@@ -63,7 +64,10 @@ public class TBCLog extends JFrame {
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 
 		textArea = new JTextArea();
+		JScrollPane scroll = new JScrollPane(textArea);
+		scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
+		
 		textArea.setEditable(false);
 
 		JLabel lblTalkboxConfigurationLogs = new JLabel("TalkBox Configuration Logs");
@@ -120,7 +124,7 @@ public class TBCLog extends JFrame {
 							.addComponent(btnNextLog, GroupLayout.DEFAULT_SIZE, 107, Short.MAX_VALUE)
 							.addGap(53)
 							.addComponent(btnLoadLog, GroupLayout.DEFAULT_SIZE, 109, Short.MAX_VALUE))
-						.addComponent(textArea, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 446, Short.MAX_VALUE))
+						.addComponent(scroll, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 446, Short.MAX_VALUE))
 					.addGap(18))
 				.addGroup(groupLayout.createSequentialGroup()
 					.addGap(131)
@@ -133,7 +137,7 @@ public class TBCLog extends JFrame {
 					.addGap(10)
 					.addComponent(lblTalkboxConfigurationLogs, GroupLayout.DEFAULT_SIZE, 21, Short.MAX_VALUE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(textArea, GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)
+					.addComponent(scroll, GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(btnLoadLog, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)

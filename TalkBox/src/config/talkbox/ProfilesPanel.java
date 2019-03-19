@@ -142,6 +142,8 @@ public class ProfilesPanel extends JPanel {
 
 		textArea = new JTextArea();
 		textArea.setEditable(false);
+		JScrollPane scroll = new JScrollPane(textArea);
+		scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		textArea.setBounds(25, 417, 245, 214);
 		textArea.setLineWrap(true);
 		readLogs();
