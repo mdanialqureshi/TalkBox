@@ -93,9 +93,7 @@ public class ButtonPanel extends JPanel {
 		setupButtons();
 		addButtonAudio();
 		setUpSwapButtons();
-		
-		
-		
+
 	}
 
 	private void addButtonAudio() {
@@ -103,7 +101,7 @@ public class ButtonPanel extends JPanel {
 			b.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					b.playSound();
-					logger.log(Level.FINE, "Button number {0} was pressed.", new Object[] {b.buttonNumber});
+					logger.log(Level.FINE, "Button number {0} was pressed.", new Object[] { b.buttonNumber });
 				}
 			});
 		}
@@ -114,8 +112,7 @@ public class ButtonPanel extends JPanel {
 	 * of the button. The Argument being passed in is the name of the Audio file
 	 * which the button will play.
 	 * 
-	 * @param soundName
-	 *            name of audio file associated with the respective button
+	 * @param soundName name of audio file associated with the respective button
 	 */
 
 	public class AudioButton extends JButton {
@@ -194,68 +191,49 @@ public class ButtonPanel extends JPanel {
 
 	private void setUpSwapButtons() {
 
-
 		swap1.addActionListener(new ActionListener() {
-
 			public void actionPerformed(ActionEvent e) {
-				profileNumber.setText("  Profile 1");
-				currentProfile = 0;
-				revalidate();
-				repaint();
-				loadProfileToSwap(currentProfile);
-				logger.log(Level.FINE, "switching from profile {0} to profile {1}", new Object[] {currentProfile + 1, 1});
-
+				setProfile(0);
 			}
-
 		});
 		swap2.addActionListener(new ActionListener() {
-
 			public void actionPerformed(ActionEvent e) {
-				if (getInfo.getProfilesList().size() > 1) {
-					profileNumber.setText("  Profile 2");
-					currentProfile = 1;
-					revalidate();
-					repaint();
-					loadProfileToSwap(currentProfile);
-					logger.log(Level.FINE, "switching from profile {0} to profile {1}", new Object[] {currentProfile + 1, 2});
-
-				}
+				setProfile(1);
 			}
-
 		});
 		swap3.addActionListener(new ActionListener() {
-
 			public void actionPerformed(ActionEvent e) {
-				if(getInfo.getProfilesList().size() > 2) {
-				profileNumber.setText("  Profile 3");
-				currentProfile = 2;
-				revalidate();
-				repaint();
-				loadProfileToSwap(currentProfile);
-				logger.log(Level.FINE, "switching from profile {0} to profile {1}", new Object[] {currentProfile + 1, 3});
-				}
+				setProfile(2);
 			}
 		});
+		
 		swapAll.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
 				if (getInfo.getProfilesList().size() > 0) {
-					revalidate();
-					repaint();
 					int nextProfile = (currentProfile + 1) % getInfo.getNumberOfAudioSets();
-					loadProfileToSwap(nextProfile);
-					logger.log(Level.FINE, "switching from profile {0} to profile {1}", new Object[] {currentProfile + 1, (nextProfile + 1)});
-					profileNumber.setText("  Profile " + (nextProfile+1));
-					currentProfile = nextProfile;
+					setProfile(nextProfile);
 				}
 			}
 		});
 
 	}
 
-	protected void loadProfileToSwap(int profileNumber) {
-		getInfo.getProfilesList().setCurrentProfile(profileNumber);
-		ArrayList<String> profileFileNames = getInfo.getProfilesList().get(profileNumber).getAudioFileNames();
+	protected void setProfile(int newProfile) {
+		if (currentProfile != newProfile && getInfo.getProfilesList().size() > newProfile) {
+			profileNumber.setText("  Profile " + (newProfile + 1));
+			revalidate();
+			repaint();
+			loadProfile(currentProfile);
+			logger.log(Level.INFO, "switching from profile {0} to profile {1}",
+					new Object[] { currentProfile + 1, newProfile + 1 });
+			currentProfile = newProfile;
+		}
+	}
+
+	protected void loadProfile(int newProfile) {
+		getInfo.getProfilesList().setCurrentProfile(newProfile);
+		ArrayList<String> profileFileNames = getInfo.getProfilesList().get(newProfile).getAudioFileNames();
 		for (int i = 0; i < TalkBoxConfig.numAudButtons; ++i) {
 			buttons.get(i).setAudioFile(profileFileNames.get(i));
 		}
