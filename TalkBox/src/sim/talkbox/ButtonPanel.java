@@ -8,11 +8,10 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
-import java.util.logging.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
@@ -24,7 +23,6 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
-import config.talkbox.SimRecorderSplit;
 import config.talkbox.TalkBoxConfig;
 import utilities.TalkBoxDeserializer;
 
@@ -45,8 +43,8 @@ public class ButtonPanel extends JPanel {
 	JButton swap3;
 	JButton swapAll;
 	private HashMap<Integer, String> buttonsMap;
-	private int numOfSwaps = 0;
 	JLabel profileNumber;
+	Logger logger = Logger.getGlobal();
 
 	public ButtonPanel() {
 		setBackground(Color.DARK_GRAY);
@@ -105,6 +103,7 @@ public class ButtonPanel extends JPanel {
 			b.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					b.playSound();
+					logger.log(Level.FINE, "Button number {0} was pressed.", new Object[] {b.buttonNumber});
 				}
 			});
 		}
@@ -200,44 +199,55 @@ public class ButtonPanel extends JPanel {
 
 			public void actionPerformed(ActionEvent e) {
 				profileNumber.setText("  Profile 1");
-				numOfSwaps = 0;
+				currentProfile = 0;
 				revalidate();
 				repaint();
-				loadProfileToSwap(0);
+				loadProfileToSwap(currentProfile);
+				logger.log(Level.FINE, "switching from profile {0} to profile {1}", new Object[] {currentProfile + 1, 1});
+
 			}
 
 		});
 		swap2.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-				profileNumber.setText("  Profile 2");
-				numOfSwaps = 1;
-				revalidate();
-				repaint();
-				loadProfileToSwap(1);
+				if (getInfo.getProfilesList().size() > 1) {
+					profileNumber.setText("  Profile 2");
+					currentProfile = 1;
+					revalidate();
+					repaint();
+					loadProfileToSwap(currentProfile);
+					logger.log(Level.FINE, "switching from profile {0} to profile {1}", new Object[] {currentProfile + 1, 2});
+
+				}
 			}
 
 		});
 		swap3.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
+				if(getInfo.getProfilesList().size() > 2) {
 				profileNumber.setText("  Profile 3");
-				numOfSwaps = 2;
+				currentProfile = 2;
 				revalidate();
 				repaint();
-				loadProfileToSwap(2);
+				loadProfileToSwap(currentProfile);
+				logger.log(Level.FINE, "switching from profile {0} to profile {1}", new Object[] {currentProfile + 1, 3});
+				}
 			}
 		});
 		swapAll.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-				profileNumber.setText("  Profile " + (numOfSwaps + 1));
-				revalidate();
-				repaint();
-				loadProfileToSwap(numOfSwaps);
-				numOfSwaps++;
-				if (numOfSwaps == getInfo.getNumberOfAudioSets())
-					numOfSwaps = 0;
+				if (getInfo.getProfilesList().size() > 0) {
+					revalidate();
+					repaint();
+					int nextProfile = (currentProfile + 1) % getInfo.getNumberOfAudioSets();
+					loadProfileToSwap(nextProfile);
+					logger.log(Level.FINE, "switching from profile {0} to profile {1}", new Object[] {currentProfile + 1, (nextProfile + 1)});
+					profileNumber.setText("  Profile " + (nextProfile+1));
+					currentProfile = nextProfile;
+				}
 			}
 		});
 

@@ -111,6 +111,8 @@ public class SimPreview extends JPanel {
 				revalidate();
 				repaint();
 				loadProfileToSwap(currentProfile);
+				logger.log(Level.FINE, "switching from profile {0} to profile {1}", new Object[] {currentProfile + 1, 1});
+
 			}
 
 		});
@@ -123,6 +125,8 @@ public class SimPreview extends JPanel {
 					revalidate();
 					repaint();
 					loadProfileToSwap(currentProfile);
+					logger.log(Level.FINE, "switching from profile {0} to profile {1}", new Object[] {currentProfile + 1, 2});
+
 				}
 			}
 
@@ -136,6 +140,7 @@ public class SimPreview extends JPanel {
 					revalidate();
 					repaint();
 					loadProfileToSwap(currentProfile);
+					logger.log(Level.FINE, "switching from profile {0} to profile {1}", new Object[] {currentProfile + 1, 3});
 				}
 			}
 		});
@@ -178,10 +183,12 @@ public class SimPreview extends JPanel {
 							}
 							currentBtn = b;
 							b.playSound();
+							logger.log(Level.FINE, "Button number {0} was pressed.", new Object[] {b.buttonNumber});
 						} else if (mode == SimPreviewMode.EDIT_MODE) {
 							removeHighlight();
 							currentBtn = b;
 							highlightBtn();
+							logger.log(Level.FINE, "Button number {0} was pressed.", new Object[] {b.buttonNumber});
 						}
 					}
 				});
