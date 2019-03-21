@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JSplitPane;
 import javax.swing.filechooser.FileSystemView;
 
+import utilities.TalkBoxLogger;
 import utilities.TalkBoxDeserializer;
 
 public class TalkBoxConfig extends JFrame {
@@ -69,6 +70,7 @@ public class TalkBoxConfig extends JFrame {
 		// constructs the entire configuration app in
 		controlsProfileSplit = new ControlsProfileSplit(width, height);
 		setupFrame();
+		TalkBoxLogger.setupLogger(TalkBoxConfig.talkBoxDataPath, "config-logs");
 
 	}
 

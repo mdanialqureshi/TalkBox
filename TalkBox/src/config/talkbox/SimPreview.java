@@ -10,6 +10,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
@@ -24,7 +28,7 @@ import javax.swing.border.EmptyBorder;
 public class SimPreview extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-
+	private static final Logger logger = Logger.getGlobal();
 	ArrayList<AudioButton> buttons = new ArrayList<AudioButton>();
 	protected JPanel buttonsPanel;
 	protected JPanel swapButtonsPanel;
@@ -36,7 +40,7 @@ public class SimPreview extends JPanel {
 	JButton swap2;
 	JButton swap3;
 	JButton swapAll;
-	private int numOfSwaps = 0;
+	private int currentProfile = 0;
 	static JLabel profileNumber;
 	Clip clip;
 
@@ -47,6 +51,7 @@ public class SimPreview extends JPanel {
 	public SimPreviewMode mode = SimPreviewMode.PLAY_MODE;
 
 	public SimPreview() {
+		
 		setBackground(Color.DARK_GRAY);
 		setBorder(new EmptyBorder(5, 5, 5, 5));
 		setLayout(new BorderLayout(10, 10));
@@ -91,22 +96,23 @@ public class SimPreview extends JPanel {
 		profileNumber.setForeground(Color.CYAN);
 		profileNumber.setText("  Profile 1");
 		swapButtonsPanel.add(profileNumber);
-		
+
 		addButtonAudio();
 		setUpSwapButtons();
 	}
 
 	private void setUpSwapButtons() {
 
-		
 		swap1.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
 				profileNumber.setText("  Profile 1");
-				numOfSwaps = 0;
+				currentProfile = 0;
 				revalidate();
 				repaint();
-				loadProfileToSwap(0);
+				loadProfileToSwap(currentProfile);
+				logger.log(Level.FINE, "switching from profile {0} to profile {1}", new Object[] {currentProfile + 1, 1});
+
 			}
 
 		});
@@ -115,10 +121,12 @@ public class SimPreview extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				if (TalkBoxConfig.profilesList.size() > 1) {
 					profileNumber.setText("  Profile 2");
-					numOfSwaps = 1;
+					currentProfile = 1;
 					revalidate();
 					repaint();
-					loadProfileToSwap(1);
+					loadProfileToSwap(currentProfile);
+					logger.log(Level.FINE, "switching from profile {0} to profile {1}", new Object[] {currentProfile + 1, 2});
+
 				}
 			}
 
@@ -128,24 +136,26 @@ public class SimPreview extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				if (TalkBoxConfig.profilesList.size() > 2) {
 					profileNumber.setText("  Profile 3");
-					numOfSwaps = 2;
+					currentProfile = 2;
 					revalidate();
 					repaint();
-					loadProfileToSwap(2);
+					loadProfileToSwap(currentProfile);
+					logger.log(Level.FINE, "switching from profile {0} to profile {1}", new Object[] {currentProfile + 1, 3});
 				}
 			}
 		});
 		swapAll.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
+
 				if (TalkBoxConfig.profilesList.size() > 0) {
-					profileNumber.setText("  Profile " + (numOfSwaps + 1));
 					revalidate();
 					repaint();
-					loadProfileToSwap(numOfSwaps);
-					numOfSwaps++;
-					if (numOfSwaps == TalkBoxConfig.numAudSets)
-						numOfSwaps = 0;
+					int nextProfile = (currentProfile + 1) % TalkBoxConfig.numAudSets;
+					loadProfileToSwap(nextProfile);
+					logger.log(Level.FINE, "switching from profile {0} to profile {1}", new Object[] {currentProfile + 1, (nextProfile + 1)});
+					profileNumber.setText("  Profile " + (nextProfile+1));
+					currentProfile = nextProfile;
 				}
 			}
 		});
@@ -158,7 +168,7 @@ public class SimPreview extends JPanel {
 		for (int i = 0; i < TalkBoxConfig.numAudButtons; ++i) {
 			SimRecorderSplit.simPreview.buttons.get(i).setAudioFile(profileFileNames.get(i));
 		}
-		
+
 	}
 
 	private void addButtonAudio() {
@@ -167,16 +177,18 @@ public class SimPreview extends JPanel {
 				b.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						if (mode == SimPreviewMode.PLAY_MODE) {
-							
-							if(clip != null && clip.isActive()) {
+
+							if (clip != null && clip.isActive()) {
 								clip.close();
 							}
 							currentBtn = b;
 							b.playSound();
+							logger.log(Level.FINE, "Button number {0} was pressed.", new Object[] {b.buttonNumber});
 						} else if (mode == SimPreviewMode.EDIT_MODE) {
 							removeHighlight();
 							currentBtn = b;
 							highlightBtn();
+							logger.log(Level.FINE, "Button number {0} was pressed.", new Object[] {b.buttonNumber});
 						}
 					}
 				});
