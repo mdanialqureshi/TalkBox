@@ -10,8 +10,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.logging.ConsoleHandler;
-import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -105,16 +103,19 @@ public class SimPreview extends JPanel {
 
 		swap1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				logger.log(Level.INFO, "Pressed Profile 1 button");
 				setProfile(0);
 			}
 		});
 		swap2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				logger.log(Level.INFO, "Pressed Profile 2 button");
 				setProfile(1);
 			}
 		});
 		swap3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				logger.log(Level.INFO, "Pressed Profile 2 button");
 				setProfile(2);
 			}
 		});
@@ -122,6 +123,7 @@ public class SimPreview extends JPanel {
 		swapAll.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
+				logger.log(Level.INFO, "Pressed Swap button");
 				if (TalkBoxConfig.profilesList.size() > 0) {
 					int nextProfile = (currentProfile + 1) % TalkBoxConfig.numAudSets;
 					setProfile(nextProfile);
@@ -137,7 +139,7 @@ public class SimPreview extends JPanel {
 			revalidate();
 			repaint();
 			loadProfile(currentProfile);
-			logger.log(Level.INFO, "switching from profile {0} to profile {1}",
+			logger.log(Level.INFO, "Switching from profile {0} to profile {1}",
 					new Object[] { currentProfile + 1, newProfile + 1 });
 			currentProfile = newProfile;
 		}
@@ -156,6 +158,7 @@ public class SimPreview extends JPanel {
 			if (b.getActionListeners().length < 1) {
 				b.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
+						logger.log(Level.INFO, "Button number {0} was pressed.", new Object[] { b.buttonNumber });
 						if (mode == SimPreviewMode.PLAY_MODE) {
 
 							if (clip != null && clip.isActive()) {
@@ -163,12 +166,10 @@ public class SimPreview extends JPanel {
 							}
 							currentBtn = b;
 							b.playSound();
-							logger.log(Level.FINE, "Button number {0} was pressed.", new Object[] { b.buttonNumber });
 						} else if (mode == SimPreviewMode.EDIT_MODE) {
 							removeHighlight();
 							currentBtn = b;
 							highlightBtn();
-							logger.log(Level.FINE, "Button number {0} was pressed.", new Object[] { b.buttonNumber });
 						}
 					}
 				});
