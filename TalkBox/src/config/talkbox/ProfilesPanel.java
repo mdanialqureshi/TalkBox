@@ -12,12 +12,15 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.DefaultListModel;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
@@ -26,17 +29,17 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.JTextPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
+
+import utilities.TalkBoxLogger;
 
 public class ProfilesPanel extends JPanel {
+	private final Logger logger = Logger.getGlobal();
 	private static final Dimension MINIMUM_SIZE = new Dimension(400, 640);
 	private final JFileChooser fc;
 	DefaultListModel<String> profilesListModel;
@@ -78,8 +81,12 @@ public class ProfilesPanel extends JPanel {
 		profilesJList.addListSelectionListener(new ListSelectionListener() {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
-				selectedProfile = ((JList<String>) e.getSource()).getSelectedIndex();
-				TalkBoxConfig.profilesList.setCurrentProfile(selectedProfile);
+				if (e.getValueIsAdjusting() == false) {
+					selectedProfile = ((JList<String>) e.getSource()).getSelectedIndex();
+					logger.log(Level.INFO, "Selected profile {0} in Profiles List",
+							new Object[] { selectedProfile + 1 });
+					TalkBoxConfig.profilesList.setCurrentProfile(selectedProfile);
+				}
 			}
 		});
 		profilesJList.setSelectedIndex(selectedProfile);
@@ -102,6 +109,7 @@ public class ProfilesPanel extends JPanel {
 		loadProf.setVerticalAlignment(SwingConstants.CENTER);
 		loadProf.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				TalkBoxLogger.logButtonPressEvent(e);
 				loadSelectedProfile();
 			}
 		});
@@ -112,6 +120,7 @@ public class ProfilesPanel extends JPanel {
 		newProf.setVerticalAlignment(SwingConstants.CENTER);
 		newProf.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				TalkBoxLogger.logButtonPressEvent(e);
 				createNewProfile();
 			}
 		});
@@ -120,6 +129,7 @@ public class ProfilesPanel extends JPanel {
 		delProf.setMargin(new Insets(0, 0, 0, 0));
 		delProf.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				TalkBoxLogger.logButtonPressEvent(e);
 				deleteProfile();
 			}
 		});
@@ -139,6 +149,7 @@ public class ProfilesPanel extends JPanel {
 		JButton btnPreviousLog = new JButton("Previous Log");
 		btnPreviousLog.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				TalkBoxLogger.logButtonPressEvent(e);
 				if (logFiles != null && logFiles.length > 0)
 					readCurrentLog("prev");
 			}
@@ -147,68 +158,52 @@ public class ProfilesPanel extends JPanel {
 		JButton btnNextLog = new JButton("Next Log");
 		btnNextLog.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				TalkBoxLogger.logButtonPressEvent(e);
 				if (logFiles != null && logFiles.length > 0)
 					readCurrentLog("next");
 			}
 		});
 		GroupLayout groupLayout = new GroupLayout(this);
-		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(87)
-							.addComponent(lblProfiles, GroupLayout.PREFERRED_SIZE, 122, GroupLayout.PREFERRED_SIZE))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(9)
-							.addComponent(lblProfSearch, GroupLayout.PREFERRED_SIZE, 261, GroupLayout.PREFERRED_SIZE))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(10)
-							.addComponent(profiles, GroupLayout.PREFERRED_SIZE, 260, GroupLayout.PREFERRED_SIZE))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(20)
-							.addComponent(loadProf, GroupLayout.PREFERRED_SIZE, 110, GroupLayout.PREFERRED_SIZE)
-							.addGap(12)
-							.addComponent(newProf, GroupLayout.PREFERRED_SIZE, 110, GroupLayout.PREFERRED_SIZE))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(78)
-							.addComponent(delProf, GroupLayout.PREFERRED_SIZE, 110, GroupLayout.PREFERRED_SIZE))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(21)
-							.addComponent(label, GroupLayout.PREFERRED_SIZE, 261, GroupLayout.PREFERRED_SIZE))
+		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.LEADING).addGroup(groupLayout
+				.createSequentialGroup()
+				.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(groupLayout.createSequentialGroup().addGap(87).addComponent(lblProfiles,
+								GroupLayout.PREFERRED_SIZE, 122, GroupLayout.PREFERRED_SIZE))
+						.addGroup(groupLayout.createSequentialGroup().addGap(9).addComponent(lblProfSearch,
+								GroupLayout.PREFERRED_SIZE, 261, GroupLayout.PREFERRED_SIZE))
+						.addGroup(groupLayout.createSequentialGroup().addGap(10).addComponent(profiles,
+								GroupLayout.PREFERRED_SIZE, 260, GroupLayout.PREFERRED_SIZE))
+						.addGroup(groupLayout.createSequentialGroup().addGap(20)
+								.addComponent(loadProf, GroupLayout.PREFERRED_SIZE, 110, GroupLayout.PREFERRED_SIZE)
+								.addGap(12)
+								.addComponent(newProf, GroupLayout.PREFERRED_SIZE, 110, GroupLayout.PREFERRED_SIZE))
+						.addGroup(groupLayout.createSequentialGroup().addGap(78).addComponent(delProf,
+								GroupLayout.PREFERRED_SIZE, 110, GroupLayout.PREFERRED_SIZE))
+						.addGroup(groupLayout.createSequentialGroup().addGap(21).addComponent(label,
+								GroupLayout.PREFERRED_SIZE, 261, GroupLayout.PREFERRED_SIZE))
 						.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING, false)
-							.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
-								.addGap(25)
-								.addComponent(scroll))
-							.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
-								.addGap(23)
-								.addComponent(btnPreviousLog, GroupLayout.PREFERRED_SIZE, 117, GroupLayout.PREFERRED_SIZE)
-								.addGap(13)
-								.addComponent(btnNextLog, GroupLayout.PREFERRED_SIZE, 117, GroupLayout.PREFERRED_SIZE))))
-					.addContainerGap(22, Short.MAX_VALUE))
-		);
-		groupLayout.setVerticalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(23)
-					.addComponent(lblProfiles, GroupLayout.PREFERRED_SIZE, 33, GroupLayout.PREFERRED_SIZE)
-					.addGap(12)
-					.addComponent(lblProfSearch, GroupLayout.PREFERRED_SIZE, 21, GroupLayout.PREFERRED_SIZE)
-					.addGap(4)
-					.addComponent(profiles, GroupLayout.PREFERRED_SIZE, 236, GroupLayout.PREFERRED_SIZE)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(loadProf, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
-						.addComponent(newProf, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
-					.addGap(5)
-					.addComponent(delProf, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
-					.addComponent(label, GroupLayout.PREFERRED_SIZE, 21, GroupLayout.PREFERRED_SIZE)
-					.addGap(2)
-					.addComponent(scroll, GroupLayout.PREFERRED_SIZE, 214, GroupLayout.PREFERRED_SIZE)
-					.addGap(7)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(btnPreviousLog)
-						.addComponent(btnNextLog)))
-		);
+								.addGroup(Alignment.LEADING,
+										groupLayout.createSequentialGroup().addGap(25).addComponent(scroll))
+								.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup().addGap(23)
+										.addComponent(btnPreviousLog, GroupLayout.PREFERRED_SIZE, 117,
+												GroupLayout.PREFERRED_SIZE)
+										.addGap(13).addComponent(btnNextLog, GroupLayout.PREFERRED_SIZE, 117,
+												GroupLayout.PREFERRED_SIZE))))
+				.addContainerGap(22, Short.MAX_VALUE)));
+		groupLayout.setVerticalGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup().addGap(23)
+						.addComponent(lblProfiles, GroupLayout.PREFERRED_SIZE, 33, GroupLayout.PREFERRED_SIZE)
+						.addGap(12)
+						.addComponent(lblProfSearch, GroupLayout.PREFERRED_SIZE, 21, GroupLayout.PREFERRED_SIZE)
+						.addGap(4).addComponent(profiles, GroupLayout.PREFERRED_SIZE, 236, GroupLayout.PREFERRED_SIZE)
+						.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addComponent(loadProf, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+								.addComponent(newProf, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
+						.addGap(5).addComponent(delProf, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+						.addComponent(label, GroupLayout.PREFERRED_SIZE, 21, GroupLayout.PREFERRED_SIZE).addGap(2)
+						.addComponent(scroll, GroupLayout.PREFERRED_SIZE, 214, GroupLayout.PREFERRED_SIZE).addGap(7)
+						.addGroup(groupLayout.createParallelGroup(Alignment.LEADING).addComponent(btnPreviousLog)
+								.addComponent(btnNextLog))));
 		setLayout(groupLayout);
 
 	}
@@ -252,9 +247,12 @@ public class ProfilesPanel extends JPanel {
 			SimRecorderSplit.simPreview.buttons.get(i).setAudioFile(audioFiles.get(i));
 		}
 		SimPreview.profileNumber.setText("  Profile " + (TalkBoxConfig.profilesList.getCurrentProfile() + 1));
+		logger.log(Level.INFO, "Loaded profile {0}", new Object[] { loadedProfile + 1 });
+
 	}
 
 	protected void deleteProfile() {
+		logger.log(Level.INFO, "Deleted profile {0}", new Object[] { selectedProfile + 1 });
 		profilesListModel.remove(selectedProfile);
 		TalkBoxConfig.numAudSets--;
 		selectedProfile = Math.floorMod(selectedProfile - 1, TalkBoxConfig.numAudSets);
@@ -268,6 +266,7 @@ public class ProfilesPanel extends JPanel {
 		profilesListModel.addElement(profileName);
 		Profile newProfile = new Profile(profileName);
 		TalkBoxConfig.profilesList.add(newProfile);
+		logger.log(Level.INFO, "Created profile {0}", new Object[] { TalkBoxConfig.numAudSets });
 	}
 
 	public String getProfileName(int profileIndex) {

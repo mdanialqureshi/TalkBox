@@ -25,6 +25,7 @@ import javax.swing.border.EmptyBorder;
 
 import config.talkbox.TalkBoxConfig;
 import utilities.TalkBoxDeserializer;
+import utilities.TalkBoxLogger;
 
 public class ButtonPanel extends JPanel {
 
@@ -193,19 +194,19 @@ public class ButtonPanel extends JPanel {
 
 		swap1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				logger.log(Level.INFO, "Pressed Profile 1 button");
+				TalkBoxLogger.logButtonPressEvent(e);
 				setProfile(0);
 			}
 		});
 		swap2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				logger.log(Level.INFO, "Pressed Profile 2 button");
+				TalkBoxLogger.logButtonPressEvent(e);
 				setProfile(1);
 			}
 		});
 		swap3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				logger.log(Level.INFO, "Pressed Profile 3 button");
+				TalkBoxLogger.logButtonPressEvent(e);
 				setProfile(2);
 			}
 		});
@@ -213,7 +214,7 @@ public class ButtonPanel extends JPanel {
 		swapAll.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-				logger.log(Level.INFO, "Pressed Swap button");
+				TalkBoxLogger.logButtonPressEvent(e);
 				if (getInfo.getProfilesList().size() > 0) {
 					int nextProfile = (currentProfile + 1) % getInfo.getNumberOfAudioSets();
 					setProfile(nextProfile);

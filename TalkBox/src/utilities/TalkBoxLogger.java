@@ -1,5 +1,6 @@
 package utilities;
 
+import java.awt.event.ActionEvent;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -7,6 +8,8 @@ import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
+
+import javax.swing.JButton;
 
 public class TalkBoxLogger {
 
@@ -37,4 +40,10 @@ public class TalkBoxLogger {
 		logger.info("Start of Log");
 	}
 
+	public static void logButtonPressEvent(ActionEvent e) {
+		if (e.getSource() instanceof JButton) {
+			JButton btn = (JButton) e.getSource();
+			logger.log(Level.INFO, "Pressed {0} button", new Object[] { btn.getText() });
+		}
+	}
 }

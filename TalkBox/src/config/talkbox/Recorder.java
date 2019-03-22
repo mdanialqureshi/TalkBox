@@ -12,6 +12,8 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.sound.sampled.LineUnavailableException;
 import javax.swing.ImageIcon;
@@ -31,6 +33,7 @@ import sim.talkbox.TalkBoxSim;
 public class Recorder extends JPanel {
 
 	private static final long serialVersionUID = 1L;
+	private final Logger logger = Logger.getGlobal();
 	private SoundRecorder recorder = new SoundRecorder();
 	boolean isRecording = false;
 	JButton recordBtn;
@@ -74,6 +77,7 @@ public class Recorder extends JPanel {
 		recordBtn.setEnabled(false);
 		recordBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				logger.log(Level.INFO, "Pressed Record Audio button");
 				recordAudio();
 			}
 		});
@@ -110,6 +114,7 @@ public class Recorder extends JPanel {
 
 		launchSimulator.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				logger.log(Level.INFO, "Pressed Launch Simulator button");
 				if (!TalkBoxConfig.testmode) {
 					String ObjButtons[] = { "Launch Simulator", "Cancel" };
 					int PromptResult = JOptionPane.showOptionDialog(null,
@@ -145,6 +150,7 @@ public class Recorder extends JPanel {
 		add(updateNumberOfButtons);
 		updateNumberOfButtons.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				logger.log(Level.INFO, "Pressed Update Number of Buttons button");
 				updateButtons();
 			}
 		});
@@ -166,8 +172,8 @@ public class Recorder extends JPanel {
 			}
 		});
 		txtNumberOfButtons.addActionListener(new ActionListener() {
-
 			public void actionPerformed(ActionEvent e) {
+				logger.log(Level.INFO, "Pressed Enter key with focus on Update Number of Buttons text field");
 				updateButtons();
 			}
 		});
@@ -185,6 +191,7 @@ public class Recorder extends JPanel {
 		springLayout.putConstraint(SpringLayout.EAST, saveSettings, 0, SpringLayout.EAST, progressBar);
 		saveSettings.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				logger.log(Level.INFO, "Pressed Save Settings button");
 				saveSettings();
 			}
 		});
@@ -200,11 +207,11 @@ public class Recorder extends JPanel {
 		springLayout.putConstraint(SpringLayout.WEST, btnUploadAudio, -136, SpringLayout.EAST, updateNumberOfButtons);
 		springLayout.putConstraint(SpringLayout.EAST, btnUploadAudio, 0, SpringLayout.EAST, updateNumberOfButtons);
 		btnUploadAudio.setEnabled(false);
-		btnUploadAudio.setMargin(new Insets(0,0,0,0));
+		btnUploadAudio.setMargin(new Insets(0, 0, 0, 0));
 
 		btnUploadAudio.addActionListener(new ActionListener() {
-
 			public void actionPerformed(ActionEvent e) {
+				logger.log(Level.INFO, "Pressed Upload Audio button");
 				try {
 					JFileChooser();
 				} catch (IOException e1) {
@@ -228,23 +235,24 @@ public class Recorder extends JPanel {
 		if (returnValue == JFileChooser.APPROVE_OPTION) {
 			// uploadFilePath = fileChooser.getSelectedFile().toString();
 			simPreview.currentBtn.audioFile = fileChooser.getSelectedFile();
-			
+
 			String uploadedFileName = String.format("button-%d.wav", simPreview.currentBtn.buttonNumber);
 
 			uploadedWavFile = new File(TalkBoxConfig.profilesList.getCurrentProfileFolder(), uploadedFileName);
-			  createFile();
+			createFile();
 
 			@SuppressWarnings("resource")
 			FileChannel src = new FileInputStream(fileChooser.getSelectedFile()).getChannel();
-			  @SuppressWarnings("resource")
+			@SuppressWarnings("resource")
 			FileChannel dest = new FileOutputStream(uploadedWavFile).getChannel();
-			  dest.transferFrom(src, 0, src.size());	
-				TalkBoxConfig.profilesList.setAudioFileAtIndexOfCurrentProfile(simPreview.currentBtn.buttonNumber - 1, uploadedWavFile.getName());
-	//		simPreview.currentBtn.setAudioFile(fileChooser.getSelectedFile().getName());
-			
+			dest.transferFrom(src, 0, src.size());
+			TalkBoxConfig.profilesList.setAudioFileAtIndexOfCurrentProfile(simPreview.currentBtn.buttonNumber - 1,
+					uploadedWavFile.getName());
+			// simPreview.currentBtn.setAudioFile(fileChooser.getSelectedFile().getName());
+
 		}
 	}
-	
+
 	private void createFile() {
 		try {
 			uploadedWavFile.getParentFile().mkdirs();
@@ -257,14 +265,16 @@ public class Recorder extends JPanel {
 	protected void saveSettings() {
 		TalkBoxSerializer tbs = new TalkBoxSerializer(TalkBoxConfig.talkBoxDataPath);
 		tbs.serialize();
+		logger.log(Level.INFO, "Settings file saved");
 	}
 
 	protected void updateButtons() {
 		try {
 			TalkBoxConfig.numAudButtons = Integer.parseInt(txtNumberOfButtons.getText());
 			simPreview.updateButtons(TalkBoxConfig.numAudButtons);
+			logger.log(Level.INFO, "Number of buttons updated to {0}", new Object[] { TalkBoxConfig.numAudButtons });
 		} catch (NumberFormatException nfe) {
-			System.err.println("Invalid number format entered for button count update.");
+			logger.log(Level.WARNING, "Invalid number format entered for button count update.");
 		}
 	}
 
@@ -281,10 +291,11 @@ public class Recorder extends JPanel {
 						try {
 							isRecording = true;
 							recordInfo.setText("Recording in progress.");
+							logger.log(Level.INFO, "Recording in progress");
 							recordBtn.setIcon(micOn);
 							recorder.start(simPreview.currentBtn);
 						} catch (LineUnavailableException lue) {
-							System.out.println("Line not supported. Recording not started.");
+							logger.log(Level.INFO, "Line not supported. Recording not started.");
 							recordBtn.setIcon(micOff);
 							recordInfo.setText("Mic not detected");
 							isRecording = false;

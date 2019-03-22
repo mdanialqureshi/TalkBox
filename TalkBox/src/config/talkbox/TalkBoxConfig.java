@@ -6,6 +6,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.util.HashMap;
+import java.util.logging.Logger;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -24,7 +25,6 @@ public class TalkBoxConfig extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
 	protected JSplitPane controlsProfileSplit;
 	private int width = 1280;
 	private int height = 720;

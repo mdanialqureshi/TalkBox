@@ -23,10 +23,12 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import utilities.TalkBoxLogger;
+
 public class SimPreview extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private static final Logger logger = Logger.getGlobal();
+	private final Logger logger = Logger.getGlobal();
 	ArrayList<AudioButton> buttons = new ArrayList<AudioButton>();
 	protected JPanel buttonsPanel;
 	protected JPanel swapButtonsPanel;
@@ -103,19 +105,19 @@ public class SimPreview extends JPanel {
 
 		swap1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				logger.log(Level.INFO, "Pressed Profile 1 button");
+				TalkBoxLogger.logButtonPressEvent(e);
 				setProfile(0);
 			}
 		});
 		swap2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				logger.log(Level.INFO, "Pressed Profile 2 button");
+				TalkBoxLogger.logButtonPressEvent(e);
 				setProfile(1);
 			}
 		});
 		swap3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				logger.log(Level.INFO, "Pressed Profile 2 button");
+				TalkBoxLogger.logButtonPressEvent(e);
 				setProfile(2);
 			}
 		});
@@ -123,7 +125,7 @@ public class SimPreview extends JPanel {
 		swapAll.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-				logger.log(Level.INFO, "Pressed Swap button");
+				TalkBoxLogger.logButtonPressEvent(e);
 				if (TalkBoxConfig.profilesList.size() > 0) {
 					int nextProfile = (currentProfile + 1) % TalkBoxConfig.numAudSets;
 					setProfile(nextProfile);
