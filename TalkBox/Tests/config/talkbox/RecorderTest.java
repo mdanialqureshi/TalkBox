@@ -27,7 +27,7 @@ class RecorderTest {
 	@Test
 	void testRecording() throws InterruptedException, AWTException {
 		// Robot robot = new Robot();
-		recObj.toggle.toggleBtn.doClick();
+		recObj.toggle.switchModesButton.doClick();
 		recObj.recordBtn.doClick();
 		// robot.keyPress(KeyEvent.VK_ENTER);
 		// robot.keyRelease(KeyEvent.VK_ENTER);
