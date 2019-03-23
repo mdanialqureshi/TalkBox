@@ -2,18 +2,24 @@ package config.talkbox;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.Insets;
+import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
 
+import javax.imageio.ImageIO;
 import javax.sound.sampled.LineUnavailableException;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -43,6 +49,7 @@ public class Recorder extends JPanel {
 	private SpringLayout springLayout;
 	private JProgressBar progressBar;
 	protected JFileChooser fileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+	protected JFileChooser imageFileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
 	String filePath;
 	JButton updateNumberOfButtons;
 	private SimPreview simPreview;
@@ -50,7 +57,9 @@ public class Recorder extends JPanel {
 	private JTextField fileLbl;
 	protected PlayEditToggle toggle;
 	protected JButton btnUploadAudio;
+	protected JButton btnUploadImage;
 	File uploadedWavFile;
+	File uploadedImageFile;
 
 	// Creating the Recorder sector of the TalkBox Configuration Application.
 	public Recorder(SimPreview simPreview) {
@@ -215,7 +224,71 @@ public class Recorder extends JPanel {
 		});
 
 		add(btnUploadAudio);
+		
+		btnUploadImage = new JButton("Upload Image");
+		springLayout.putConstraint(SpringLayout.NORTH, btnUploadImage, 36, SpringLayout.SOUTH, updateNumberOfButtons);
+		springLayout.putConstraint(SpringLayout.WEST, btnUploadImage, -136, SpringLayout.EAST, updateNumberOfButtons);
+		springLayout.putConstraint(SpringLayout.EAST, btnUploadImage, 0, SpringLayout.EAST, updateNumberOfButtons);
+		btnUploadImage.setEnabled(false);
+		btnUploadImage.setMargin(new Insets(0,0,0,0));
+		btnUploadImage.addActionListener(new ActionListener() {
 
+			public void actionPerformed(ActionEvent e) {
+				try {
+					imageJFileChooser();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+		add(btnUploadImage);
+
+	}
+	
+	public void imageJFileChooser() throws IOException {
+		imageFileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+		imageFileChooser.setDialogTitle("Choose the image you wish to add to this button.");
+		imageFileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+		imageFileChooser.setAcceptAllFileFilterUsed(false);
+		imageFileChooser.setVisible(true);
+		int returnValue = imageFileChooser.showOpenDialog(null);
+		if (returnValue == JFileChooser.APPROVE_OPTION) {
+			File image = imageFileChooser.getSelectedFile();
+			String filename = image.getAbsolutePath();
+			 try {
+			        ImageIcon icon = new ImageIcon(scaleImage(65, 65, ImageIO.read(new File(filename))));
+			        simPreview.currentBtn.setIcon(icon);
+			        simPreview.currentBtn.setText(null);
+			        simPreview.currentBtn.revalidate();
+			        simPreview.currentBtn.repaint();
+			    } catch (Exception ex) {
+			        ex.printStackTrace();
+			    }
+			 
+			 String uploadedImageIcon = String.format("button-%d.jpg", simPreview.currentBtn.buttonNumber);
+
+				uploadedImageFile = new File(TalkBoxConfig.profilesList.getCurrentProfileFolder(), uploadedImageIcon);
+				  createIconFile();
+
+				@SuppressWarnings("resource")
+				FileChannel src = new FileInputStream(imageFileChooser.getSelectedFile()).getChannel();
+				  @SuppressWarnings("resource")
+				FileChannel dest = new FileOutputStream(uploadedImageFile).getChannel();
+				  dest.transferFrom(src, 0, src.size());	
+					TalkBoxConfig.profilesList.setImageIconAtIndexOfCurrentProfile(simPreview.currentBtn.buttonNumber - 1, uploadedImageFile.getName());
+		}
+	}
+	
+	public static BufferedImage scaleImage(int w, int h, BufferedImage img) throws Exception {
+	    BufferedImage bi;
+	    bi = new BufferedImage(w, h, BufferedImage.TRANSLUCENT);
+	    Graphics2D g2d = (Graphics2D) bi.createGraphics();
+	    g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+	    g2d.addRenderingHints(new RenderingHints(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY));
+	    g2d.drawImage(img, 0, 0, w, h, null);
+	    g2d.dispose();
+	    return bi;
 	}
 
 	public void JFileChooser() throws IOException {
@@ -242,6 +315,15 @@ public class Recorder extends JPanel {
 				TalkBoxConfig.profilesList.setAudioFileAtIndexOfCurrentProfile(simPreview.currentBtn.buttonNumber - 1, uploadedWavFile.getName());
 	//		simPreview.currentBtn.setAudioFile(fileChooser.getSelectedFile().getName());
 			
+		}
+	}
+	
+	private void createIconFile() {
+		try {
+			uploadedImageFile.getParentFile().mkdirs();
+			uploadedImageFile.createNewFile();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 	

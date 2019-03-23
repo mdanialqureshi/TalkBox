@@ -36,6 +36,10 @@ public class ProfileList extends LinkedList<Profile> implements Serializable {
 	public ArrayList<String> getAudioFilesOfCurrentProfile() {
 		return this.get(currentProfile).getAudioFileNames();
 	}
+	
+	public ArrayList<String> getImageIconsOfCurrentProfile() {
+		return this.get(currentProfile).getImageIcons();
+	}
 
 	public String getAudioFileAtIndexOfCurrentProfile(int idx) {
 		return getAudioFilesOfCurrentProfile().get(idx);
@@ -43,6 +47,10 @@ public class ProfileList extends LinkedList<Profile> implements Serializable {
 
 	public void setAudioFileAtIndexOfCurrentProfile(int idx, String audioFile) {
 		getAudioFilesOfCurrentProfile().set(idx, audioFile);
+	}
+	
+	public void setImageIconAtIndexOfCurrentProfile(int idx, String imageIcon) {
+		getAudioFilesOfCurrentProfile().set(idx,  imageIcon);
 	}
 
 	protected String[][] toArrayMatrix() {
