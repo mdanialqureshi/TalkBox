@@ -241,6 +241,7 @@ public class Recorder extends JPanel {
 		btnUploadImage.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
+				logger.log(Level.INFO, "Pressed Upload Image button");
 				try {
 					imageJFileChooser();
 				} catch (IOException e1) {

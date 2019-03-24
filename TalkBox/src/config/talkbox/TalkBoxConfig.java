@@ -19,7 +19,7 @@ import utilities.TalkBoxDeserializer;
 
 public class TalkBoxConfig extends JFrame {
 
-	private static final Dimension MINIMUM_SIZE = new Dimension(860, 580);
+	private static final Dimension MINIMUM_SIZE = new Dimension(1010, 700);
 
 	/**
 	 * 
