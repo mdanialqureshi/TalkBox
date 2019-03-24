@@ -52,6 +52,8 @@ public class ProfilesPanel extends JPanel {
 	JTextArea textArea;
 	File[] logFiles;
 	int currentLogFile = 0;
+	JButton btnNextLog;
+	JButton btnPreviousLog;
 
 	public ProfilesPanel() {
 		fc = new JFileChooser();
@@ -146,7 +148,7 @@ public class ProfilesPanel extends JPanel {
 
 		JLabel label = new JLabel("Logs: ");
 
-		JButton btnPreviousLog = new JButton("Previous Log");
+		btnPreviousLog = new JButton("Previous Log");
 		btnPreviousLog.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				TalkBoxLogger.logButtonPressEvent(e);
@@ -155,7 +157,7 @@ public class ProfilesPanel extends JPanel {
 			}
 		});
 
-		JButton btnNextLog = new JButton("Next Log");
+		btnNextLog = new JButton("Next Log");
 		btnNextLog.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				TalkBoxLogger.logButtonPressEvent(e);

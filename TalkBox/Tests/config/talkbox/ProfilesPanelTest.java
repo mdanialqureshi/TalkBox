@@ -1,5 +1,6 @@
 package config.talkbox;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -55,6 +56,19 @@ class ProfilesPanelTest {
 		//
 		// pp.loadProf.doClick();
 
+	}
+	
+	@Test
+	void talkBoxSimLogTest() {
+		String simLog = pp.textArea.getText();
+		pp.btnPreviousLog.doClick();
+		pp.btnPreviousLog.doClick();
+		pp.btnNextLog.doClick();
+		pp.btnPreviousLog.doClick();
+		String simLog2 = pp.textArea.getText();
+		
+		assertFalse(simLog.equals(simLog2));
+		
 	}
 
 }
