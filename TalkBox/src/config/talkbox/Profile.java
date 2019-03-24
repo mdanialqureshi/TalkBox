@@ -11,6 +11,7 @@ public class Profile implements Serializable {
 
 	protected String profileName;
 	protected ArrayList<String> audioFileNames;
+	protected ArrayList<String> imageIcons;
 
 	public Profile(String profileName) {
 		this.profileName = profileName;
@@ -29,5 +30,11 @@ public class Profile implements Serializable {
 
 	public ArrayList<String> getAudioFileNames() {
 		return audioFileNames;
+	}
+	
+
+	public ArrayList<String> getImageIcons() {
+		// TODO Auto-generated method stub
+		return imageIcons;
 	}
 }

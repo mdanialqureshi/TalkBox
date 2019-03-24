@@ -207,7 +207,7 @@ public class SimPreview extends JPanel {
 			setMargin(new Insets(0, 0, 0, 0));
 			setVerticalAlignment(SwingConstants.BOTTOM);
 			setFont(new Font("Chalkboard", Font.PLAIN, 25));
-			setPreferredSize(new Dimension(70, 40));
+			setPreferredSize(new Dimension(80, 80));
 		}
 
 		public void setAudioFile(String fileName) {

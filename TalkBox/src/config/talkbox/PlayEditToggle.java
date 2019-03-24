@@ -138,6 +138,7 @@ public class PlayEditToggle extends JPanel {
 		simPreview.mode = SimPreviewMode.EDIT_MODE;
 		recObj.recordBtn.setEnabled(true);
 		recObj.btnUploadAudio.setEnabled(true);
+		recObj.btnUploadImage.setEnabled(true);
 		int numOfButtons = TalkBoxConfig.numAudButtons;
 		updateButtonLabelTextField.setEnabled(true);
 		updateButtonLabelButton.setEnabled(true);
@@ -157,6 +158,7 @@ public class PlayEditToggle extends JPanel {
 		simPreview.mode = SimPreviewMode.PLAY_MODE;
 		updateButtonLabelButton.setEnabled(false);
 		recObj.btnUploadAudio.setEnabled(false);
+		recObj.btnUploadImage.setEnabled(false);
 		updateButtonLabelTextField.setEnabled(false);
 		recObj.recordBtn.setEnabled(false);
 		recObj.recordInfo.setText("Switch to edit mode to begin recording.");
