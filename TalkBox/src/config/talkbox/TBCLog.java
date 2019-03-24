@@ -37,6 +37,9 @@ public class TBCLog extends JFrame {
 	private static final Dimension MINIMUM_SIZE = new Dimension(480, 300);
 	String talkBoxDataPath;
 	static JFileChooser fileChooser;
+	JButton btnPreviousLog;
+	JButton btnNextLog;
+	JButton btnLoadLog;
 
 	public static void main(String[] args) {
 
@@ -77,7 +80,7 @@ public class TBCLog extends JFrame {
 		// setResizable(false);
 		setLocationRelativeTo(null);
 
-		JButton btnPreviousLog = new JButton("Previous Log");
+		btnPreviousLog = new JButton("Previous Log");
 		btnPreviousLog.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (logFiles != null && logFiles.length > 0)
@@ -85,7 +88,7 @@ public class TBCLog extends JFrame {
 			}
 		});
 
-		JButton btnNextLog = new JButton("Next Log");
+		btnNextLog = new JButton("Next Log");
 		btnNextLog.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (logFiles != null && logFiles.length > 0)
@@ -93,7 +96,7 @@ public class TBCLog extends JFrame {
 			}
 		});
 
-		JButton btnLoadLog = new JButton("Load Log");
+		btnLoadLog = new JButton("Load Log");
 
 		btnLoadLog.addActionListener(new ActionListener() {
 
