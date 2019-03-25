@@ -55,6 +55,22 @@ class RecorderTest {
 		assertEquals(30, TalkBoxConfig.numAudButtons);
 
 	}
+	
+	
+	
+	@Test
+	void testUploadImage() {
+//		recObj.toggle.switchModesButton.doClick();
+//		recObj.fileChooser.approveSelection();
+		
+	}
+	
+	@Test
+	void testUploadAudio() {
+		
+	}
+	
+	
 
 	@AfterEach
 	void tearDown() throws Exception {
