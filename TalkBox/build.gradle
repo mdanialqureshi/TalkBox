@@ -50,6 +50,7 @@ test {
 task allJars {
 	dependsOn 'configJar'
 	dependsOn 'simJar'
+	dependsOn 'TBCLogJar'
 }
 
 task configJar(type: Jar) {
@@ -70,6 +71,14 @@ task simJar (type: Jar) {
 	baseName = 'TalkBoxSim'
 	manifest {
 		attributes 'Main-Class': 'sim.talkbox.TalkBoxSim'
+	}
+	with jar
+}
+
+task TBCLogJar (type: Jar) {
+	baseName = 'TBCLog'
+	manifest {
+		attributes 'Main-Class': 'config.talkbox.TBCLog'
 	}
 	with jar
 }
