@@ -10,6 +10,7 @@ import java.awt.event.ItemListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -182,8 +183,11 @@ public class PlayEditToggle extends JPanel {
 
 	public void updateLabel() {
 		if (currentBtn != null) {
+			ImageIcon transparent = new ImageIcon("images/transparent.png");
+			currentBtn.setIcon(transparent);
 			currentBtn.setText(updateButtonLabelTextField.getText());
 			TalkBoxConfig.buttonsMap.put(currentBtn.buttonNumber - 1, currentBtn.getText());
+			TalkBoxConfig.iconButtonsMap.put(currentBtn.buttonNumber - 1, null);
 		}
 	}
 

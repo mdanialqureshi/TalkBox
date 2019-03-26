@@ -260,7 +260,10 @@ public class SimPreview extends JPanel {
 
 				if (TalkBoxConfig.buttonsMap.get(i) != null) {
 					ab.setText(TalkBoxConfig.buttonsMap.get(i));
-				}
+				} if (TalkBoxConfig.iconButtonsMap.get(i) != null) {
+					ab.setIcon(TalkBoxConfig.iconButtonsMap.get(i));
+					ab.setText("");
+				}	
 				buttons.add(ab);
 				buttonsPanel.add(buttons.get(i));
 			}

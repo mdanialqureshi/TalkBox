@@ -17,6 +17,7 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -44,6 +45,7 @@ public class ButtonPanel extends JPanel {
 	JButton swap3;
 	JButton swapAll;
 	private HashMap<Integer, String> buttonsMap;
+	private HashMap<Integer, Icon> iconButtonsMap;
 	JLabel profileNumber;
 	Logger logger = Logger.getGlobal();
 
@@ -87,6 +89,7 @@ public class ButtonPanel extends JPanel {
 		// Get number of audio buttons from TalkBoxDeserializer
 		nButtons = getInfo.getNumberOfAudioButtons();
 		buttonsMap = getInfo.getButtonsMap();
+		iconButtonsMap = getInfo.getIconButtonsMap();
 		profileNumber = new JLabel();
 		profileNumber.setForeground(Color.CYAN);
 		profileNumber.setText("  Profile 1");
@@ -120,6 +123,7 @@ public class ButtonPanel extends JPanel {
 
 		private static final long serialVersionUID = 1L;
 		private String fileName;
+		private Icon imageIcon;
 		private File profileFolder;
 		private File audioFile;
 		public int buttonNumber;
@@ -175,6 +179,11 @@ public class ButtonPanel extends JPanel {
 				}
 				if (buttonsMap.get(i) != null) {
 					ab.setText(buttonsMap.get(i));
+					ab.setIcon(null);
+				}
+				if (iconButtonsMap.get(i) != null) {
+					ab.setIcon(iconButtonsMap.get(i));
+					ab.setText("");
 				}
 				buttons.add(ab);
 				buttonsPanel.add(buttons.get(i));
@@ -239,6 +248,7 @@ public class ButtonPanel extends JPanel {
 	protected void loadProfile(int newProfile) {
 		getInfo.getProfilesList().setCurrentProfile(newProfile);
 		ArrayList<String> profileFileNames = getInfo.getProfilesList().get(newProfile).getAudioFileNames();
+		ArrayList<Icon> imageIcons = getInfo.getProfilesList().get(newProfile).getImageIcons();
 		for (int i = 0; i < TalkBoxConfig.numAudButtons; ++i) {
 			buttons.get(i).setAudioFile(profileFileNames.get(i));
 		}

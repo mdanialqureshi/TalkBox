@@ -9,6 +9,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
 
+import javax.swing.Icon;
+
 public class TalkBoxSerializer implements TalkBoxConfiguration, Serializable {
 
 	private static final long serialVersionUID = 8857840839980976375L;
@@ -17,21 +19,24 @@ public class TalkBoxSerializer implements TalkBoxConfiguration, Serializable {
 	private int numSwapButtons;
 	private String relativePathToAudioFiles;
 	public String[][] audioFileNames;
+	public Icon[][] imageIcons;
 	private File talkBoxDataPath;
 	private File talkBoxData;
 	private HashMap<Integer, String> buttonsMap;
+	private HashMap<Integer, Icon> iconButtonsMap;
 	private ProfileList profilesList;
 
 	public TalkBoxSerializer() {
 
 		buttonsMap = TalkBoxConfig.buttonsMap;
+		iconButtonsMap = TalkBoxConfig.iconButtonsMap;
 		numAudioButtons = TalkBoxConfig.numAudButtons;
 		numAudioSets = TalkBoxConfig.numAudSets;
 		numSwapButtons = TalkBoxConfig.numSwapButtons;
 		relativePathToAudioFiles = TalkBoxConfig.talkBoxDataPath.toString();
-
 		profilesList = TalkBoxConfig.profilesList;
 		audioFileNames = profilesList.toArrayMatrix();
+//		imageIcons = profilesList.iconToArrayMatrix();
 	}
 
 	public TalkBoxSerializer(File talkBoxDataPath) {
@@ -78,6 +83,10 @@ public class TalkBoxSerializer implements TalkBoxConfiguration, Serializable {
 	public HashMap<Integer, String> getButtonsMap() {
 		return buttonsMap;
 	}
+	
+	public HashMap<Integer, Icon> getIconButtonsMap() {
+		return iconButtonsMap;
+	}
 
 	public int getNumberOfAudioButtons() {
 		return numAudioButtons;
@@ -97,5 +106,9 @@ public class TalkBoxSerializer implements TalkBoxConfiguration, Serializable {
 
 	public String[][] getAudioFileNames() {
 		return audioFileNames;
+	}
+	
+	public Icon[][] getImageIcons() {
+		return imageIcons;
 	}
 }

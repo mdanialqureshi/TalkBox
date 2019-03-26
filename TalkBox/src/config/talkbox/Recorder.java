@@ -21,6 +21,7 @@ import java.util.logging.Logger;
 
 import javax.imageio.ImageIO;
 import javax.sound.sampled.LineUnavailableException;
+import javax.swing.AbstractButton;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -267,9 +268,10 @@ public class Recorder extends JPanel {
 			 try {
 			        ImageIcon icon = new ImageIcon(scaleImage(65, 65, ImageIO.read(new File(filename))));
 			        simPreview.currentBtn.setIcon(icon);
-			        simPreview.currentBtn.setText(null);
+			        simPreview.currentBtn.setText("");
 			        simPreview.currentBtn.revalidate();
 			        simPreview.currentBtn.repaint();
+			        TalkBoxConfig.iconButtonsMap.put(simPreview.currentBtn.buttonNumber - 1, icon);
 			    } catch (Exception ex) {
 			        ex.printStackTrace();
 			    }
@@ -278,13 +280,6 @@ public class Recorder extends JPanel {
 
 				uploadedImageFile = new File(TalkBoxConfig.profilesList.getCurrentProfileFolder(), uploadedImageIcon);
 				  createIconFile();
-
-				@SuppressWarnings("resource")
-				FileChannel src = new FileInputStream(imageFileChooser.getSelectedFile()).getChannel();
-				  @SuppressWarnings("resource")
-				FileChannel dest = new FileOutputStream(uploadedImageFile).getChannel();
-				  dest.transferFrom(src, 0, src.size());	
-					TalkBoxConfig.profilesList.setImageIconAtIndexOfCurrentProfile(simPreview.currentBtn.buttonNumber - 1, uploadedImageFile.getName());
 		}
 	}
 	

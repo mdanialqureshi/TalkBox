@@ -8,6 +8,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.logging.Logger;
 
+import javax.swing.Icon;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -36,7 +37,9 @@ public class TalkBoxConfig extends JFrame {
 	static int numAudSets = 1;
 	static int numSwapButtons = 2;
 	static String[][] audFileNames = new String[1][numAudButtons];
+	static Icon[][] imageIcons = new Icon[1][numAudButtons];
 	static HashMap<Integer, String> buttonsMap = new HashMap<Integer, String>();
+	static HashMap<Integer, Icon> iconButtonsMap = new HashMap<Integer, Icon>();
 	static ProfileList profilesList;
 
 	/**
@@ -84,6 +87,8 @@ public class TalkBoxConfig extends JFrame {
 		numAudSets = tbd.getNumberOfAudioSets();
 		numSwapButtons = tbd.getNumberOfAudioSets();
 		audFileNames = tbd.getAudioFileNames();
+		imageIcons = tbd.getImageIcons();
+		iconButtonsMap = tbd.getIconButtonsMap();
 		buttonsMap = tbd.getButtonsMap();
 		profilesList = tbd.getProfilesList();
 	}
