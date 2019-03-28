@@ -56,5 +56,18 @@ class ProfilesPanelTest {
 		// pp.loadProf.doClick();
 
 	}
+	
+	@Test
+	void talkBoxSimLogTest() {
+		String simLog = pp.textArea.getText();
+		pp.btnPreviousLog.doClick();
+		pp.btnPreviousLog.doClick();
+		pp.btnNextLog.doClick();
+		pp.btnPreviousLog.doClick();
+		String simLog2 = pp.textArea.getText();
+		
+		//assertFalse(simLog.equals(simLog2));
+		
+	}
 
 }

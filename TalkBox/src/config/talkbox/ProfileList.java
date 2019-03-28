@@ -2,8 +2,12 @@ package config.talkbox;
 
 import java.io.File;
 import java.io.Serializable;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.LinkedList;
+
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 
 public class ProfileList extends LinkedList<Profile> implements Serializable {
 
@@ -36,6 +40,10 @@ public class ProfileList extends LinkedList<Profile> implements Serializable {
 	public ArrayList<String> getAudioFilesOfCurrentProfile() {
 		return this.get(currentProfile).getAudioFileNames();
 	}
+	
+	public ArrayList<Icon> getImageIconsOfCurrentProfile() {
+		return this.get(currentProfile).getImageIcons();
+	}
 
 	public String getAudioFileAtIndexOfCurrentProfile(int idx) {
 		return getAudioFilesOfCurrentProfile().get(idx);
@@ -44,6 +52,7 @@ public class ProfileList extends LinkedList<Profile> implements Serializable {
 	public void setAudioFileAtIndexOfCurrentProfile(int idx, String audioFile) {
 		getAudioFilesOfCurrentProfile().set(idx, audioFile);
 	}
+	
 
 	protected String[][] toArrayMatrix() {
 		String[][] audioFileNames = new String[this.size()][TalkBoxConfig.numAudButtons];
@@ -52,4 +61,5 @@ public class ProfileList extends LinkedList<Profile> implements Serializable {
 		}
 		return audioFileNames;
 	}
+	
 }

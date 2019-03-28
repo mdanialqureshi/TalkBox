@@ -12,6 +12,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.filechooser.FileSystemView;
 
+import utilities.TalkBoxLogger;
+
 public class TalkBoxSim extends JFrame {
 
 	private static final long serialVersionUID = 1L;
@@ -29,7 +31,7 @@ public class TalkBoxSim extends JFrame {
 			public void run() {
 				try {
 					if (args.length != 0) {
-					
+
 						TalkBoxSim frame = new TalkBoxSim(args[0]);
 						frame.setVisible(true);
 					} else {
@@ -65,8 +67,9 @@ public class TalkBoxSim extends JFrame {
 	public TalkBoxSim(String talkBoxDataPath) {
 		TalkBoxSim.talkBoxDataPath = new File(talkBoxDataPath);
 		File tbcCheck = new File(talkBoxDataPath, "TalkBoxData.tbc");
-			if (tbcCheck.exists()) {
+		if (tbcCheck.exists()) {
 			buildGUI();
+			TalkBoxLogger.setupLogger(TalkBoxSim.talkBoxDataPath, "sim-logs");
 		} else {
 			JFrame warningPrompt = new JFrame("Warning");
 			JPanel launchConfigPrompt = new JPanel();
@@ -90,6 +93,7 @@ public class TalkBoxSim extends JFrame {
 				}
 			});
 		}
+
 	}
 
 	/**

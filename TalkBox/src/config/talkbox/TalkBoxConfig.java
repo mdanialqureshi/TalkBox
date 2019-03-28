@@ -6,24 +6,27 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.util.HashMap;
+import java.util.logging.Logger;
 
+import javax.swing.Icon;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JSplitPane;
 import javax.swing.filechooser.FileSystemView;
 
+import utilities.TalkBoxLogger;
 import utilities.TalkBoxDeserializer;
 
 public class TalkBoxConfig extends JFrame {
 
-	private static final Dimension MINIMUM_SIZE = new Dimension(1010, 600);
+	private static final Dimension MINIMUM_SIZE = new Dimension(1010, 700);
+
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
 	protected JSplitPane controlsProfileSplit;
 	private int width = 1280;
 	private int height = 720;
@@ -35,7 +38,9 @@ public class TalkBoxConfig extends JFrame {
 	static int numAudSets = 1;
 	static int numSwapButtons = 2;
 	static String[][] audFileNames = new String[1][numAudButtons];
+	static Icon[][] imageIcons = new Icon[1][numAudButtons];
 	static HashMap<Integer, String> buttonsMap = new HashMap<Integer, String>();
+	static HashMap<Integer, Icon> iconButtonsMap = new HashMap<Integer, Icon>();
 	static ProfileList profilesList;
 
 	/**
@@ -69,6 +74,7 @@ public class TalkBoxConfig extends JFrame {
 		// constructs the entire configuration app in
 		controlsProfileSplit = new ControlsProfileSplit(width, height);
 		setupFrame();
+		TalkBoxLogger.setupLogger(TalkBoxConfig.talkBoxDataPath, "config-logs");
 
 	}
 
@@ -82,6 +88,8 @@ public class TalkBoxConfig extends JFrame {
 		numAudSets = tbd.getNumberOfAudioSets();
 		numSwapButtons = tbd.getNumberOfAudioSets();
 		audFileNames = tbd.getAudioFileNames();
+		imageIcons = tbd.getImageIcons();
+		iconButtonsMap = tbd.getIconButtonsMap();
 		buttonsMap = tbd.getButtonsMap();
 		profilesList = tbd.getProfilesList();
 	}

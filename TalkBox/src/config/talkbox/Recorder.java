@@ -2,18 +2,27 @@ package config.talkbox;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.Insets;
+import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import javax.imageio.ImageIO;
 import javax.sound.sampled.LineUnavailableException;
+import javax.swing.AbstractButton;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -31,6 +40,7 @@ import sim.talkbox.TalkBoxSim;
 public class Recorder extends JPanel {
 
 	private static final long serialVersionUID = 1L;
+	private final Logger logger = Logger.getGlobal();
 	private SoundRecorder recorder = new SoundRecorder();
 	boolean isRecording = false;
 	JButton recordBtn;
@@ -43,6 +53,7 @@ public class Recorder extends JPanel {
 	private SpringLayout springLayout;
 	private JProgressBar progressBar;
 	protected JFileChooser fileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+	protected JFileChooser imageFileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
 	String filePath;
 	JButton updateNumberOfButtons;
 	private SimPreview simPreview;
@@ -50,7 +61,9 @@ public class Recorder extends JPanel {
 	private JTextField fileLbl;
 	protected PlayEditToggle toggle;
 	protected JButton btnUploadAudio;
+	protected JButton btnUploadImage;
 	File uploadedWavFile;
+	File uploadedImageFile;
 
 	// Creating the Recorder sector of the TalkBox Configuration Application.
 	public Recorder(SimPreview simPreview) {
@@ -74,6 +87,7 @@ public class Recorder extends JPanel {
 		recordBtn.setEnabled(false);
 		recordBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				logger.log(Level.INFO, "Pressed Record Audio button");
 				recordAudio();
 			}
 		});
@@ -110,6 +124,7 @@ public class Recorder extends JPanel {
 
 		launchSimulator.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				logger.log(Level.INFO, "Pressed Launch Simulator button");
 				if (!TalkBoxConfig.testmode) {
 					String ObjButtons[] = { "Launch Simulator", "Cancel" };
 					int PromptResult = JOptionPane.showOptionDialog(null,
@@ -145,6 +160,7 @@ public class Recorder extends JPanel {
 		add(updateNumberOfButtons);
 		updateNumberOfButtons.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				logger.log(Level.INFO, "Pressed Update Number of Buttons button");
 				updateButtons();
 			}
 		});
@@ -166,8 +182,8 @@ public class Recorder extends JPanel {
 			}
 		});
 		txtNumberOfButtons.addActionListener(new ActionListener() {
-
 			public void actionPerformed(ActionEvent e) {
+				logger.log(Level.INFO, "Pressed Enter key with focus on Update Number of Buttons text field");
 				updateButtons();
 			}
 		});
@@ -185,6 +201,7 @@ public class Recorder extends JPanel {
 		springLayout.putConstraint(SpringLayout.EAST, saveSettings, 0, SpringLayout.EAST, progressBar);
 		saveSettings.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				logger.log(Level.INFO, "Pressed Save Settings button");
 				saveSettings();
 			}
 		});
@@ -200,11 +217,11 @@ public class Recorder extends JPanel {
 		springLayout.putConstraint(SpringLayout.WEST, btnUploadAudio, -136, SpringLayout.EAST, updateNumberOfButtons);
 		springLayout.putConstraint(SpringLayout.EAST, btnUploadAudio, 0, SpringLayout.EAST, updateNumberOfButtons);
 		btnUploadAudio.setEnabled(false);
-		btnUploadAudio.setMargin(new Insets(0,0,0,0));
+		btnUploadAudio.setMargin(new Insets(0, 0, 0, 0));
 
 		btnUploadAudio.addActionListener(new ActionListener() {
-
 			public void actionPerformed(ActionEvent e) {
+				logger.log(Level.INFO, "Pressed Upload Audio button");
 				try {
 					JFileChooser();
 				} catch (IOException e1) {
@@ -215,7 +232,66 @@ public class Recorder extends JPanel {
 		});
 
 		add(btnUploadAudio);
+		
+		btnUploadImage = new JButton("Upload Image");
+		springLayout.putConstraint(SpringLayout.NORTH, btnUploadImage, 36, SpringLayout.SOUTH, updateNumberOfButtons);
+		springLayout.putConstraint(SpringLayout.WEST, btnUploadImage, -136, SpringLayout.EAST, updateNumberOfButtons);
+		springLayout.putConstraint(SpringLayout.EAST, btnUploadImage, 0, SpringLayout.EAST, updateNumberOfButtons);
+		btnUploadImage.setEnabled(false);
+		btnUploadImage.setMargin(new Insets(0,0,0,0));
+		btnUploadImage.addActionListener(new ActionListener() {
 
+			public void actionPerformed(ActionEvent e) {
+				logger.log(Level.INFO, "Pressed Upload Image button");
+				try {
+					imageJFileChooser();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+		add(btnUploadImage);
+
+	}
+	
+	public void imageJFileChooser() throws IOException {
+		imageFileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+		imageFileChooser.setDialogTitle("Choose the image you wish to add to this button.");
+		imageFileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+		imageFileChooser.setAcceptAllFileFilterUsed(false);
+		imageFileChooser.setVisible(true);
+		int returnValue = imageFileChooser.showOpenDialog(null);
+		if (returnValue == JFileChooser.APPROVE_OPTION) {
+			File image = imageFileChooser.getSelectedFile();
+			String filename = image.getAbsolutePath();
+			 try {
+			        ImageIcon icon = new ImageIcon(scaleImage(65, 65, ImageIO.read(new File(filename))));
+			        simPreview.currentBtn.setIcon(icon);
+			        simPreview.currentBtn.setText("");
+			        simPreview.currentBtn.revalidate();
+			        simPreview.currentBtn.repaint();
+			        TalkBoxConfig.iconButtonsMap.put(simPreview.currentBtn.buttonNumber - 1, icon);
+			    } catch (Exception ex) {
+			        ex.printStackTrace();
+			    }
+			 
+			 String uploadedImageIcon = String.format("button-%d.jpg", simPreview.currentBtn.buttonNumber);
+
+				uploadedImageFile = new File(TalkBoxConfig.profilesList.getCurrentProfileFolder(), uploadedImageIcon);
+				  createIconFile();
+		}
+	}
+	
+	public static BufferedImage scaleImage(int w, int h, BufferedImage img) throws Exception {
+	    BufferedImage bi;
+	    bi = new BufferedImage(w, h, BufferedImage.TRANSLUCENT);
+	    Graphics2D g2d = (Graphics2D) bi.createGraphics();
+	    g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+	    g2d.addRenderingHints(new RenderingHints(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY));
+	    g2d.drawImage(img, 0, 0, w, h, null);
+	    g2d.dispose();
+	    return bi;
 	}
 
 	public void JFileChooser() throws IOException {
@@ -228,23 +304,34 @@ public class Recorder extends JPanel {
 		if (returnValue == JFileChooser.APPROVE_OPTION) {
 			// uploadFilePath = fileChooser.getSelectedFile().toString();
 			simPreview.currentBtn.audioFile = fileChooser.getSelectedFile();
-			
+
 			String uploadedFileName = String.format("button-%d.wav", simPreview.currentBtn.buttonNumber);
 
 			uploadedWavFile = new File(TalkBoxConfig.profilesList.getCurrentProfileFolder(), uploadedFileName);
-			  createFile();
+			createFile();
 
 			@SuppressWarnings("resource")
 			FileChannel src = new FileInputStream(fileChooser.getSelectedFile()).getChannel();
-			  @SuppressWarnings("resource")
+			@SuppressWarnings("resource")
 			FileChannel dest = new FileOutputStream(uploadedWavFile).getChannel();
-			  dest.transferFrom(src, 0, src.size());	
-				TalkBoxConfig.profilesList.setAudioFileAtIndexOfCurrentProfile(simPreview.currentBtn.buttonNumber - 1, uploadedWavFile.getName());
-	//		simPreview.currentBtn.setAudioFile(fileChooser.getSelectedFile().getName());
-			
+			dest.transferFrom(src, 0, src.size());
+			TalkBoxConfig.profilesList.setAudioFileAtIndexOfCurrentProfile(simPreview.currentBtn.buttonNumber - 1,
+					uploadedWavFile.getName());
+			// simPreview.currentBtn.setAudioFile(fileChooser.getSelectedFile().getName());
+
 		}
 	}
 	
+	private void createIconFile() {
+		try {
+			uploadedImageFile.getParentFile().mkdirs();
+			uploadedImageFile.createNewFile();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+
 	private void createFile() {
 		try {
 			uploadedWavFile.getParentFile().mkdirs();
@@ -257,14 +344,16 @@ public class Recorder extends JPanel {
 	protected void saveSettings() {
 		TalkBoxSerializer tbs = new TalkBoxSerializer(TalkBoxConfig.talkBoxDataPath);
 		tbs.serialize();
+		logger.log(Level.INFO, "Settings file saved");
 	}
 
 	protected void updateButtons() {
 		try {
 			TalkBoxConfig.numAudButtons = Integer.parseInt(txtNumberOfButtons.getText());
 			simPreview.updateButtons(TalkBoxConfig.numAudButtons);
+			logger.log(Level.INFO, "Number of buttons updated to {0}", new Object[] { TalkBoxConfig.numAudButtons });
 		} catch (NumberFormatException nfe) {
-			System.err.println("Invalid number format entered for button count update.");
+			logger.log(Level.WARNING, "Invalid number format entered for button count update.");
 		}
 	}
 
@@ -281,10 +370,11 @@ public class Recorder extends JPanel {
 						try {
 							isRecording = true;
 							recordInfo.setText("Recording in progress.");
+							logger.log(Level.INFO, "Recording in progress");
 							recordBtn.setIcon(micOn);
 							recorder.start(simPreview.currentBtn);
 						} catch (LineUnavailableException lue) {
-							System.out.println("Line not supported. Recording not started.");
+							logger.log(Level.INFO, "Line not supported. Recording not started.");
 							recordBtn.setIcon(micOff);
 							recordInfo.setText("Mic not detected");
 							isRecording = false;

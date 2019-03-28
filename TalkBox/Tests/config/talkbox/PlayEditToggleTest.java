@@ -27,12 +27,12 @@ class PlayEditToggleTest {
 
 	@Test
 	void testChangingButtonLabel() throws AWTException, InterruptedException {
-		r.toggle.toggleBtn.doClick();
-		assertEquals("Button Label", r.toggle.buttonLbl.getText());
+		r.toggle.switchModesButton.doClick();
+		assertEquals("Button Label", r.toggle.updateButtonLabelTextField.getText());
 		sp.buttons.get(0).doClick();
-		r.toggle.buttonLbl.setText("hey");
-		r.toggle.updateButtonLbl.doClick();
-		r.toggle.toggleBtn.doClick();
+		r.toggle.updateButtonLabelTextField.setText("hey");
+		r.toggle.updateButtonLabelButton.doClick();
+		r.toggle.switchModesButton.doClick();
 		// button click not yet implemented
 		assertEquals("hey", sp.buttons.get(0).getText());
 	}
@@ -40,7 +40,7 @@ class PlayEditToggleTest {
 	@Test
 	void testAddingAudioToButtons() throws InterruptedException {
 		Thread.sleep(500);
-		r.toggle.toggleBtn.doClick();
+		r.toggle.switchModesButton.doClick();
 		// r.fileChooser.setCurrentDirectory((new File
 		// (System.getProperty("user.home") + "/Desktop")));
 		Thread.sleep(500);
@@ -52,7 +52,7 @@ class PlayEditToggleTest {
 		System.setErr(new PrintStream(sperr));
 		sp.buttons.get(0).doClick();
 		//assertEquals("", sperr.toString());
-		r.toggle.toggleBtn.doClick();
+		r.toggle.switchModesButton.doClick();
 
 	}
 

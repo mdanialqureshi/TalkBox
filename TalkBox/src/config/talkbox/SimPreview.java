@@ -10,6 +10,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
@@ -21,10 +23,12 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import utilities.TalkBoxLogger;
+
 public class SimPreview extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-
+	private final Logger logger = Logger.getGlobal();
 	ArrayList<AudioButton> buttons = new ArrayList<AudioButton>();
 	protected JPanel buttonsPanel;
 	protected JPanel swapButtonsPanel;
@@ -36,7 +40,7 @@ public class SimPreview extends JPanel {
 	JButton swap2;
 	JButton swap3;
 	JButton swapAll;
-	private int numOfSwaps = 0;
+	private int currentProfile = 0;
 	static JLabel profileNumber;
 	Clip clip;
 
@@ -47,6 +51,7 @@ public class SimPreview extends JPanel {
 	public SimPreviewMode mode = SimPreviewMode.PLAY_MODE;
 
 	public SimPreview() {
+
 		setBackground(Color.DARK_GRAY);
 		setBorder(new EmptyBorder(5, 5, 5, 5));
 		setLayout(new BorderLayout(10, 10));
@@ -91,74 +96,63 @@ public class SimPreview extends JPanel {
 		profileNumber.setForeground(Color.CYAN);
 		profileNumber.setText("  Profile 1");
 		swapButtonsPanel.add(profileNumber);
-		
+
 		addButtonAudio();
 		setUpSwapButtons();
 	}
 
 	private void setUpSwapButtons() {
 
-		
 		swap1.addActionListener(new ActionListener() {
-
 			public void actionPerformed(ActionEvent e) {
-				profileNumber.setText("  Profile 1");
-				numOfSwaps = 0;
-				revalidate();
-				repaint();
-				loadProfileToSwap(0);
+				TalkBoxLogger.logButtonPressEvent(e);
+				setProfile(0);
 			}
-
 		});
 		swap2.addActionListener(new ActionListener() {
-
 			public void actionPerformed(ActionEvent e) {
-				if (TalkBoxConfig.profilesList.size() > 1) {
-					profileNumber.setText("  Profile 2");
-					numOfSwaps = 1;
-					revalidate();
-					repaint();
-					loadProfileToSwap(1);
-				}
+				TalkBoxLogger.logButtonPressEvent(e);
+				setProfile(1);
 			}
-
 		});
 		swap3.addActionListener(new ActionListener() {
-
 			public void actionPerformed(ActionEvent e) {
-				if (TalkBoxConfig.profilesList.size() > 2) {
-					profileNumber.setText("  Profile 3");
-					numOfSwaps = 2;
-					revalidate();
-					repaint();
-					loadProfileToSwap(2);
-				}
+				TalkBoxLogger.logButtonPressEvent(e);
+				setProfile(2);
 			}
 		});
+
 		swapAll.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
+				TalkBoxLogger.logButtonPressEvent(e);
 				if (TalkBoxConfig.profilesList.size() > 0) {
-					profileNumber.setText("  Profile " + (numOfSwaps + 1));
-					revalidate();
-					repaint();
-					loadProfileToSwap(numOfSwaps);
-					numOfSwaps++;
-					if (numOfSwaps == TalkBoxConfig.numAudSets)
-						numOfSwaps = 0;
+					int nextProfile = (currentProfile + 1) % TalkBoxConfig.numAudSets;
+					setProfile(nextProfile);
 				}
 			}
 		});
 
 	}
 
-	protected void loadProfileToSwap(int profileNumber) {
-		TalkBoxConfig.profilesList.setCurrentProfile(profileNumber);
-		ArrayList<String> profileFileNames = TalkBoxConfig.profilesList.get(profileNumber).getAudioFileNames();
-		for (int i = 0; i < TalkBoxConfig.numAudButtons; ++i) {
-			SimRecorderSplit.simPreview.buttons.get(i).setAudioFile(profileFileNames.get(i));
+	protected void setProfile(int newProfile) {
+		if (currentProfile != newProfile && TalkBoxConfig.profilesList.size() > newProfile) {
+			profileNumber.setText("  Profile " + (newProfile + 1));
+			revalidate();
+			repaint();
+			loadProfile(currentProfile);
+			logger.log(Level.INFO, "Switching from profile {0} to profile {1}",
+					new Object[] { currentProfile + 1, newProfile + 1 });
+			currentProfile = newProfile;
 		}
-		
+	}
+
+	protected void loadProfile(int newProfile) {
+		TalkBoxConfig.profilesList.setCurrentProfile(newProfile);
+		ArrayList<String> profileFileNames = TalkBoxConfig.profilesList.get(newProfile).getAudioFileNames();
+		for (int i = 0; i < TalkBoxConfig.numAudButtons; ++i) {
+			buttons.get(i).setAudioFile(profileFileNames.get(i));
+		}
 	}
 
 	private void addButtonAudio() {
@@ -166,9 +160,10 @@ public class SimPreview extends JPanel {
 			if (b.getActionListeners().length < 1) {
 				b.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
+						logger.log(Level.INFO, "Button number {0} was pressed.", new Object[] { b.buttonNumber });
 						if (mode == SimPreviewMode.PLAY_MODE) {
-							
-							if(clip != null && clip.isActive()) {
+
+							if (clip != null && clip.isActive()) {
 								clip.close();
 							}
 							currentBtn = b;
@@ -212,7 +207,7 @@ public class SimPreview extends JPanel {
 			setMargin(new Insets(0, 0, 0, 0));
 			setVerticalAlignment(SwingConstants.BOTTOM);
 			setFont(new Font("Chalkboard", Font.PLAIN, 25));
-			setPreferredSize(new Dimension(70, 40));
+			setPreferredSize(new Dimension(80, 80));
 		}
 
 		public void setAudioFile(String fileName) {
@@ -265,7 +260,10 @@ public class SimPreview extends JPanel {
 
 				if (TalkBoxConfig.buttonsMap.get(i) != null) {
 					ab.setText(TalkBoxConfig.buttonsMap.get(i));
-				}
+				} if (TalkBoxConfig.iconButtonsMap.get(i) != null) {
+					ab.setIcon(TalkBoxConfig.iconButtonsMap.get(i));
+					ab.setText("");
+				}	
 				buttons.add(ab);
 				buttonsPanel.add(buttons.get(i));
 			}

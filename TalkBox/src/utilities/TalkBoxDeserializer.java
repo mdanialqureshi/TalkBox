@@ -8,6 +8,8 @@ import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
+import javax.swing.Icon;
+
 import config.talkbox.ProfileList;
 import config.talkbox.TalkBoxConfiguration;
 import config.talkbox.TalkBoxSerializer;
@@ -18,10 +20,12 @@ public class TalkBoxDeserializer implements TalkBoxConfiguration {
 	private int numAudioSets, numSwapButtons;
 	private Path path;
 	public String[][] audioFileNames;
+	public Icon[][] imageIcons;
 	private TalkBoxSerializer config;
 	private File talkBoxDataPath;
 	private File talkBoxData;
 	private HashMap<Integer, String> buttonsMap;
+	private HashMap<Integer, Icon> iconButtonsMap;
 	private ProfileList profilesList;
 
 	/*
@@ -30,6 +34,7 @@ public class TalkBoxDeserializer implements TalkBoxConfiguration {
 	public TalkBoxDeserializer() {
 		config = new TalkBoxSerializer();
 		buttonsMap = config.getButtonsMap();
+		iconButtonsMap = config.getIconButtonsMap();
 		profilesList = config.getProfilesList();
 		numAudioButtons = config.getNumberOfAudioButtons();
 		numAudioSets = config.getNumberOfAudioSets();
@@ -49,6 +54,7 @@ public class TalkBoxDeserializer implements TalkBoxConfiguration {
 			ObjectInputStream in = new ObjectInputStream(fileIn);
 			config = (TalkBoxSerializer) in.readObject();
 			buttonsMap = config.getButtonsMap();
+			iconButtonsMap = config.getIconButtonsMap();
 			profilesList = config.getProfilesList();
 			numAudioButtons = config.getNumberOfAudioButtons();
 			numAudioSets = config.getNumberOfAudioSets();
@@ -76,6 +82,10 @@ public class TalkBoxDeserializer implements TalkBoxConfiguration {
 	public HashMap<Integer, String> getButtonsMap() {
 		return buttonsMap;
 	}
+	
+	public HashMap<Integer, Icon> getIconButtonsMap() {
+		return iconButtonsMap;
+	}
 
 	public int getNumberOfAudioButtons() {
 		return numAudioButtons;
@@ -95,6 +105,10 @@ public class TalkBoxDeserializer implements TalkBoxConfiguration {
 
 	public String[][] getAudioFileNames() {
 		return audioFileNames;
+	}
+	
+	public Icon[][] getImageIcons() {
+		return imageIcons;
 	}
 
 }

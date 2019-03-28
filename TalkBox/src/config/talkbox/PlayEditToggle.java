@@ -7,7 +7,10 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -15,10 +18,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
-import javax.swing.filechooser.FileSystemView;
 
 import config.talkbox.SimPreview.AudioButton;
 import config.talkbox.SimPreview.SimPreviewMode;
+import utilities.TalkBoxLogger;
 
 public class PlayEditToggle extends JPanel {
 
@@ -26,10 +29,11 @@ public class PlayEditToggle extends JPanel {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private final Logger logger = Logger.getGlobal();
 	private SimPreview simPreview;
-	protected JToggleButton toggleBtn;
+	protected JToggleButton switchModesButton;
 	private AudioButton currentBtn;
-	protected JTextField buttonLbl;
+	protected JTextField updateButtonLabelTextField;
 	int numOfButtons = TalkBoxConfig.numAudButtons;
 	JLabel instruction;
 	Recorder recObj;
@@ -39,8 +43,9 @@ public class PlayEditToggle extends JPanel {
 	JButton addToButton;
 	JButton cancel;
 	JLabel fileName;
-	JButton updateButtonLbl;
+	JButton updateButtonLabelButton;
 	JFileChooser fileChooser;
+	JLabel modeLbl;
 
 	/**
 	 * 
@@ -62,37 +67,35 @@ public class PlayEditToggle extends JPanel {
 
 		this.simPreview = simPreview;
 		this.recObj = recObj;
-		JLabel modeLbl = new JLabel("Playback Mode");
+		modeLbl = new JLabel("Playback Mode");
 		add(modeLbl);
-		toggleBtn = new JToggleButton("Switch Modes");
-		add(toggleBtn);
-		buttonLbl = new JTextField("Button Label");
-		add(buttonLbl);
-		buttonLbl.setColumns(10);
-		updateButtonLbl = new JButton("Update Label");
-		add(updateButtonLbl);
+		switchModesButton = new JToggleButton("Switch Modes");
+		add(switchModesButton);
+		updateButtonLabelTextField = new JTextField("Button Label");
+		add(updateButtonLabelTextField);
+		updateButtonLabelTextField.setColumns(10);
+		updateButtonLabelButton = new JButton("Update Label");
+		add(updateButtonLabelButton);
 
 		for (int i = 0; i < numOfButtons; i++) {
 			AudioButton b = simPreview.buttons.get(i);
 			b.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					buttonLbl.setText(b.getText());
+					updateButtonLabelTextField.setText(b.getText());
 				}
 			});
 		}
 
-		setupButtonLbl();
-		setupUpdateButtonLbl();		
+		setupUpdateButtonLabelTextField();
+		setupUpdateButtonLabelButton();
 
-		toggleBtn.addItemListener(new ItemListener() {
-
+		switchModesButton.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent ev) {
+				logger.log(Level.INFO, "Pressed Switch Modes button");
 				if (ev.getStateChange() == ItemEvent.SELECTED) {
 					editMode();
-					modeLbl.setText("Edit Mode");
 				} else if (ev.getStateChange() == ItemEvent.DESELECTED) {
 					playMode();
-					modeLbl.setText("Playback Mode");
 				}
 			}
 
@@ -100,31 +103,33 @@ public class PlayEditToggle extends JPanel {
 
 	}
 
-	private void setupUpdateButtonLbl() {
-		updateButtonLbl.setEnabled(false);
-		updateButtonLbl.addActionListener(new ActionListener() {
+	private void setupUpdateButtonLabelButton() {
+		updateButtonLabelButton.setEnabled(false);
+		updateButtonLabelButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				TalkBoxLogger.logButtonPressEvent(e);
 				updateLabel();
 			}
 		});
 	}
 
-	private void setupButtonLbl() {
-		buttonLbl.setEnabled(false);
-		buttonLbl.addActionListener(new ActionListener() {
+	private void setupUpdateButtonLabelTextField() {
+		updateButtonLabelTextField.setEnabled(false);
+		updateButtonLabelTextField.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				logger.log(Level.INFO, "Pressed Enter key with focus on Button Label text field");
 				updateLabel();
 			}
 		});
-		buttonLbl.addFocusListener(new FocusListener() {
+		updateButtonLabelTextField.addFocusListener(new FocusListener() {
 
 			public void focusGained(FocusEvent e) {
-				buttonLbl.setText("");
+				updateButtonLabelTextField.setText("");
 			}
 
 			public void focusLost(FocusEvent e) {
-				if (buttonLbl.getText().isEmpty() && currentBtn != null) {
-					buttonLbl.setText(currentBtn.getText());
+				if (updateButtonLabelTextField.getText().isEmpty() && currentBtn != null) {
+					updateButtonLabelTextField.setText(currentBtn.getText());
 				}
 			}
 		});
@@ -134,36 +139,41 @@ public class PlayEditToggle extends JPanel {
 		simPreview.mode = SimPreviewMode.EDIT_MODE;
 		recObj.recordBtn.setEnabled(true);
 		recObj.btnUploadAudio.setEnabled(true);
+		recObj.btnUploadImage.setEnabled(true);
 		int numOfButtons = TalkBoxConfig.numAudButtons;
-		buttonLbl.setEnabled(true);
-		updateButtonLbl.setEnabled(true);
+		updateButtonLabelTextField.setEnabled(true);
+		updateButtonLabelButton.setEnabled(true);
 		recObj.recordInfo.setText("Begin recording?");
+		modeLbl.setText("Edit Mode");
 
 		currentBtn = simPreview.currentBtn;
 		simPreview.highlightBtn();
 
 		for (int i = 0; i < numOfButtons; i++) {
-			editLabelandAudio(simPreview.buttons.get(i));
+			addUpdateCurrentButtonListener(simPreview.buttons.get(i));
 		}
-
+		logger.log(Level.INFO, "Switched to Edit mode");
 	}
 
 	private void playMode() {
 		simPreview.mode = SimPreviewMode.PLAY_MODE;
-		updateButtonLbl.setEnabled(false);
+		updateButtonLabelButton.setEnabled(false);
 		recObj.btnUploadAudio.setEnabled(false);
-		buttonLbl.setEnabled(false);
+		recObj.btnUploadImage.setEnabled(false);
+		updateButtonLabelTextField.setEnabled(false);
 		recObj.recordBtn.setEnabled(false);
 		recObj.recordInfo.setText("Switch to edit mode to begin recording.");
+		modeLbl.setText("Playback Mode");
 
 		for (int i = 0; i < numOfButtons; i++) {
 			resetPlayMode(simPreview.buttons.get(i));
 		}
 
 		simPreview.removeHighlight();
+		logger.log(Level.INFO, "Switched to Play mode");
 	}
 
-	private void editLabelandAudio(AudioButton b) {
+	private void addUpdateCurrentButtonListener(AudioButton b) {
 		b.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				currentBtn = b;
@@ -173,8 +183,11 @@ public class PlayEditToggle extends JPanel {
 
 	public void updateLabel() {
 		if (currentBtn != null) {
-			currentBtn.setText(buttonLbl.getText());
+			ImageIcon transparent = new ImageIcon("images/transparent.png");
+			currentBtn.setIcon(transparent);
+			currentBtn.setText(updateButtonLabelTextField.getText());
 			TalkBoxConfig.buttonsMap.put(currentBtn.buttonNumber - 1, currentBtn.getText());
+			TalkBoxConfig.iconButtonsMap.put(currentBtn.buttonNumber - 1, null);
 		}
 	}
 
