@@ -25,6 +25,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.SwingConstants;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.filechooser.FileSystemView;
@@ -46,6 +47,7 @@ public class TBCLog extends JFrame {
 	JButton btnNextLog;
 	JButton btnLoadLog;
 	private JTextField search;
+	private JLabel count;
 
 	public static void main(String[] args) {
 
@@ -78,7 +80,7 @@ public class TBCLog extends JFrame {
 
 		textArea.setEditable(false);
 
-		JLabel lblTalkboxConfigurationLogs = new JLabel("TalkBox Configuration Logs");
+		JLabel lblTalkboxConfigurationLogs = new JLabel("TalkBox Configuration Log Viewer", SwingConstants.CENTER);
 		lblTalkboxConfigurationLogs.setFont(new Font("Chalkboard", Font.PLAIN, 16));
 
 		readLogs();
@@ -138,43 +140,43 @@ public class TBCLog extends JFrame {
 			}
 		});
 
+		count = new JLabel("Matching Events");
+
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
-		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup().addGap(148)
-						.addComponent(lblTalkboxConfigurationLogs, GroupLayout.PREFERRED_SIZE, 208,
-								GroupLayout.PREFERRED_SIZE)
-						.addContainerGap(201, Short.MAX_VALUE))
-				.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup().addGap(16)
-						.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-								.addGroup(
-										Alignment.LEADING,
-										groupLayout
-												.createSequentialGroup().addComponent(searchLabel)
-												.addPreferredGap(ComponentPlacement.RELATED)
-												.addComponent(search, GroupLayout.DEFAULT_SIZE, 409, Short.MAX_VALUE))
-								.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
-										.addComponent(btnPreviousLog, GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE)
-										.addGap(47)
-										.addComponent(btnNextLog, GroupLayout.DEFAULT_SIZE, 137, Short.MAX_VALUE)
-										.addGap(53)
-										.addComponent(btnLoadLog, GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE))
-								.addComponent(scroll, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 533,
+		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.TRAILING).addGroup(groupLayout
+				.createSequentialGroup().addGap(16)
+				.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(groupLayout.createSequentialGroup()
+								.addComponent(btnPreviousLog, GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE).addGap(47)
+								.addComponent(btnNextLog, GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE).addGap(53)
+								.addComponent(btnLoadLog, GroupLayout.DEFAULT_SIZE, 111, Short.MAX_VALUE))
+						.addComponent(scroll, GroupLayout.DEFAULT_SIZE, 450, Short.MAX_VALUE)
+						.addGroup(groupLayout.createSequentialGroup().addComponent(searchLabel)
+								.addPreferredGap(ComponentPlacement.RELATED)
+								.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+										.addComponent(lblTalkboxConfigurationLogs).addComponent(search,
+												GroupLayout.PREFERRED_SIZE, 262, GroupLayout.PREFERRED_SIZE))
+								.addPreferredGap(ComponentPlacement.RELATED)
+								.addComponent(count, GroupLayout.PREFERRED_SIZE, 72, Short.MAX_VALUE)))
+				.addGap(18)));
+		groupLayout.setVerticalGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup().addGap(34).addComponent(lblTalkboxConfigurationLogs)
+						.addPreferredGap(ComponentPlacement.RELATED)
+						.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE).addComponent(searchLabel)
+								.addComponent(search, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+										GroupLayout.PREFERRED_SIZE)
+								.addComponent(count))
+						.addPreferredGap(ComponentPlacement.RELATED)
+						.addComponent(scroll, GroupLayout.DEFAULT_SIZE, 227, Short.MAX_VALUE)
+						.addPreferredGap(ComponentPlacement.RELATED)
+						.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+								.addComponent(btnLoadLog, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE,
+										Short.MAX_VALUE)
+								.addComponent(btnPreviousLog, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE,
+										Short.MAX_VALUE)
+								.addComponent(btnNextLog, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE,
 										Short.MAX_VALUE))
 						.addGap(18)));
-		groupLayout.setVerticalGroup(groupLayout.createParallelGroup(Alignment.LEADING).addGroup(groupLayout
-				.createSequentialGroup().addGap(34).addComponent(lblTalkboxConfigurationLogs)
-				.addPreferredGap(ComponentPlacement.RELATED)
-				.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE).addComponent(searchLabel).addComponent(
-						search, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-				.addPreferredGap(ComponentPlacement.RELATED)
-				.addComponent(scroll, GroupLayout.DEFAULT_SIZE, 227, Short.MAX_VALUE)
-				.addPreferredGap(ComponentPlacement.RELATED)
-				.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(btnLoadLog, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(btnPreviousLog, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE,
-								Short.MAX_VALUE)
-						.addComponent(btnNextLog, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-				.addGap(18)));
 		getContentPane().setLayout(groupLayout);
 
 	}
@@ -186,6 +188,7 @@ public class TBCLog extends JFrame {
 
 			// Clear search field when loading a log file
 			if (search != null) {
+				searchLog("");
 				search.setText("");
 			}
 		} catch (FileNotFoundException e) {
@@ -219,42 +222,47 @@ public class TBCLog extends JFrame {
 	}
 
 	private void filterLog(DocumentEvent e) {
-		int len = e.getDocument().getLength();
-		try {
-			searchLog(e.getDocument().getText(0, len));
-		} catch (BadLocationException e1) {
-			e1.printStackTrace();
+		if (logFiles.length > 0) {
+			int len = e.getDocument().getLength();
+			try {
+				searchLog(e.getDocument().getText(0, len));
+			} catch (BadLocationException e1) {
+				e1.printStackTrace();
+			}
 		}
 	}
 
 	protected void searchLog(String regex) {
-		if (logFiles.length > 0) {
-			try (BufferedReader input = new BufferedReader(
-					new InputStreamReader(new FileInputStream(logFiles[currentLogFile])));
-					Scanner log = new Scanner(input);) {
-				String regexp = "(?s).*" + regex + ".*";
-				textArea.setText("");
-				StringBuffer sb = new StringBuffer();
-				while (log.hasNextLine()) {
+		int logEventCount = 0;
+
+		try (BufferedReader input = new BufferedReader(
+				new InputStreamReader(new FileInputStream(logFiles[currentLogFile])));
+				Scanner log = new Scanner(input);) {
+			String regexp = "(?s).*" + regex + ".*";
+			textArea.setText("");
+			StringBuffer sb = new StringBuffer();
+			while (log.hasNextLine()) {
+				sb.append(log.nextLine()).append("\n");
+
+				// read another line as the log format uses two lines for each log event
+				if (log.hasNextLine()) {
 					sb.append(log.nextLine()).append("\n");
-
-					// read another line as the log format uses two lines for each log event
-					if (log.hasNextLine()) {
-						sb.append(log.nextLine()).append("\n");
-					}
-
-					String logLine = sb.toString();
-					if (logLine.matches(regexp)) {
-						textArea.append(logLine);
-					}
-					sb.delete(0, sb.length());
-
 				}
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
+
+				String logLine = sb.toString();
+				if (logLine.matches(regexp)) {
+					textArea.append(logLine);
+					logEventCount++;
+				}
+				sb.delete(0, sb.length());
+
 			}
+			count.setText("Matching Events: " + logEventCount);
+
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 }
