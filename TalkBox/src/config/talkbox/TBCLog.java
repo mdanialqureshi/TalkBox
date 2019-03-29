@@ -232,13 +232,23 @@ public class TBCLog extends JFrame {
 			try (BufferedReader input = new BufferedReader(
 					new InputStreamReader(new FileInputStream(logFiles[currentLogFile])));
 					Scanner log = new Scanner(input);) {
-				String regexp = ".*" + regex + ".*";
+				String regexp = "(?s).*" + regex + ".*";
 				textArea.setText("");
+				StringBuffer sb = new StringBuffer();
 				while (log.hasNextLine()) {
-					String line = log.nextLine();
-					if (line.matches(regexp)) {
-						textArea.append(line + "\n");
+					sb.append(log.nextLine()).append("\n");
+
+					// read another line as the log format uses two lines for each log event
+					if (log.hasNextLine()) {
+						sb.append(log.nextLine()).append("\n");
 					}
+
+					String logLine = sb.toString();
+					if (logLine.matches(regexp)) {
+						textArea.append(logLine);
+					}
+					sb.delete(0, sb.length());
+
 				}
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
