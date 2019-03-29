@@ -16,7 +16,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -196,7 +199,7 @@ public class SimPreview extends JPanel {
 							File file = droppedFiles.get(0);
 							String fileName = file.getName();
 							if (fileName.endsWith(".wav")) {
-								b.setAudioFile(fileName);
+								setButtonAudio(b, file);
 							} else if (fileName.matches(".*\\.(png|jpg|gif|bmp)$")) {
 								setButtonImage(b, file);
 							}
@@ -205,6 +208,7 @@ public class SimPreview extends JPanel {
 						ex.printStackTrace();
 					}
 				}
+
 			});
 		}
 	}
@@ -233,7 +237,7 @@ public class SimPreview extends JPanel {
 		createFile(uploadedImageFile);
 	}
 
-	public static BufferedImage scaleImage(int w, int h, BufferedImage img) throws Exception {
+	public static BufferedImage scaleImage(int w, int h, BufferedImage img) {
 		BufferedImage bi;
 		bi = new BufferedImage(w, h, BufferedImage.TRANSLUCENT);
 		Graphics2D g2d = (Graphics2D) bi.createGraphics();
@@ -242,6 +246,28 @@ public class SimPreview extends JPanel {
 		g2d.drawImage(img, 0, 0, w, h, null);
 		g2d.dispose();
 		return bi;
+	}
+
+	void setButtonAudio(File audio) {
+		setButtonImage(currentBtn, audio);
+	}
+
+	void setButtonAudio(AudioButton b, File sourceAudioFile) throws IOException {
+		int buttonNumber = b.buttonNumber;
+
+		String destAudioFileName = String.format("button-%d.wav", buttonNumber);
+		File destAudioFile = new File(TalkBoxConfig.profilesList.getCurrentProfileFolder(), destAudioFileName);
+		createFile(destAudioFile);
+
+		@SuppressWarnings("resource")
+		FileChannel src = new FileInputStream(sourceAudioFile).getChannel();
+		@SuppressWarnings("resource")
+		FileChannel dest = new FileOutputStream(destAudioFile).getChannel();
+		dest.transferFrom(src, 0, src.size());
+
+		b.setAudioFile(destAudioFileName);
+		TalkBoxConfig.profilesList.setAudioFileAtIndexOfCurrentProfile(buttonNumber - 1, destAudioFileName);
+
 	}
 
 	private void createFile(File file) {

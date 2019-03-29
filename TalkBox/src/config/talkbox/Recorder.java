@@ -267,22 +267,8 @@ public class Recorder extends JPanel {
 		fileChooser.setVisible(true);
 		int returnValue = fileChooser.showOpenDialog(null);
 		if (returnValue == JFileChooser.APPROVE_OPTION) {
-			simPreview.currentBtn.audioFile = fileChooser.getSelectedFile();
-
-			String uploadedFileName = String.format("button-%d.wav", simPreview.currentBtn.buttonNumber);
-
-			File uploadedWavFile = new File(TalkBoxConfig.profilesList.getCurrentProfileFolder(), uploadedFileName);
-			createFile(uploadedWavFile);
-
-			@SuppressWarnings("resource")
-			FileChannel src = new FileInputStream(fileChooser.getSelectedFile()).getChannel();
-			@SuppressWarnings("resource")
-			FileChannel dest = new FileOutputStream(uploadedWavFile).getChannel();
-			dest.transferFrom(src, 0, src.size());
-			TalkBoxConfig.profilesList.setAudioFileAtIndexOfCurrentProfile(simPreview.currentBtn.buttonNumber - 1,
-					uploadedWavFile.getName());
-			// simPreview.currentBtn.setAudioFile(fileChooser.getSelectedFile().getName());
-
+			File audio = fileChooser.getSelectedFile();
+			simPreview.setButtonAudio(audio);
 		}
 	}
 
