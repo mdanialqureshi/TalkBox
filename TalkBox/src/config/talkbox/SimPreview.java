@@ -111,7 +111,7 @@ public class SimPreview extends JPanel {
 		profileNumber.setText("  Profile 1");
 		swapButtonsPanel.add(profileNumber);
 
-		addButtonAudio();
+		setupAudioButtons();
 		setUpSwapButtons();
 	}
 
@@ -169,7 +169,7 @@ public class SimPreview extends JPanel {
 		}
 	}
 
-	private void addButtonAudio() {
+	private void setupAudioButtons() {
 		for (AudioButton b : buttons) {
 			if (b.getActionListeners().length < 1) {
 				b.addActionListener(new ActionListener() {
@@ -177,7 +177,8 @@ public class SimPreview extends JPanel {
 						logger.log(Level.INFO, "Button number {0} was pressed.", new Object[] { b.buttonNumber });
 						if (mode == SimPreviewMode.PLAY_MODE) {
 							if (clip != null && clip.isActive()) {
-								clip.close();
+								logger.info("stopping clip");
+								clip.stop();
 							}
 							currentBtn = b;
 							b.playSound();
@@ -375,7 +376,7 @@ public class SimPreview extends JPanel {
 	public void updateButtons(int nButtons) {
 		this.nButtons = nButtons;
 		setupButtons();
-		addButtonAudio();
+		setupAudioButtons();
 		revalidate();
 		repaint();
 	}
