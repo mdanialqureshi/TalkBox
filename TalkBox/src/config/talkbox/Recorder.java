@@ -146,7 +146,7 @@ public class Recorder extends JPanel {
 		});
 
 		/*
-		 * adding textfeild to allow user to change the number of buttons
+		 * adding textfield to allow user to change the number of buttons
 		 */
 		txtNumberOfButtons = new JTextField("Number of buttons");
 		springLayout.putConstraint(SpringLayout.NORTH, txtNumberOfButtons, 10, SpringLayout.NORTH, this);
