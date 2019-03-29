@@ -249,8 +249,8 @@ public class SimPreview extends JPanel {
 		return bi;
 	}
 
-	void setButtonAudio(File audio) {
-		setButtonImage(currentBtn, audio);
+	void setButtonAudio(File audio) throws IOException {
+		setButtonAudio(currentBtn, audio);
 	}
 
 	void setButtonAudio(AudioButton b, File sourceAudioFile) throws IOException {
