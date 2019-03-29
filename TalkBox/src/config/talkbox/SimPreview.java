@@ -222,9 +222,8 @@ public class SimPreview extends JPanel {
 		int buttonNumber = b.buttonNumber;
 		String filename = image.getAbsolutePath();
 		try {
-			ImageIcon icon = new ImageIcon(scaleImage(65, 65, ImageIO.read(new File(filename))));
+			ImageIcon icon = new ImageIcon(scaleImage(60, 60, ImageIO.read(new File(filename))));
 			b.setIcon(icon);
-			b.setText("");
 			b.revalidate();
 			b.repaint();
 			TalkBoxConfig.iconButtonsMap.put(buttonNumber - 1, icon);
@@ -307,8 +306,12 @@ public class SimPreview extends JPanel {
 			this.buttonNumber = buttonNumber;
 			setMargin(new Insets(0, 0, 0, 0));
 			setVerticalAlignment(SwingConstants.BOTTOM);
+			setHorizontalAlignment(SwingConstants.CENTER);
 			setFont(new Font("Chalkboard", Font.PLAIN, 25));
 			setPreferredSize(new Dimension(80, 80));
+			setHorizontalTextPosition(SwingConstants.CENTER);
+			setVerticalTextPosition(SwingConstants.BOTTOM);	
+			setIconTextGap(-20);
 		}
 
 		public void setAudioFile(String fileName) {
