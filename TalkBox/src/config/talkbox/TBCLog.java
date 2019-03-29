@@ -48,6 +48,7 @@ public class TBCLog extends JFrame {
 	JButton btnLoadLog;
 	private JTextField search;
 	private JLabel count;
+	private JLabel lblLogName;
 
 	public static void main(String[] args) {
 
@@ -83,7 +84,6 @@ public class TBCLog extends JFrame {
 		JLabel lblTalkboxConfigurationLogs = new JLabel("TalkBox Configuration Log Viewer", SwingConstants.CENTER);
 		lblTalkboxConfigurationLogs.setFont(new Font("Chalkboard", Font.PLAIN, 16));
 
-		readLogs();
 		setMinimumSize(MINIMUM_SIZE);
 		// setResizable(false);
 		setLocationRelativeTo(null);
@@ -140,7 +140,10 @@ public class TBCLog extends JFrame {
 			}
 		});
 
-		count = new JLabel("Matching Events");
+		count = new JLabel("Matching Events:");
+
+		lblLogName = new JLabel("Log Name: ");
+		scroll.setColumnHeaderView(lblLogName);
 
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
 		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.TRAILING).addGroup(groupLayout
@@ -177,8 +180,10 @@ public class TBCLog extends JFrame {
 								.addComponent(btnNextLog, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE,
 										Short.MAX_VALUE))
 						.addGap(18)));
+
 		getContentPane().setLayout(groupLayout);
 
+		readLogs();
 	}
 
 	protected void loadLogFile(File loadedLog) {
@@ -187,10 +192,11 @@ public class TBCLog extends JFrame {
 			textArea.read(input, "Reading Selected Log File");
 
 			// Clear search field when loading a log file
-			if (search != null) {
-				searchLog("");
-				search.setText("");
-			}
+			searchLog("");
+			search.setText("");
+			
+			// set log file viewer header to file name
+			lblLogName.setText(String.format("Log Name: %s", loadedLog.getName()));
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
