@@ -247,12 +247,11 @@ public class Recorder extends JPanel {
 	}
 
 	public void imageJFileChooser() throws IOException {
-		imageFileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
 		imageFileChooser.setDialogTitle("Choose the image you wish to add to this button.");
 		imageFileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		imageFileChooser.setAcceptAllFileFilterUsed(false);
 		imageFileChooser.setVisible(true);
-		int returnValue = imageFileChooser.showOpenDialog(null);
+		int returnValue = imageFileChooser.showOpenDialog(this);
 		if (returnValue == JFileChooser.APPROVE_OPTION) {
 			File image = imageFileChooser.getSelectedFile();
 			simPreview.setButtonImage(image);
@@ -260,12 +259,11 @@ public class Recorder extends JPanel {
 	}
 
 	public void audioJFileChooser() throws IOException {
-		fileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
 		fileChooser.setDialogTitle("Choose the audio file you wish to add to this button.");
 		fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		fileChooser.setAcceptAllFileFilterUsed(false);
 		fileChooser.setVisible(true);
-		int returnValue = fileChooser.showOpenDialog(null);
+		int returnValue = fileChooser.showOpenDialog(this);
 		if (returnValue == JFileChooser.APPROVE_OPTION) {
 			File audio = fileChooser.getSelectedFile();
 			simPreview.setButtonAudio(audio);
