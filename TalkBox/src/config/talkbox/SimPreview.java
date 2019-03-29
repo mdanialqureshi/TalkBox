@@ -5,18 +5,29 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Graphics2D;
 import java.awt.Insets;
+import java.awt.RenderingHints;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.dnd.DnDConstants;
+import java.awt.dnd.DropTarget;
+import java.awt.dnd.DropTargetDropEvent;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -162,7 +173,6 @@ public class SimPreview extends JPanel {
 					public void actionPerformed(ActionEvent e) {
 						logger.log(Level.INFO, "Button number {0} was pressed.", new Object[] { b.buttonNumber });
 						if (mode == SimPreviewMode.PLAY_MODE) {
-
 							if (clip != null && clip.isActive()) {
 								clip.close();
 							}
@@ -176,6 +186,70 @@ public class SimPreview extends JPanel {
 					}
 				});
 			}
+			b.setDropTarget(new DropTarget() {
+				public synchronized void drop(DropTargetDropEvent evt) {
+					try {
+						evt.acceptDrop(DnDConstants.ACTION_COPY);
+						List<File> droppedFiles = (List<File>) evt.getTransferable()
+								.getTransferData(DataFlavor.javaFileListFlavor);
+						if (droppedFiles.size() > 0) {
+							File file = droppedFiles.get(0);
+							String fileName = file.getName();
+							if (fileName.endsWith(".wav")) {
+								b.setAudioFile(fileName);
+							} else if (fileName.matches(".*\\.(png|jpg|gif|bmp)$")) {
+								setButtonImage(b, file);
+							}
+						}
+					} catch (Exception ex) {
+						ex.printStackTrace();
+					}
+				}
+			});
+		}
+	}
+
+	void setButtonImage(File image) {
+		setButtonImage(currentBtn, image);
+	}
+
+	void setButtonImage(AudioButton b, File image) {
+		int buttonNumber = b.buttonNumber;
+		String filename = image.getAbsolutePath();
+		try {
+			ImageIcon icon = new ImageIcon(scaleImage(65, 65, ImageIO.read(new File(filename))));
+			b.setIcon(icon);
+			b.setText("");
+			b.revalidate();
+			b.repaint();
+			TalkBoxConfig.iconButtonsMap.put(buttonNumber - 1, icon);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+
+		String uploadedImageIcon = String.format("button-%d.jpg", buttonNumber);
+
+		File uploadedImageFile = new File(TalkBoxConfig.profilesList.getCurrentProfileFolder(), uploadedImageIcon);
+		createFile(uploadedImageFile);
+	}
+
+	public static BufferedImage scaleImage(int w, int h, BufferedImage img) throws Exception {
+		BufferedImage bi;
+		bi = new BufferedImage(w, h, BufferedImage.TRANSLUCENT);
+		Graphics2D g2d = (Graphics2D) bi.createGraphics();
+		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		g2d.addRenderingHints(new RenderingHints(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY));
+		g2d.drawImage(img, 0, 0, w, h, null);
+		g2d.dispose();
+		return bi;
+	}
+
+	private void createFile(File file) {
+		try {
+			file.getParentFile().mkdirs();
+			file.createNewFile();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -260,10 +334,11 @@ public class SimPreview extends JPanel {
 
 				if (TalkBoxConfig.buttonsMap.get(i) != null) {
 					ab.setText(TalkBoxConfig.buttonsMap.get(i));
-				} if (TalkBoxConfig.iconButtonsMap.get(i) != null) {
+				}
+				if (TalkBoxConfig.iconButtonsMap.get(i) != null) {
 					ab.setIcon(TalkBoxConfig.iconButtonsMap.get(i));
 					ab.setText("");
-				}	
+				}
 				buttons.add(ab);
 				buttonsPanel.add(buttons.get(i));
 			}
