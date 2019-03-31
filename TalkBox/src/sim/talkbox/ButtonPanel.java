@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.swing.Box;
@@ -41,6 +42,7 @@ public class ButtonPanel extends JPanel {
 	protected JPanel allButtonsPanel;
 	private int nButtonsPrev = 0;
 	private int currentProfile = 0;
+	private AudioButton currentBtn;
 	JButton swap1;
 	JButton swap2;
 	JButton swap3;
@@ -50,7 +52,6 @@ public class ButtonPanel extends JPanel {
 	private HashMap<Integer, Icon> iconButtonsMap;
 	JLabel profileNumber;
 	Logger logger = Logger.getGlobal();
-	Clip clip;
 
 	public ButtonPanel() {
 		setBackground(Color.DARK_GRAY);
@@ -114,9 +115,10 @@ public class ButtonPanel extends JPanel {
 			b.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					logger.log(Level.INFO, "Button number {0} was pressed.", new Object[] { b.buttonNumber });
-					if (clip != null && clip.isActive()) {
-						clip.stop();
+					if (currentBtn.clip != null && currentBtn.clip.isActive()) {
+						currentBtn.clip.stop();
 					}
+					currentBtn = b;
 					b.playSound();
 				}
 			});
@@ -139,6 +141,7 @@ public class ButtonPanel extends JPanel {
 		private File profileFolder;
 		private File audioFile;
 		public int buttonNumber;
+		private Clip clip;
 
 		public AudioButton(int buttonNumber, String text) {
 			super(text);
@@ -165,8 +168,16 @@ public class ButtonPanel extends JPanel {
 		public void playSound() {
 			if (audioFile != null) {
 				try {
-					clip = AudioSystem.getClip();
-					clip.open(AudioSystem.getAudioInputStream(audioFile));
+					if (clip == null) {
+						clip = AudioSystem.getClip();
+					}
+					if (!clip.isOpen()) {
+						AudioInputStream ais = AudioSystem.getAudioInputStream(audioFile);
+						clip.open(ais);
+						ais.close();
+					}
+
+					clip.setMicrosecondPosition(0);
 					clip.start(); // allows audio clip to be played
 				} catch (Exception e) {
 					System.err.println("Could not play back audio.");
@@ -205,6 +216,7 @@ public class ButtonPanel extends JPanel {
 			}
 		}
 		nButtonsPrev = nButtons;
+		currentBtn = buttons.get(0);
 	}
 
 	public void updateButtons(int nButtons) {
@@ -252,7 +264,9 @@ public class ButtonPanel extends JPanel {
 		stopAudio.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				TalkBoxLogger.logButtonPressEvent(e);
-				clip.stop();
+				if (currentBtn.clip != null) {
+					currentBtn.clip.stop();
+				}
 			}
 
 		});
