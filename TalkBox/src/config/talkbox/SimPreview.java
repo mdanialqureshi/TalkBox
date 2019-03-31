@@ -54,6 +54,7 @@ public class SimPreview extends JPanel {
 	JButton swap2;
 	JButton swap3;
 	JButton swapAll;
+	JButton stopAudio;
 	private int currentProfile = 0;
 	static JLabel profileNumber;
 	Clip clip;
@@ -111,8 +112,14 @@ public class SimPreview extends JPanel {
 		profileNumber.setText("  Profile 1");
 		swapButtonsPanel.add(profileNumber);
 
+		swapButtonsPanel.add(Box.createVerticalStrut(50));
+		stopAudio = new JButton("Stop Audio");
+		stopAudio.setToolTipText("Stop currently playing audio.");
+		swapButtonsPanel.add(stopAudio);
+
 		setupAudioButtons();
 		setUpSwapButtons();
+		setUpStopAudioButton();
 	}
 
 	private void setUpSwapButtons() {
@@ -147,6 +154,16 @@ public class SimPreview extends JPanel {
 			}
 		});
 
+	}
+
+	private void setUpStopAudioButton() {
+		stopAudio.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				TalkBoxLogger.logButtonPressEvent(e);
+				clip.stop();
+			}
+
+		});
 	}
 
 	protected void setProfile(int newProfile) {
@@ -308,7 +325,7 @@ public class SimPreview extends JPanel {
 			setPreferredSize(new Dimension(80, 80));
 			setVerticalAlignment(SwingConstants.BOTTOM);
 			setHorizontalTextPosition(SwingConstants.CENTER);
-			setVerticalTextPosition(SwingConstants.BOTTOM);	
+			setVerticalTextPosition(SwingConstants.BOTTOM);
 			setIconTextGap(-5);
 		}
 

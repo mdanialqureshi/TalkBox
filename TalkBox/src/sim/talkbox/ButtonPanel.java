@@ -45,6 +45,7 @@ public class ButtonPanel extends JPanel {
 	JButton swap2;
 	JButton swap3;
 	JButton swapAll;
+	JButton stopAudio;
 	private HashMap<Integer, String> buttonsMap;
 	private HashMap<Integer, Icon> iconButtonsMap;
 	JLabel profileNumber;
@@ -96,10 +97,16 @@ public class ButtonPanel extends JPanel {
 		profileNumber.setForeground(Color.CYAN);
 		profileNumber.setText("  Profile 1");
 		swapButtonsPanel.add(profileNumber);
+
+		swapButtonsPanel.add(Box.createVerticalStrut(50));
+		stopAudio = new JButton("Stop Audio");
+		stopAudio.setToolTipText("Stop currently playing audio.");
+		swapButtonsPanel.add(stopAudio);
+
 		setupButtons();
 		addButtonAudio();
 		setUpSwapButtons();
-
+		setUpStopAudioButton();
 	}
 
 	private void addButtonAudio() {
@@ -239,6 +246,16 @@ public class ButtonPanel extends JPanel {
 			}
 		});
 
+	}
+
+	private void setUpStopAudioButton() {
+		stopAudio.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				TalkBoxLogger.logButtonPressEvent(e);
+				clip.stop();
+			}
+
+		});
 	}
 
 	protected void setProfile(int newProfile) {
