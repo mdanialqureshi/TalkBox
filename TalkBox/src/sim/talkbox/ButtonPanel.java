@@ -142,6 +142,7 @@ public class ButtonPanel extends JPanel {
 			setVerticalAlignment(SwingConstants.BOTTOM);
 			setHorizontalTextPosition(SwingConstants.CENTER);
 			setVerticalTextPosition(SwingConstants.BOTTOM);
+			setIconTextGap(-5);
 		}
 
 		public void setAudioFile(String fileName) {
