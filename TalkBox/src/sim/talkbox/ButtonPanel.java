@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -48,6 +49,7 @@ public class ButtonPanel extends JPanel {
 	private HashMap<Integer, Icon> iconButtonsMap;
 	JLabel profileNumber;
 	Logger logger = Logger.getGlobal();
+	Clip clip;
 
 	public ButtonPanel() {
 		setBackground(Color.DARK_GRAY);
@@ -105,6 +107,9 @@ public class ButtonPanel extends JPanel {
 			b.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					logger.log(Level.INFO, "Button number {0} was pressed.", new Object[] { b.buttonNumber });
+					if (clip != null && clip.isActive()) {
+						clip.stop();
+					}
 					b.playSound();
 				}
 			});
@@ -131,9 +136,12 @@ public class ButtonPanel extends JPanel {
 		public AudioButton(int buttonNumber, String text) {
 			super(text);
 			this.buttonNumber = buttonNumber;
-			setVerticalAlignment(SwingConstants.BOTTOM);
+			setMargin(new Insets(0, 0, 0, 0));
 			setFont(new Font("Chalkboard", Font.PLAIN, 25));
 			setPreferredSize(new Dimension(80, 80));
+			setVerticalAlignment(SwingConstants.BOTTOM);
+			setHorizontalTextPosition(SwingConstants.CENTER);
+			setVerticalTextPosition(SwingConstants.BOTTOM);
 		}
 
 		public void setAudioFile(String fileName) {
@@ -149,7 +157,7 @@ public class ButtonPanel extends JPanel {
 		public void playSound() {
 			if (audioFile != null) {
 				try {
-					Clip clip = AudioSystem.getClip();
+					clip = AudioSystem.getClip();
 					clip.open(AudioSystem.getAudioInputStream(audioFile));
 					clip.start(); // allows audio clip to be played
 				} catch (Exception e) {
@@ -183,7 +191,6 @@ public class ButtonPanel extends JPanel {
 				}
 				if (iconButtonsMap.get(i) != null) {
 					ab.setIcon(iconButtonsMap.get(i));
-					ab.setText("");
 				}
 				buttons.add(ab);
 				buttonsPanel.add(buttons.get(i));

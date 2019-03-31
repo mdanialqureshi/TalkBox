@@ -177,7 +177,6 @@ public class SimPreview extends JPanel {
 						logger.log(Level.INFO, "Button number {0} was pressed.", new Object[] { b.buttonNumber });
 						if (mode == SimPreviewMode.PLAY_MODE) {
 							if (clip != null && clip.isActive()) {
-								logger.info("stopping clip");
 								clip.stop();
 							}
 							currentBtn = b;
@@ -222,7 +221,7 @@ public class SimPreview extends JPanel {
 		int buttonNumber = b.buttonNumber;
 		String filename = image.getAbsolutePath();
 		try {
-			ImageIcon icon = new ImageIcon(scaleImage(60, 60, ImageIO.read(new File(filename))));
+			ImageIcon icon = new ImageIcon(scaleImage(40, 40, ImageIO.read(new File(filename))));
 			b.setIcon(icon);
 			b.revalidate();
 			b.repaint();
@@ -305,13 +304,11 @@ public class SimPreview extends JPanel {
 			super(text);
 			this.buttonNumber = buttonNumber;
 			setMargin(new Insets(0, 0, 0, 0));
-			setVerticalAlignment(SwingConstants.BOTTOM);
-			setHorizontalAlignment(SwingConstants.CENTER);
 			setFont(new Font("Chalkboard", Font.PLAIN, 25));
 			setPreferredSize(new Dimension(80, 80));
+			setVerticalAlignment(SwingConstants.BOTTOM);
 			setHorizontalTextPosition(SwingConstants.CENTER);
 			setVerticalTextPosition(SwingConstants.BOTTOM);	
-			setIconTextGap(-20);
 		}
 
 		public void setAudioFile(String fileName) {
@@ -367,7 +364,6 @@ public class SimPreview extends JPanel {
 				}
 				if (TalkBoxConfig.iconButtonsMap.get(i) != null) {
 					ab.setIcon(TalkBoxConfig.iconButtonsMap.get(i));
-					ab.setText("");
 				}
 				buttons.add(ab);
 				buttonsPanel.add(buttons.get(i));
