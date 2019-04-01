@@ -92,7 +92,8 @@ public class Recorder extends JPanel {
 		recordBtn.setForeground(Color.DARK_GRAY);
 		add(recordBtn);
 
-		infoIcon = new ImageIcon("images/info-icon.png");
+		java.net.URL infoIconURL = Recorder.class.getResource("images/info-icon.png");
+		infoIcon = new ImageIcon(infoIconURL);
 
 		recordInfo = new JLabel("Switch to edit mode to begin recording.", SwingConstants.CENTER);
 		recordInfo.setIcon(infoIcon);
