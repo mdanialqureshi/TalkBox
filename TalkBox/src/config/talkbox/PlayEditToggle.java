@@ -1,5 +1,6 @@
 package config.talkbox;
 
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -68,6 +69,7 @@ public class PlayEditToggle extends JPanel {
 		this.simPreview = simPreview;
 		this.recObj = recObj;
 		modeLbl = new JLabel("Playback Mode");
+		modeLbl.setForeground(Color.blue);
 		add(modeLbl);
 		switchModesButton = new JToggleButton("Switch Modes");
 		add(switchModesButton);
