@@ -172,7 +172,7 @@ public class SimPreview extends JPanel {
 			profileNumber.setText("  Profile " + (newProfile + 1));
 			revalidate();
 			repaint();
-			loadProfile(currentProfile);
+			loadProfile(newProfile);
 			logger.log(Level.INFO, "Switching from profile {0} to profile {1}",
 					new Object[] { currentProfile + 1, newProfile + 1 });
 			currentProfile = newProfile;
