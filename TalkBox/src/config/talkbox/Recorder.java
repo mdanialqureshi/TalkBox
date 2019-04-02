@@ -149,13 +149,14 @@ public class Recorder extends JPanel {
 		springLayout.putConstraint(SpringLayout.NORTH, updateNumberOfButtons, 70, SpringLayout.NORTH, this);
 		springLayout.putConstraint(SpringLayout.HORIZONTAL_CENTER, updateNumberOfButtons, 0,
 				SpringLayout.HORIZONTAL_CENTER, txtNumberOfButtons);
-		add(updateNumberOfButtons);
 		updateNumberOfButtons.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				logger.log(Level.INFO, "Pressed Update Number of Buttons button");
 				updateButtons();
 			}
 		});
+		add(updateNumberOfButtons);
+
 		springLayout.putConstraint(SpringLayout.WEST, txtNumberOfButtons, -162, SpringLayout.EAST, this);
 		springLayout.putConstraint(SpringLayout.EAST, txtNumberOfButtons, -32, SpringLayout.EAST, this);
 		add(txtNumberOfButtons);
