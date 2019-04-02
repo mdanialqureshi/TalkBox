@@ -163,6 +163,23 @@ public class ButtonPanel extends JPanel {
 			} else {
 				audioFile = null;
 			}
+			if (this.clip != null) {
+				if (this.clip.isActive()) {
+					this.clip.stop();
+				}
+				Clip clip = this.clip;
+				closeClip(clip);
+				this.clip = null;
+			}
+		}
+
+		private void closeClip(Clip clip) {
+			Thread clipStopper = new Thread(new Runnable() {
+				public void run() {
+					clip.close();
+				}
+			});
+			clipStopper.start();
 		}
 
 		public void playSound() {
@@ -277,7 +294,7 @@ public class ButtonPanel extends JPanel {
 			profileNumber.setText("  Profile " + (newProfile + 1));
 			revalidate();
 			repaint();
-			loadProfile(currentProfile);
+			loadProfile(newProfile);
 			logger.log(Level.INFO, "Switching from profile {0} to profile {1}",
 					new Object[] { currentProfile + 1, newProfile + 1 });
 			currentProfile = newProfile;

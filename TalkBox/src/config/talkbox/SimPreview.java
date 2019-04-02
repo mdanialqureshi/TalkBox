@@ -29,6 +29,8 @@ import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineEvent;
+import javax.sound.sampled.LineListener;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -208,6 +210,7 @@ public class SimPreview extends JPanel {
 				});
 			}
 			b.setDropTarget(new DropTarget() {
+
 				public synchronized void drop(DropTargetDropEvent evt) {
 					try {
 						evt.acceptDrop(DnDConstants.ACTION_COPY);
@@ -339,6 +342,24 @@ public class SimPreview extends JPanel {
 			} else {
 				audioFile = null;
 			}
+
+			if (this.clip != null) {
+				if (this.clip.isActive()) {
+					this.clip.stop();
+				}
+				Clip clip = this.clip;
+				closeClip(clip);
+				this.clip = null;
+			}
+		}
+
+		private void closeClip(Clip clip) {
+			Thread clipStopper = new Thread(new Runnable() {
+				public void run() {
+					clip.close();
+				}
+			});
+			clipStopper.start();
 		}
 
 		public void playSound() {
