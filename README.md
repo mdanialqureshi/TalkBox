@@ -48,6 +48,8 @@ Testing of the project is done using JUnit testing framework. Testing is used to
 Project is created with: 
 * Java 
 * Eclipse
+* Gradle
+* CircleCI
 
 ## Authors 
 * Muhammad Danial Qureshi
