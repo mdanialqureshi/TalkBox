@@ -24,7 +24,7 @@ java -jar TBCLog.jar
 
 ```
 ## Features 
-![TalkBox Config App](https://imgur.com/ff8Mysp.png)
+![TalkBox Config App](https://i.imgur.com/IHhchx6.png)
 
 ### Sim Preview Panel 
 The Sim Preview Panel is used to display the state of the TalkBox device as it will be when launched. 
