@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -13,6 +14,7 @@ import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.swing.Box;
@@ -40,10 +42,12 @@ public class ButtonPanel extends JPanel {
 	protected JPanel allButtonsPanel;
 	private int nButtonsPrev = 0;
 	private int currentProfile = 0;
+	private AudioButton currentBtn;
 	JButton swap1;
 	JButton swap2;
 	JButton swap3;
 	JButton swapAll;
+	JButton stopAudio;
 	private HashMap<Integer, String> buttonsMap;
 	private HashMap<Integer, Icon> iconButtonsMap;
 	JLabel profileNumber;
@@ -94,10 +98,16 @@ public class ButtonPanel extends JPanel {
 		profileNumber.setForeground(Color.CYAN);
 		profileNumber.setText("  Profile 1");
 		swapButtonsPanel.add(profileNumber);
+
+		swapButtonsPanel.add(Box.createVerticalStrut(50));
+		stopAudio = new JButton("Stop Audio");
+		stopAudio.setToolTipText("Stop currently playing audio.");
+		swapButtonsPanel.add(stopAudio);
+
 		setupButtons();
 		addButtonAudio();
 		setUpSwapButtons();
-
+		setUpStopAudioButton();
 	}
 
 	private void addButtonAudio() {
@@ -105,6 +115,10 @@ public class ButtonPanel extends JPanel {
 			b.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					logger.log(Level.INFO, "Button number {0} was pressed.", new Object[] { b.buttonNumber });
+					if (currentBtn.clip != null && currentBtn.clip.isActive()) {
+						currentBtn.clip.stop();
+					}
+					currentBtn = b;
 					b.playSound();
 				}
 			});
@@ -127,13 +141,18 @@ public class ButtonPanel extends JPanel {
 		private File profileFolder;
 		private File audioFile;
 		public int buttonNumber;
+		private Clip clip;
 
 		public AudioButton(int buttonNumber, String text) {
 			super(text);
 			this.buttonNumber = buttonNumber;
-			setVerticalAlignment(SwingConstants.BOTTOM);
+			setMargin(new Insets(0, 0, 0, 0));
 			setFont(new Font("Chalkboard", Font.PLAIN, 25));
 			setPreferredSize(new Dimension(80, 80));
+			setVerticalAlignment(SwingConstants.BOTTOM);
+			setHorizontalTextPosition(SwingConstants.CENTER);
+			setVerticalTextPosition(SwingConstants.BOTTOM);
+			setIconTextGap(-5);
 		}
 
 		public void setAudioFile(String fileName) {
@@ -144,13 +163,38 @@ public class ButtonPanel extends JPanel {
 			} else {
 				audioFile = null;
 			}
+			if (this.clip != null) {
+				if (this.clip.isActive()) {
+					this.clip.stop();
+				}
+				Clip clip = this.clip;
+				closeClip(clip);
+				this.clip = null;
+			}
+		}
+
+		private void closeClip(Clip clip) {
+			Thread clipStopper = new Thread(new Runnable() {
+				public void run() {
+					clip.close();
+				}
+			});
+			clipStopper.start();
 		}
 
 		public void playSound() {
 			if (audioFile != null) {
 				try {
-					Clip clip = AudioSystem.getClip();
-					clip.open(AudioSystem.getAudioInputStream(audioFile));
+					if (clip == null) {
+						clip = AudioSystem.getClip();
+					}
+					if (!clip.isOpen()) {
+						AudioInputStream ais = AudioSystem.getAudioInputStream(audioFile);
+						clip.open(ais);
+						ais.close();
+					}
+
+					clip.setMicrosecondPosition(0);
 					clip.start(); // allows audio clip to be played
 				} catch (Exception e) {
 					System.err.println("Could not play back audio.");
@@ -183,13 +227,13 @@ public class ButtonPanel extends JPanel {
 				}
 				if (iconButtonsMap.get(i) != null) {
 					ab.setIcon(iconButtonsMap.get(i));
-					ab.setText("");
 				}
 				buttons.add(ab);
 				buttonsPanel.add(buttons.get(i));
 			}
 		}
 		nButtonsPrev = nButtons;
+		currentBtn = buttons.get(0);
 	}
 
 	public void updateButtons(int nButtons) {
@@ -233,12 +277,24 @@ public class ButtonPanel extends JPanel {
 
 	}
 
+	private void setUpStopAudioButton() {
+		stopAudio.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				TalkBoxLogger.logButtonPressEvent(e);
+				if (currentBtn.clip != null) {
+					currentBtn.clip.stop();
+				}
+			}
+
+		});
+	}
+
 	protected void setProfile(int newProfile) {
 		if (currentProfile != newProfile && getInfo.getProfilesList().size() > newProfile) {
 			profileNumber.setText("  Profile " + (newProfile + 1));
 			revalidate();
 			repaint();
-			loadProfile(currentProfile);
+			loadProfile(newProfile);
 			logger.log(Level.INFO, "Switching from profile {0} to profile {1}",
 					new Object[] { currentProfile + 1, newProfile + 1 });
 			currentProfile = newProfile;

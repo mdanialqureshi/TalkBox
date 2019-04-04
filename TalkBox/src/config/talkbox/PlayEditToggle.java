@@ -1,5 +1,6 @@
 package config.talkbox;
 
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -46,6 +47,8 @@ public class PlayEditToggle extends JPanel {
 	JButton updateButtonLabelButton;
 	JFileChooser fileChooser;
 	JLabel modeLbl;
+	private ImageIcon playModeIcon;
+	private ImageIcon editModeIcon;
 
 	/**
 	 * 
@@ -67,8 +70,17 @@ public class PlayEditToggle extends JPanel {
 
 		this.simPreview = simPreview;
 		this.recObj = recObj;
+		
+		
+		java.net.URL playModeURL = Recorder.class.getResource("images/speaker-icon.png");
+		playModeIcon = new ImageIcon(playModeURL);
+		java.net.URL editModeURL = Recorder.class.getResource("images/wrench-icon.png");
+		editModeIcon = new ImageIcon(editModeURL);
 		modeLbl = new JLabel("Playback Mode");
+		modeLbl.setIcon(playModeIcon);
+		modeLbl.setForeground(Color.blue);
 		add(modeLbl);
+		
 		switchModesButton = new JToggleButton("Switch Modes");
 		add(switchModesButton);
 		updateButtonLabelTextField = new JTextField("Button Label");
@@ -144,6 +156,7 @@ public class PlayEditToggle extends JPanel {
 		updateButtonLabelTextField.setEnabled(true);
 		updateButtonLabelButton.setEnabled(true);
 		recObj.recordInfo.setText("Begin recording?");
+		modeLbl.setIcon(editModeIcon);
 		modeLbl.setText("Edit Mode");
 
 		currentBtn = simPreview.currentBtn;
@@ -164,6 +177,7 @@ public class PlayEditToggle extends JPanel {
 		recObj.recordBtn.setEnabled(false);
 		recObj.recordInfo.setText("Switch to edit mode to begin recording.");
 		modeLbl.setText("Playback Mode");
+		modeLbl.setIcon(playModeIcon);
 
 		for (int i = 0; i < numOfButtons; i++) {
 			resetPlayMode(simPreview.buttons.get(i));
@@ -183,8 +197,6 @@ public class PlayEditToggle extends JPanel {
 
 	public void updateLabel() {
 		if (currentBtn != null) {
-			ImageIcon transparent = new ImageIcon("images/transparent.png");
-			currentBtn.setIcon(transparent);
 			currentBtn.setText(updateButtonLabelTextField.getText());
 			TalkBoxConfig.buttonsMap.put(currentBtn.buttonNumber - 1, currentBtn.getText());
 			TalkBoxConfig.iconButtonsMap.put(currentBtn.buttonNumber - 1, null);

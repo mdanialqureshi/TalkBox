@@ -245,7 +245,8 @@ public class ProfilesPanel extends JPanel {
 		loadedProfile = selectedProfile;
 		TalkBoxConfig.profilesList.setCurrentProfile(selectedProfile);
 		ArrayList<String> audioFiles = TalkBoxConfig.profilesList.getAudioFilesOfCurrentProfile();
-		for (int i = 0; i < TalkBoxConfig.numAudButtons; ++i) {
+		int numAudioFiles = audioFiles.size();
+		for (int i = 0; i < numAudioFiles; ++i) {
 			SimRecorderSplit.simPreview.buttons.get(i).setAudioFile(audioFiles.get(i));
 		}
 		SimPreview.profileNumber.setText("  Profile " + (TalkBoxConfig.profilesList.getCurrentProfile() + 1));

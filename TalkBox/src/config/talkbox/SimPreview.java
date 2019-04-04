@@ -5,18 +5,35 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Graphics2D;
 import java.awt.Insets;
+import java.awt.RenderingHints;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.dnd.DnDConstants;
+import java.awt.dnd.DropTarget;
+import java.awt.dnd.DropTargetDropEvent;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.channels.FileChannel;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.imageio.ImageIO;
+import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineEvent;
+import javax.sound.sampled.LineListener;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -40,9 +57,9 @@ public class SimPreview extends JPanel {
 	JButton swap2;
 	JButton swap3;
 	JButton swapAll;
+	JButton stopAudio;
 	private int currentProfile = 0;
 	static JLabel profileNumber;
-	Clip clip;
 
 	public enum SimPreviewMode {
 		PLAY_MODE, EDIT_MODE;
@@ -97,8 +114,14 @@ public class SimPreview extends JPanel {
 		profileNumber.setText("  Profile 1");
 		swapButtonsPanel.add(profileNumber);
 
-		addButtonAudio();
+		swapButtonsPanel.add(Box.createVerticalStrut(50));
+		stopAudio = new JButton("Stop Audio");
+		stopAudio.setToolTipText("Stop currently playing audio.");
+		swapButtonsPanel.add(stopAudio);
+
+		setupAudioButtons();
 		setUpSwapButtons();
+		setUpStopAudioButton();
 	}
 
 	private void setUpSwapButtons() {
@@ -135,12 +158,23 @@ public class SimPreview extends JPanel {
 
 	}
 
+	private void setUpStopAudioButton() {
+		stopAudio.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				TalkBoxLogger.logButtonPressEvent(e);
+				if (currentBtn.clip != null) {
+					currentBtn.clip.stop();
+				}
+			}
+		});
+	}
+
 	protected void setProfile(int newProfile) {
 		if (currentProfile != newProfile && TalkBoxConfig.profilesList.size() > newProfile) {
 			profileNumber.setText("  Profile " + (newProfile + 1));
 			revalidate();
 			repaint();
-			loadProfile(currentProfile);
+			loadProfile(newProfile);
 			logger.log(Level.INFO, "Switching from profile {0} to profile {1}",
 					new Object[] { currentProfile + 1, newProfile + 1 });
 			currentProfile = newProfile;
@@ -155,16 +189,15 @@ public class SimPreview extends JPanel {
 		}
 	}
 
-	private void addButtonAudio() {
+	private void setupAudioButtons() {
 		for (AudioButton b : buttons) {
 			if (b.getActionListeners().length < 1) {
 				b.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						logger.log(Level.INFO, "Button number {0} was pressed.", new Object[] { b.buttonNumber });
 						if (mode == SimPreviewMode.PLAY_MODE) {
-
-							if (clip != null && clip.isActive()) {
-								clip.close();
+							if (currentBtn.clip != null && currentBtn.clip.isActive()) {
+								currentBtn.clip.stop();
 							}
 							currentBtn = b;
 							b.playSound();
@@ -176,6 +209,93 @@ public class SimPreview extends JPanel {
 					}
 				});
 			}
+			b.setDropTarget(new DropTarget() {
+
+				public synchronized void drop(DropTargetDropEvent evt) {
+					try {
+						evt.acceptDrop(DnDConstants.ACTION_COPY);
+						List<File> droppedFiles = (List<File>) evt.getTransferable()
+								.getTransferData(DataFlavor.javaFileListFlavor);
+						if (droppedFiles.size() > 0) {
+							File file = droppedFiles.get(0);
+							String fileName = file.getName();
+							if (fileName.endsWith(".wav")) {
+								setButtonAudio(b, file);
+							} else if (fileName.matches(".*\\.(png|jpg|gif|bmp)$")) {
+								setButtonImage(b, file);
+							}
+						}
+					} catch (Exception ex) {
+						ex.printStackTrace();
+					}
+				}
+
+			});
+		}
+	}
+
+	void setButtonImage(File image) {
+		setButtonImage(currentBtn, image);
+	}
+
+	void setButtonImage(AudioButton b, File image) {
+		int buttonNumber = b.buttonNumber;
+		String filename = image.getAbsolutePath();
+		try {
+			ImageIcon icon = new ImageIcon(scaleImage(40, 40, ImageIO.read(new File(filename))));
+			b.setIcon(icon);
+			b.revalidate();
+			b.repaint();
+			TalkBoxConfig.iconButtonsMap.put(buttonNumber - 1, icon);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+
+		String uploadedImageIcon = String.format("button-%d.jpg", buttonNumber);
+
+		File uploadedImageFile = new File(TalkBoxConfig.profilesList.getCurrentProfileFolder(), uploadedImageIcon);
+		createFile(uploadedImageFile);
+	}
+
+	public static BufferedImage scaleImage(int w, int h, BufferedImage img) {
+		BufferedImage bi;
+		bi = new BufferedImage(w, h, BufferedImage.TRANSLUCENT);
+		Graphics2D g2d = (Graphics2D) bi.createGraphics();
+		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		g2d.addRenderingHints(new RenderingHints(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY));
+		g2d.drawImage(img, 0, 0, w, h, null);
+		g2d.dispose();
+		return bi;
+	}
+
+	void setButtonAudio(File audio) throws IOException {
+		setButtonAudio(currentBtn, audio);
+	}
+
+	void setButtonAudio(AudioButton b, File sourceAudioFile) throws IOException {
+		int buttonNumber = b.buttonNumber;
+
+		String destAudioFileName = String.format("button-%d.wav", buttonNumber);
+		File destAudioFile = new File(TalkBoxConfig.profilesList.getCurrentProfileFolder(), destAudioFileName);
+		createFile(destAudioFile);
+
+		@SuppressWarnings("resource")
+		FileChannel src = new FileInputStream(sourceAudioFile).getChannel();
+		@SuppressWarnings("resource")
+		FileChannel dest = new FileOutputStream(destAudioFile).getChannel();
+		dest.transferFrom(src, 0, src.size());
+
+		b.setAudioFile(destAudioFileName);
+		TalkBoxConfig.profilesList.setAudioFileAtIndexOfCurrentProfile(buttonNumber - 1, destAudioFileName);
+
+	}
+
+	private void createFile(File file) {
+		try {
+			file.getParentFile().mkdirs();
+			file.createNewFile();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -200,14 +320,18 @@ public class SimPreview extends JPanel {
 		protected File profileFolder;
 		protected File audioFile;
 		public int buttonNumber;
+		private Clip clip;
 
 		public AudioButton(int buttonNumber, String text) {
 			super(text);
 			this.buttonNumber = buttonNumber;
 			setMargin(new Insets(0, 0, 0, 0));
-			setVerticalAlignment(SwingConstants.BOTTOM);
 			setFont(new Font("Chalkboard", Font.PLAIN, 25));
 			setPreferredSize(new Dimension(80, 80));
+			setVerticalAlignment(SwingConstants.BOTTOM);
+			setHorizontalTextPosition(SwingConstants.CENTER);
+			setVerticalTextPosition(SwingConstants.BOTTOM);
+			setIconTextGap(-5);
 		}
 
 		public void setAudioFile(String fileName) {
@@ -218,13 +342,39 @@ public class SimPreview extends JPanel {
 			} else {
 				audioFile = null;
 			}
+
+			if (this.clip != null) {
+				if (this.clip.isActive()) {
+					this.clip.stop();
+				}
+				Clip clip = this.clip;
+				closeClip(clip);
+				this.clip = null;
+			}
+		}
+
+		private void closeClip(Clip clip) {
+			Thread clipStopper = new Thread(new Runnable() {
+				public void run() {
+					clip.close();
+				}
+			});
+			clipStopper.start();
 		}
 
 		public void playSound() {
 			if (audioFile != null) {
 				try {
-					clip = AudioSystem.getClip();
-					clip.open(AudioSystem.getAudioInputStream(audioFile));
+					if (clip == null) {
+						clip = AudioSystem.getClip();
+					}
+					if (!clip.isOpen()) {
+						AudioInputStream ais = AudioSystem.getAudioInputStream(audioFile);
+						clip.open(ais);
+						ais.close();
+					}
+
+					clip.setMicrosecondPosition(0);
 					clip.start(); // allows audio clip to be played
 				} catch (Exception e) {
 					System.err.println("Could not play back audio.");
@@ -260,10 +410,10 @@ public class SimPreview extends JPanel {
 
 				if (TalkBoxConfig.buttonsMap.get(i) != null) {
 					ab.setText(TalkBoxConfig.buttonsMap.get(i));
-				} if (TalkBoxConfig.iconButtonsMap.get(i) != null) {
+				}
+				if (TalkBoxConfig.iconButtonsMap.get(i) != null) {
 					ab.setIcon(TalkBoxConfig.iconButtonsMap.get(i));
-					ab.setText("");
-				}	
+				}
 				buttons.add(ab);
 				buttonsPanel.add(buttons.get(i));
 			}
@@ -274,7 +424,7 @@ public class SimPreview extends JPanel {
 	public void updateButtons(int nButtons) {
 		this.nButtons = nButtons;
 		setupButtons();
-		addButtonAudio();
+		setupAudioButtons();
 		revalidate();
 		repaint();
 	}

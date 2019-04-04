@@ -36,6 +36,7 @@ public class TalkBoxDeserializer implements TalkBoxConfiguration {
 		buttonsMap = config.getButtonsMap();
 		iconButtonsMap = config.getIconButtonsMap();
 		profilesList = config.getProfilesList();
+		profilesList.setCurrentProfile(0);
 		numAudioButtons = config.getNumberOfAudioButtons();
 		numAudioSets = config.getNumberOfAudioSets();
 		numSwapButtons = config.getTotalNumberOfButtons();
@@ -56,6 +57,7 @@ public class TalkBoxDeserializer implements TalkBoxConfiguration {
 			buttonsMap = config.getButtonsMap();
 			iconButtonsMap = config.getIconButtonsMap();
 			profilesList = config.getProfilesList();
+			profilesList.setCurrentProfile(0);
 			numAudioButtons = config.getNumberOfAudioButtons();
 			numAudioSets = config.getNumberOfAudioSets();
 			numSwapButtons = config.getTotalNumberOfButtons();
