@@ -1,6 +1,6 @@
 # TalkBox
 ### TalkBox Group Project
-TalkBox is a device that helps anybody who is speech impaired, and has trouble communicating in general. Each TalkBox has a number of buttons that the user can press to play recorded audio files. Some of the buttons on the TalkBox may be used to load different sets of audio files, which are called profiles.
+TalkBox is a device that helps anybody who is speech impaired, and has trouble communicating in general. Each TalkBox has a number of buttons that the user can press to play recorded or uploaded audio files. Some of the buttons on the TalkBox may be used to load different sets of audio files, which are called profiles.
 ![TalkBox](https://wiki.eecs.yorku.ca/course_archive/2018-19/W/2311/_media/talkbox.jpeg?cache=)
 
 
