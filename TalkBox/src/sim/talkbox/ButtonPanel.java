@@ -305,7 +305,7 @@ public class ButtonPanel extends JPanel {
 		getInfo.getProfilesList().setCurrentProfile(newProfile);
 		ArrayList<String> profileFileNames = getInfo.getProfilesList().get(newProfile).getAudioFileNames();
 		ArrayList<Icon> imageIcons = getInfo.getProfilesList().get(newProfile).getImageIcons();
-		for (int i = 0; i < TalkBoxConfig.numAudButtons; ++i) {
+		for (int i = 0; i < nButtons; ++i) {
 			buttons.get(i).setAudioFile(profileFileNames.get(i));
 		}
 	}
